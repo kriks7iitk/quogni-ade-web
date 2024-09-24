@@ -1,0 +1,1 @@
+export * as authroizationService from './auth.service';
