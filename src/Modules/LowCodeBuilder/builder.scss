@@ -1,3 +1,7 @@
+:root {
+  --grid-size: 20px; /* Define the grid size variable */
+}
+
 .editor-class {
     display: flex;
     flex-direction: row; /* Arrange components in a row */
@@ -11,6 +15,12 @@
         flex-direction: column;
         margin-right: 20px;
       }
+      .grid-container {
+        max-width: 300px;
+        min-width: 300px;
+        max-height: 300px;
+        min-height: 300px;
+      }
 
       .grid {
         display: flex;          /* Enable flexbox */
@@ -21,6 +31,24 @@
         padding: 20px 100px 20px 100px;
         border: 1px dashed #ccc;
         position: relative;
+        background-image: repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent calc(var(--grid-size) - 1px),
+          #ddd calc(var(--grid-size) - 1px),
+          #ddd var(--grid-size)
+        ),
+      repeating-linear-gradient(
+        -90deg,
+        transparent,
+        transparent calc(var(--grid-size) - 1px),
+        #ddd calc(var(--grid-size) - 1px),
+        #ddd var(--grid-size)
+      );
+      background-size: var(--grid-size) var(--grid-size);
+      z-index: -1;
+      pointer-events: none;
+
     }
   }
   

@@ -1,53 +1,74 @@
-import React, { useState } from 'react';
-// import * as FaIcons from 'react-icons/fa';
-// import * as AiIcons from 'react-icons/ai';
-import { Link, useLocation } from 'react-router-dom';
-import { SidebarData } from './menuOptions';
-import '../navigation.theme.scss';
+import React from 'react';
+import Box from '@mui/material/Box';
+import SwipeableDrawer from '@mui/material/SwipeableDrawer';
+import IconButton from '@mui/material/IconButton';
+import List from '@mui/material/List';
+import Divider from '@mui/material/Divider';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import InboxIcon from '@mui/icons-material/MoveToInbox';
+import MailIcon from '@mui/icons-material/Mail';
+import MenuIcon from '@mui/icons-material/Menu'; // Import MenuIcon
 
-function Navbar() {
-  const [sidebar, setSidebar] = useState(false);
+export const NavBar = ({ isExpanded, setIsExpanded }) => {
+  const drawerWidth = isExpanded ? 250 : 75; // Expanded or compressed width
 
-  const showSidebar = () => setSidebar(!sidebar);
+  const list = () => (
+    <Box
+      sx={{ width: drawerWidth }}
+      role="presentation"
+    >
+      <List>
+        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+          <ListItem key={text} disablePadding>
+            <ListItemButton>
+              <ListItemIcon>
+                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+              </ListItemIcon>
+              {isExpanded && <ListItemText primary={text} />} {/* Only show text if expanded */}
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
+      <Divider />
+      <List>
+        {['All mail', 'Trash', 'Spam'].map((text, index) => (
+          <ListItem key={text} disablePadding>
+            <ListItemButton>
+              <ListItemIcon>
+                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+              </ListItemIcon>
+              {isExpanded && <ListItemText primary={text} />} {/* Only show text if expanded */}
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
+    </Box>
+  );
 
   return (
-    <>
-
-        <div className='navbar'>
-          <Link to='#' className='menu-bars'>
-            {/* <FaIcons.FaBars onClick={showSidebar} /> */}
-          </Link>
-        </div>
-        <nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>
-          <ul className='nav-menu-items' onClick={showSidebar}>
-            <li className='navbar-toggle'>
-              <Link to='#' className='menu-bars'>
-                {/* <AiIcons.AiOutlineClose /> */}
-              </Link>
-            </li>
-            {SidebarData.map((item, index) => {
-              return (
-                <li key={index} className={item.cName}>
-                  <Link to={item.path}>
-                    {item.icon}
-                    <span>{item.title}</span>
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
-        </nav>
-    </>
+    <div>
+      <SwipeableDrawer
+        variant="permanent" // Permanent to keep it always visible
+        anchor="left"
+        open={true} // Always open to show compressed or expanded
+        sx={{
+          '& .MuiDrawer-paper': {
+            width: drawerWidth, // Adjust width based on toggle state
+            transition: 'width 0.3s',
+          },
+        }}
+      >
+        <IconButton
+          onClick={() => setIsExpanded(!isExpanded)} // Toggle the NavBar state
+          sx={{ justifyContent: 'center' }}
+        >
+          <MenuIcon />
+        </IconButton>
+        {list()}
+      </SwipeableDrawer>
+    </div>
   );
-}
-
-export function ConditionalNavbar() {
-    const location = useLocation();
-    const excludedRoutes = ['/signup', '/singin']; // Routes where Navbar should not be displayed
-  
-    // Render Navbar only if the current route is not in the excluded routes
-    if (!excludedRoutes.includes(location.pathname)) {
-      return <Navbar />;
-    }
-    return null;
-}
+};

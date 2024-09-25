@@ -1,24 +1,31 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import React from 'react';
+import React, { useState } from 'react';
 import SignUp from './Modules/Auth/SignUp';
-import '../src/_styles/theme.scss'
-import '../src/_colors/colors.scss';
-import { Toaster } from 'react-hot-toast';
 import Builder from './Modules/LowCodeBuilder/Builder';
+import MainLayout from './MainLayot'; 
+
 function App() {
+  const [isNavBarExpanded, setIsNavBarExpanded] = useState(true);
+
   return (
-    <div>
     <Router>
-      {/* <ConditionalNavbar /> */}
-        <Routes>
-          <Route path="/signup" element={<SignUp />} />
-        </Routes>
-        <Routes>
-          <Route path="/builder" element={<Builder />} />
-        </Routes>
+      <Routes>
+        <Route
+          path="/signup"
+          element={
+              <SignUp />
+          }
+        />
+        <Route
+          path="/builder"
+          element={
+            <MainLayout isNavBarExpanded={isNavBarExpanded} setIsNavBarExpanded={setIsNavBarExpanded}>
+              <Builder />
+            </MainLayout>
+          }
+        />
+      </Routes>
     </Router>
-    <Toaster />
-    </div>
   );
 }
 

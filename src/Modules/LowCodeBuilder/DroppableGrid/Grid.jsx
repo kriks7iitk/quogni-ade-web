@@ -12,7 +12,6 @@ export default function TimeLineY({ id, children }) {
   }, [id]);
 
   const style = {
-    width: '1px', // Adjust the width for visibility
     height: '100%',
     borderLeft: '1px dashed black', // Create a dashed line effect
     backgroundColor: isOver ? 'lightgreen' : 'transparent', // Background color for droppable state

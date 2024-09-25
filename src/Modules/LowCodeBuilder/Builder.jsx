@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { DndContext } from '@dnd-kit/core';
 import { TrayElementButton } from './ComponentTray/TrayBtn/TrayElementButton'; // Assuming Candle uses useDraggable
-import TimeLineY from './DroppableGrid/Grid'; // Assuming TimeLineY uses useDroppable
 import './builder.scss';
 import DragOverlayWrap from './DragOverlay/DragOverlayWrap';
+import {createSnapModifier} from '@dnd-kit/modifiers';
+import ZoomableGrid from './DroppableGrid/BuilderGrid';
 
 export default function Builder() {
-  const [gap, setGap] = useState(100); 
-  const [strategyDef, setStrategyDef] = useState({ "1": [], "2":[] });
+  const [gap, setGap] = useState(99); 
+  const [strategyDef, setStrategyDef] = useState({ "1": [], "2":[],"3":[], "4":[] });
   const [activeItem, setActiveItem] = useState(null); // Track active draggable item
 
   const trayItems = [
@@ -15,7 +16,10 @@ export default function Builder() {
     { name: 'Line', type: 'line' },
     { name: 'Volume', type: 'volume' },
   ];
+  
 
+  const gridSize = 20; // pixels
+  const snapToGridModifier = createSnapModifier(gridSize);
   
 
   const handleDragStart = (event) => {
@@ -52,7 +56,7 @@ export default function Builder() {
   };
 
   return (
-    <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
+    <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd} modifiers={[snapToGridModifier]}>
       <div className="editor-class">
         {/* Tray Component */}
         <div className="tray-pane">
@@ -62,33 +66,7 @@ export default function Builder() {
         </div>
 
         {/* Grid (Canvas) Components */}
-        <div className="grid" style={{ gap: `${gap}px` }}>
-        {Object.keys(strategyDef).map((key) => {
-          const timeLineElement = strategyDef[key];
-          console.log("key is ",);
-          console.log(Object.keys(strategyDef));
-          
-          return (
-              <TimeLineY id={`key_${1}`} key={`key_${key}`}>
-                {timeLineElement?.map((item, index) => (
-                  <div
-                    key={index}
-                    style={{
-                      width: '50px',
-                      position: 'absolute',
-                      left: `${item.position.x}px`,
-                      top: `${item.position.y}px`,
-                      border: '2px dashed #000',
-                      backgroundColor: '#f0f0f0', // Optional: background color for visibility
-                    }}
-                  >
-                    {item.name} ({item.type})
-                  </div>
-                ))}
-              </TimeLineY>
-         );
-        })}
-        </div>
+         <ZoomableGrid strategyDef={strategyDef} gap={gap}/>
 
         {/* Drag Overlay for smoother drag effect */}
         <DragOverlayWrap />
