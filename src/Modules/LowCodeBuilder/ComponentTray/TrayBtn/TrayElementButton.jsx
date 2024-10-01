@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React , {useEffect} from 'react';
 import {useDraggable} from '@dnd-kit/core';
 import PropTypes from 'prop-types';
 
@@ -32,10 +32,14 @@ export function TrayElementButtonOverlay ({ name }){
     padding: '10px',
     border: '1px solid black',
     margin: '5px',
+    height:'40px',
+    width:'62px'
   };
 
+  
+
   return (
-    <div className='flex flex-col gap-2 h-[120px] w-[120px] cursor-grab' style={style}>
+    <div style={style}>
      {name}
     </div>
   );

@@ -5,14 +5,14 @@ import { Toaster } from 'react-hot-toast';
 
 const MainLayout = ({ isNavBarExpanded, setIsNavBarExpanded, children }) => {
   return (
-    <div style={{ display: 'flex' , flexGrow:'1'}}>
+    <div style={{ display: 'flex' , flexGrow:'1' , height:'100%'}}>
       {/* NavBar component */}
       <NavBar isExpanded={isNavBarExpanded} setIsExpanded={setIsNavBarExpanded} />
       
       {/* Main content that adjusts dynamically */}
       <div
+      className='main-layout'
         style={{
-          flexGrow: 1,
           marginLeft: isNavBarExpanded ? '250px' : '75px',
           transition: 'margin-left 0.3s ease-in-out',
         }}

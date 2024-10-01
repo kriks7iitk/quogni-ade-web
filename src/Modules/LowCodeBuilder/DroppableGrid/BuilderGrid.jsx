@@ -1,133 +1,143 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef,useEffect } from 'react';
 import TimeLineY from './Grid';
 import PropTypes from 'prop-types';
+import { TrayElementButton } from '../ComponentTray/TrayBtn/TrayElementButton';
+import { Ruler } from './Ruler/Ruler';
+import ComponentRenderer from '../Components/ComponentRenderer';
 
-const ZoomableGrid = ({ strategyDef, gap }) => {
-    const [zoomLevel, setZoomLevel] = useState(1); // Initial zoom level
+const ZoomableGrid = ({ strategyDef,gridSize, setStrategyDef }) => {
+    const [gap, setGap] = useState(99);
+    const [zoomLevel, setZoomLevel] = useState(1);
     const [isPanning, setIsPanning] = useState(false);
     const [startCoords, setStartCoords] = useState({ x: 0, y: 0 });
     const [transformOrigin, setTransformOrigin] = useState('0 0');
     const gridRef = useRef(null);
-  
+
+    const trayItems = [
+        { name: 'Candle', type: 'candle' },
+        { name: 'Line', type: 'line' },
+        { name: 'Volume', type: 'volume' },
+    ];
+    
+
     // Handle zoom in
     const handleZoomIn = (mouseX, mouseY) => {
-      setZoomLevel((prevZoom) => Math.min(prevZoom + 0.1, 3)); // Max zoom level 3
-      updateTransformOrigin(mouseX, mouseY);
+        setZoomLevel((prevZoom) => Math.min(prevZoom + 0.1, 3));
+        updateTransformOrigin(mouseX, mouseY);
     };
-  
+
     // Handle zoom out
     const handleZoomOut = (mouseX, mouseY) => {
-      setZoomLevel((prevZoom) => Math.max(prevZoom - 0.1, 0.5)); // Min zoom level 0.5
-      updateTransformOrigin(mouseX, mouseY);
+        setZoomLevel((prevZoom) => Math.max(prevZoom - 0.1, 1));
+        updateTransformOrigin(mouseX, mouseY);
     };
-  
-    // Zoom in or out based on wheel event
+
+    // Zoom based on wheel event
     const handleZoom = (event) => {
-      event.preventDefault();
-      const { clientX, clientY } = event;
-      const { left, top } = gridRef.current.getBoundingClientRect();
-      const mouseX = clientX - left; // Mouse X position relative to the grid container
-      const mouseY = clientY - top;  // Mouse Y position relative to the grid container
-  
-      if (event.deltaY < 0) {
-        handleZoomIn(mouseX, mouseY);
-      } else {
-        handleZoomOut(mouseX, mouseY);
-      }
+        event.preventDefault();
+        const { clientX, clientY } = event;
+        const { left, top } = gridRef.current.getBoundingClientRect();
+        const mouseX = clientX - left;
+        const mouseY = clientY - top;
+
+        if (event.deltaY < 0) {
+            handleZoomIn(mouseX, mouseY);
+        } else {
+            handleZoomOut(mouseX, mouseY);
+        }
     };
-  
-    // Update the transform-origin based on mouse position
+
+    // Update transform origin
     const updateTransformOrigin = (mouseX, mouseY) => {
-      setTransformOrigin(`${mouseX}px ${mouseY}px`);
+        setTransformOrigin(`${mouseX}px ${mouseY}px`);
     };
-  
-    // Handle the start of the pan
+
+    // Handle mouse events for panning
     const handleMouseDown = (event) => {
-      setIsPanning(true);
-      setStartCoords({
-        x: event.clientX - gridRef.current.scrollLeft,
-        y: event.clientY - gridRef.current.scrollTop,
-      });
+        setIsPanning(true);
+        setStartCoords({
+            x: event.clientX - gridRef.current.scrollLeft,
+            y: event.clientY - gridRef.current.scrollTop,
+        });
     };
-  
-    // Handle the pan movement
+
     const handleMouseMove = (event) => {
-      if (isPanning) {
-        const x = event.clientX - startCoords.x;
-        const y = event.clientY - startCoords.y;
-        gridRef.current.scrollLeft = -x;
-        gridRef.current.scrollTop = -y;
-      }
+        if (isPanning) {
+            const x = event.clientX - startCoords.x;
+            const y = event.clientY - startCoords.y;
+            gridRef.current.scrollLeft = -x;
+            gridRef.current.scrollTop = -y;
+        }
     };
-  
-    // Handle pan end
+
     const handleMouseUp = () => {
-      setIsPanning(false);
+        setIsPanning(false);
     };
-  
+
     return (
-      <div>
-        <div className="zoom-controls">
-          <button onClick={() => handleZoomIn(0, 0)}>Zoom In</button>
-          <button onClick={() => handleZoomOut(0, 0)}>Zoom Out</button>
+        <div className='grid-main-container' style={{ '--grid-size': `${gridSize}px` }}>
+            <div className="zoom-controls">
+                <button onClick={() => handleZoomIn(0, 0)}>Zoom In</button>
+                <button onClick={() => handleZoomOut(0, 0)}>Zoom Out</button>
+            </div>
+            <div className="tray-pane">
+                {trayItems.map((item, index) => (
+                    <TrayElementButton key={index} type={item?.type} name={item?.name} />
+                ))}
+            </div>
+            <Ruler orientation='vertical' zoomLevel={zoomLevel} />
+            <Ruler orientation='horizontal' />
+            <div
+                className="grid-container"
+                ref={gridRef}
+                onWheel={handleZoom}
+                onMouseDown={handleMouseDown}
+                onMouseMove={handleMouseMove}
+                onMouseUp={handleMouseUp}
+                onMouseLeave={handleMouseUp}
+                style={{
+                    overflow: 'hidden',
+                    width: '100%',
+                    height: '100%',
+                    cursor: isPanning ? 'grabbing' : 'grab',
+                    position: 'relative',
+                }}
+            >
+                <div
+                    className="grid"
+                    style={{
+                        gap: `${gap}px`,
+                        transform: `scale(${zoomLevel})`,
+                        transformOrigin: transformOrigin,
+                        position: 'relative',
+                        width: `100%`,
+                        height: `100%`,
+                    }}
+                >
+                    
+                {Object.keys(strategyDef).map((key) => {
+                    const timeLineElement = strategyDef[key];
+                    
+                    return (
+                        <TimeLineY id={key} key={`key_${key}`}>
+                            {Object.keys(timeLineElement).map((types, index) => (
+                                <ComponentRenderer key={index} componentDef={timeLineElement[types]} overId={key} setStrategyDef={setStrategyDef}/>
+                            ))}
+                        </TimeLineY>
+                    );
+                })}
+                </div>
+            </div>
         </div>
-        <div
-          className="grid-container"
-          ref={gridRef}
-          onWheel={handleZoom} // Zoom with the wheel
-          onMouseDown={handleMouseDown} // Start panning
-          onMouseMove={handleMouseMove} // Pan with movement
-          onMouseUp={handleMouseUp} // Stop panning
-          onMouseLeave={handleMouseUp} // Stop panning if mouse leaves
-          style={{
-            overflow: 'hidden', // Hide overflow, but still allow panning
-            width: '100%',
-            height: '100%', // Example: fixed height for the main component
-            cursor: isPanning ? 'grabbing' : 'grab', // Visual feedback for panning
-            position: 'relative',
-          }}
-        >
-          <div
-            className="grid"
-            style={{
-              display: 'grid',
-              gap: `${gap}px`,
-              transform: `scale(${zoomLevel})`, // Apply zoom level
-              transformOrigin: transformOrigin, // Dynamically update based on mouse position
-              position: 'absolute', // Allow panning within fixed container
-            }}
-          >
-            {Object.keys(strategyDef).map((key) => {
-              const timeLineElement = strategyDef[key];
-              return (
-                <TimeLineY id={`key_${key}`} key={`key_${key}`}>
-                  {timeLineElement?.map((item, index) => (
-                    <div
-                      key={index}
-                      style={{
-                        width: '50px',
-                        position: 'absolute',
-                        left: `${item.position.x}px`,
-                        top: `${item.position.y}px`,
-                        border: '2px dashed #000',
-                        backgroundColor: '#f0f0f0', // Optional: background color for visibility
-                      }}
-                    >
-                      {item.name} ({item.type})
-                    </div>
-                  ))}
-                </TimeLineY>
-              );
-            })}
-          </div>
-        </div>
-      </div>
     );
-  };
-  
-  export default ZoomableGrid;
+};
+
+
+ZoomableGrid.displayName = 'ZoomableGrid';
 
 ZoomableGrid.propTypes = {
     strategyDef: PropTypes.any.isRequired,
-    gap: PropTypes.number.isRequired,
-  };
+    gridSize: PropTypes.number.isRequired,
+
+};
+export default ZoomableGrid;

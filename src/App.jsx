@@ -3,11 +3,13 @@ import React, { useState } from 'react';
 import SignUp from './Modules/Auth/SignUp';
 import Builder from './Modules/LowCodeBuilder/Builder';
 import MainLayout from './MainLayot'; 
+import Ruler from './Modules/Experiment/Ruler';
 
 function App() {
   const [isNavBarExpanded, setIsNavBarExpanded] = useState(true);
 
   return (
+    <div className='app-container'>
     <Router>
       <Routes>
         <Route
@@ -24,8 +26,17 @@ function App() {
             </MainLayout>
           }
         />
+        <Route
+          path="/experiment"
+          element={
+            <MainLayout isNavBarExpanded={isNavBarExpanded} setIsNavBarExpanded={setIsNavBarExpanded}>
+              <Ruler/>
+            </MainLayout>
+          }
+        />
       </Routes>
     </Router>
+    </div>
   );
 }
 

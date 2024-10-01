@@ -1,76 +1,129 @@
 import React, { useState } from 'react';
 import { DndContext } from '@dnd-kit/core';
-import { TrayElementButton } from './ComponentTray/TrayBtn/TrayElementButton'; // Assuming Candle uses useDraggable
 import './builder.scss';
 import DragOverlayWrap from './DragOverlay/DragOverlayWrap';
-import {createSnapModifier} from '@dnd-kit/modifiers';
 import ZoomableGrid from './DroppableGrid/BuilderGrid';
+import './DroppableGrid/grid.scss'
+import Inspector from './Inspector/Inspector';
 
 export default function Builder() {
-  const [gap, setGap] = useState(99); 
-  const [strategyDef, setStrategyDef] = useState({ "1": [], "2":[],"3":[], "4":[] });
-  const [activeItem, setActiveItem] = useState(null); // Track active draggable item
+   
+  const [strategyDef, setStrategyDef] = useState({ "1": {}, "2":{},"3":{}, "4":{} });
+  const [drawerHeight, setDrawerHeight] = useState(200); 
+  const [activeItem, setActiveItem] = useState(null);
 
-  const trayItems = [
-    { name: 'Candle', type: 'candle' },
-    { name: 'Line', type: 'line' },
-    { name: 'Volume', type: 'volume' },
-  ];
+
+
+  const gridSize = 10;
+
+  const createSnapModifier = (gridSize) => {
+    return ({transform}) => {
+      
+      return{
+      ...transform,
+      x: Math.ceil(transform.x / gridSize) * gridSize,
+      y: Math.ceil(transform.y / gridSize) * gridSize,
+    }};
+  }
+
+  const snapToGridModifier = createSnapModifier(gridSize);
+
   
 
-  const gridSize = 20; // pixels
-  const snapToGridModifier = createSnapModifier(gridSize);
   
 
   const handleDragStart = (event) => {
+    console.log(event);
+    
+    console.log("drag start");
     const { active } = event;
-    const draggedItem = trayItems.find((item) => `tray-element-${item?.type}` === active.id);
-    setActiveItem(draggedItem);
+    console.log(active);
+    
+    
+    
+    setActiveItem(active);
   };
 
-  const handleDragEnd = (event) => {
-    const { over, delta } = event; // Get delta to track pointer position
+  // const handleTimeElementDragEnd = () => {
+  //   const data = activeItem?.data?.current;
+  //   const { type, posY, overId } = data
+  //   console.log("drag end data is ");
+  //   console.log(data);
+    
+    
+  //   setStrategyDef((prevDef) => {
+  //     const currentTimeLineState = prevDef[overId];
+  //     const componentDef = currentTimeLineState[type];
+  //     const newDef = {
+  //         ...prevDef,
+  //         [overId]: {...currentTimeLineState, [type]:{...componentDef, position:{
+  //             y:posY
+  //         }}},
+  //       }
+  //       console.log("new def is");
+  //       console.log(newDef);
+        
+  //     return newDef;
+  // })
 
-    if (over && activeItem) {
-      // Calculate drop position relative to the drop zone
-      const dropZoneRect = over?.rect;
-      const relativeX = delta.x; // Use delta to track pointer's x position relative to drop zone
-      const relativeY = delta.y; // Use delta to track pointer's y position relative to drop zone
 
+  // }
+
+  const handleTrayElementDragEnd = ({over}) => {
+    
+    
+    // const relativeX = delta.x;
+    //   const relativeY = delta.y;
+      const data = activeItem?.data?.current;
+      
       const newItem = {
-        id: `${activeItem?.type}_${over.id}`,
-        name: activeItem.name,
-        type: activeItem.type,
+        id: `${data?.type}_${over.id}`,
+        name: data.name,
+        type: data.type,
         position: {
-          x: relativeX,
-          y: relativeY,
+          x: 0,
+          y: 0,
         },
       };
-
+      const currentTimeLineState = strategyDef[over.id]
       setStrategyDef({
         ...strategyDef,
-        [over.id]: [...strategyDef[over.id], newItem],
+        [over.id]: {...currentTimeLineState, [data.type]:newItem},
       });
-      setActiveItem(null); 
+  }
+
+  const handleDragEnd = (event) => {
+    const { over, delta } = event;
+    console.log(delta);
+    console.log("delta");
+    
+    
+    const data = activeItem?.data?.current;
+    const isTrayElement = data?.isTrayElement;
+
+    if (isTrayElement && over && activeItem) {
+      handleTrayElementDragEnd({over,delta})
     }
+    // if(data?.isTimeLineElement){
+    //   handleTimeElementDragEnd();
+    // }
+    setActiveItem(null); 
   };
 
   return (
-    <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd} modifiers={[snapToGridModifier]}>
-      <div className="editor-class">
-        {/* Tray Component */}
-        <div className="tray-pane">
-          {trayItems.map((item, index) => (
-            <TrayElementButton key={index} type={item?.type} name={item?.name} />
-          ))}
-        </div>
-
-        {/* Grid (Canvas) Components */}
-         <ZoomableGrid strategyDef={strategyDef} gap={gap}/>
-
-        {/* Drag Overlay for smoother drag effect */}
-        <DragOverlayWrap />
+    <div className="builder-layout" >
+    <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd} modifiers={[snapToGridModifier]} >
+     
+      <div className="editor-class" style={{ height: `calc(100vh - ${drawerHeight}px)` }} >
+        <ZoomableGrid strategyDef={strategyDef} gridSize={gridSize} setStrategyDef={setStrategyDef}/>
       </div>
-    </DndContext>
+      {activeItem?.data?.current?.isTrayElement && 
+        <DragOverlayWrap draggedItem= {activeItem}/>}
+      
+      </DndContext>
+
+      <Inspector onResize={setDrawerHeight} /> 
+
+    </div>
   );
 }

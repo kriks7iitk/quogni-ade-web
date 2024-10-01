@@ -1,33 +1,25 @@
 /* eslint-disable react/prop-types */
-import React, { useState } from 'react'
-import { DragOverlay, useDndMonitor } from '@dnd-kit/core'
+import React, { useState, useEffect } from 'react'
+import { DragOverlay  } from '@dnd-kit/core'
 import { TrayElementButtonOverlay } from '../ComponentTray/TrayBtn/TrayElementButton';
 
-export default function DragOverlayWrap() {
-  const [draggedItem, setDraggedItem] = useState(null)
+export default function DragOverlayWrap({draggedItem}) {
+  const [node, setNode] = useState(null)
 
-
-  useDndMonitor({
-    onDragStart:(event) => {
-      console.log("Drag start ", event);
-      setDraggedItem(event.active)
-    },
-    onDragCancel:() => {
-      setDraggedItem(null)
-    },
-    onDragEnd:() => {
-      setDraggedItem(null)
-    }
-  })
-
-  if(!draggedItem)return null;
-
-  let node = <div>No drag overlay</div>
+  useEffect(() => {
+    console.log("showing drag overlay");
+    console.log(draggedItem);
   const isTrayElementBtn = draggedItem?.data?.current?.isTrayElement; 
 
   if(isTrayElementBtn){
-    node = <TrayElementButtonOverlay name={draggedItem?.data?.current?.name}></TrayElementButtonOverlay>
+    console.log("helo helo");
+    
+    setNode(<TrayElementButtonOverlay name={draggedItem?.data?.current?.name}></TrayElementButtonOverlay>)
   }
+  }, [draggedItem])
+  
+
+  
 
   return (
     <DragOverlay>{node}</DragOverlay>

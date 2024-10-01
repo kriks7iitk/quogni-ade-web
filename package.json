@@ -17,10 +17,13 @@
     "@emotion/styled": "^11.13.0",
     "@mui/icons-material": "^6.1.1",
     "@mui/material": "^6.1.1",
+    "@syncfusion/ej2-react-diagrams": "^27.1.50",
+    "classnames": "^2.5.1",
     "lucide-react": "^0.445.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.1",
+    "react-resizable": "^3.0.5",
     "react-router-dom": "^6.26.1",
     "react-toastify": "^10.0.5"
   },

@@ -7,21 +7,20 @@ export default function TimeLineY({ id, children }) {
     id,
   });
 
-  useEffect(() => {
-    console.log("TimeLineY rendered with ID:", id);
-  }, [id]);
-
   const style = {
     height: '100%',
-    borderLeft: '1px dashed black', // Create a dashed line effect
-    backgroundColor: isOver ? 'lightgreen' : 'transparent', // Background color for droppable state
+    width:'1px',
+    backgroundColor: isOver ? 'pink' : 'blue', // Background color for droppable state
     position: 'relative',
+    display:'flex',
+    flexDirection:'column'
   };
 
   return (
     <div ref={setNodeRef} style={style}>
+      <div>{id}</div>
       {children && (
-        <div style={{ position: 'absolute', left: '10px' }}>
+        <div style={{ position: 'relative' , top:'50%'}}>
           {children}  {/* Display children next to the line */}
         </div>
       )}
