@@ -22,8 +22,8 @@ const Icon = ({ name, ...props }) => {
       return <Library {...props} />;
     case 'explore':
       return <Explore {...props} />;
-    // case 'builder':
-    //   return <Builder {...props} />;
+    case 'builder':
+      return <Builder {...props} />;
     case 'community':
       return <Community {...props} />;
     default:
