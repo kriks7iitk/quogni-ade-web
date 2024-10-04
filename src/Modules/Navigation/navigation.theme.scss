@@ -1,0 +1,19 @@
+.menu-header-logo {
+  display: flex;
+  flex-direction: row;
+  padding: 10px 12px;
+  gap: 15px;
+  margin-bottom: 20px;
+  
+}
+.menu-icon {
+  border: none;
+  display: flex;
+  align-items: start;
+  background: none;
+  padding-top: 3px;
+}
+
+.drawer-class {
+  background: linear-gradient(to bottom, #C5FC90, #ffffff);
+}

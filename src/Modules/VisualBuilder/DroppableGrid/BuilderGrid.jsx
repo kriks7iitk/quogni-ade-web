@@ -4,8 +4,10 @@ import PropTypes from 'prop-types';
 import { TrayElementButton } from '../ComponentTray/TrayBtn/TrayElementButton';
 import { Ruler } from './Ruler/Ruler';
 import ComponentRenderer from '../Components/ComponentRenderer';
+import { useSelector, useDispatch } from 'react-redux';
 
-const ZoomableGrid = ({ strategyDef,gridSize, setStrategyDef }) => {
+const BuilderGrid = ({ strategyDef,gridSize, setStrategyDef }) => {
+    const dispatch = useDispatch();
     const [gap, setGap] = useState(99);
     const [zoomLevel, setZoomLevel] = useState(1);
     const [isPanning, setIsPanning] = useState(false);
@@ -18,21 +20,18 @@ const ZoomableGrid = ({ strategyDef,gridSize, setStrategyDef }) => {
         { name: 'Line', type: 'line' },
         { name: 'Volume', type: 'volume' },
     ];
-    
 
-    // Handle zoom in
     const handleZoomIn = (mouseX, mouseY) => {
         setZoomLevel((prevZoom) => Math.min(prevZoom + 0.1, 3));
         updateTransformOrigin(mouseX, mouseY);
     };
 
-    // Handle zoom out
     const handleZoomOut = (mouseX, mouseY) => {
         setZoomLevel((prevZoom) => Math.max(prevZoom - 0.1, 1));
         updateTransformOrigin(mouseX, mouseY);
     };
 
-    // Zoom based on wheel event
+
     const handleZoom = (event) => {
         event.preventDefault();
         const { clientX, clientY } = event;
@@ -47,12 +46,11 @@ const ZoomableGrid = ({ strategyDef,gridSize, setStrategyDef }) => {
         }
     };
 
-    // Update transform origin
+
     const updateTransformOrigin = (mouseX, mouseY) => {
         setTransformOrigin(`${mouseX}px ${mouseY}px`);
     };
-
-    // Handle mouse events for panning
+    
     const handleMouseDown = (event) => {
         setIsPanning(true);
         setStartCoords({
@@ -85,8 +83,8 @@ const ZoomableGrid = ({ strategyDef,gridSize, setStrategyDef }) => {
                     <TrayElementButton key={index} type={item?.type} name={item?.name} />
                 ))}
             </div>
-            <Ruler orientation='vertical' zoomLevel={zoomLevel} />
-            <Ruler orientation='horizontal' />
+            {/* <Ruler orientation='vertical' zoomLevel={zoomLevel} />
+            <Ruler orientation='horizontal' /> */}
             <div
                 className="grid-container"
                 ref={gridRef}
@@ -115,7 +113,7 @@ const ZoomableGrid = ({ strategyDef,gridSize, setStrategyDef }) => {
                     }}
                 >
                     
-                {Object.keys(strategyDef).map((key) => {
+                {/* {Object.keys(strategyDef).map((key) => {
                     const timeLineElement = strategyDef[key];
                     
                     return (
@@ -125,7 +123,7 @@ const ZoomableGrid = ({ strategyDef,gridSize, setStrategyDef }) => {
                             ))}
                         </TimeLineY>
                     );
-                })}
+                })} */}
                 </div>
             </div>
         </div>
@@ -133,11 +131,11 @@ const ZoomableGrid = ({ strategyDef,gridSize, setStrategyDef }) => {
 };
 
 
-ZoomableGrid.displayName = 'ZoomableGrid';
+BuilderGrid.displayName = 'BuilderGrid';
 
-ZoomableGrid.propTypes = {
+BuilderGrid.propTypes = {
     strategyDef: PropTypes.any.isRequired,
     gridSize: PropTypes.number.isRequired,
 
 };
-export default ZoomableGrid;
+export default BuilderGrid;

@@ -1,0 +1,36 @@
+:root {
+  --grid-size: 20px; /* Define the grid size variable */
+}
+.builder-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  
+  .horizontal-layout {
+    display: flex;
+    flex-direction: row;
+
+    
+
+    .vertical-layout {
+      display: flex;
+      flex-grow: 1; 
+      flex-direction: column;
+      height: 100%;
+      .editor-class {
+        display: flex;
+        flex-direction: row; /* Arrange components in a row */
+        flex-grow: 1; 
+        position: relative;
+      }
+    }
+  }
+
+  
+
+  
+}
+
+  
+  
+  

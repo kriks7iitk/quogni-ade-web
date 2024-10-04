@@ -1,0 +1,102 @@
+import React from 'react';
+import Box from '@mui/material/Box';
+import SwipeableDrawer from '@mui/material/SwipeableDrawer';
+import IconButton from '@mui/material/IconButton';
+import List from '@mui/material/List';
+import Divider from '@mui/material/Divider';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import InboxIcon from '@mui/icons-material/MoveToInbox';
+import MailIcon from '@mui/icons-material/Mail';
+import MenuIcon from '@mui/icons-material/Menu'; // Import MenuIcon
+import Icon from '../../../_icons/svgs/SolidIcons';
+import SolidButton from '../../../_components/Buttons/SolidButton';
+import '../navigation.theme.scss';
+import PiggieStackName from '../../BrandAndLogo/PiggieStackName';
+
+export const NavBar = ({ isExpanded, setIsExpanded }) => {
+  const drawerWidth = isExpanded ? 250 : 60;
+
+  const list = () => (
+    <Box sx={{ width: drawerWidth }} role="presentation">
+      <List>
+        {['dashboard', 'portfolio', 'market-place', 'library'].map(
+          (text, index) => (
+            <ListItem key={text} disablePadding>
+              <ListItemButton
+                sx={{
+                  '&:hover': {
+                    backgroundColor: '#f0f0f0', // Change the background color on hover
+                  },
+                  '&:hover .MuiListItemIcon-root': {
+                    color: '#007bff', // Change icon color on hover
+                  },
+                }}
+              >
+                <ListItemIcon>
+                  <Icon name={text} />
+                </ListItemIcon>
+                {isExpanded && <ListItemText primary={text} />}{' '}
+              </ListItemButton>
+            </ListItem>
+          ),
+        )}
+      </List>
+      <Divider />
+      <List>
+        {['builder', 'explore', 'community'].map((text, index) => (
+          <ListItem key={text} disablePadding>
+            <ListItemButton>
+              <ListItemIcon>
+                <Icon name={text} />
+              </ListItemIcon>
+              {isExpanded && <ListItemText primary={text} />}{' '}
+              {/* Only show text if expanded */}
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
+    </Box>
+  );
+
+  return (
+    <div>
+      <SwipeableDrawer
+        variant="permanent"
+        anchor="left"
+        open={true} // Always open to show compressed or expanded
+        sx={{
+          '& .MuiDrawer-paper': {
+            width: drawerWidth, // Adjust width based on toggle state
+            transition: 'width 0.3s, background 3s ease-in-out', // Slow transition for the gradient
+            background: '#0B1644', // Gradient from top to bottom
+            overflow: 'hidden',
+            borderRight: '2px solid #C5FC90',
+          },
+        }}
+      >
+        <div className="menu-header-logo">
+          <SolidButton
+            leftIcon="piggie-white"
+            className="menu-icon"
+            onClick={() => {
+              setIsExpanded(!isExpanded);
+            }}
+            iconWidth={25}
+            iconFill="#ffffff"
+          />
+          {isExpanded && (
+            <PiggieStackName
+              firstColor="#EE7071"
+              secondColor="#ffffff"
+              size={25}
+            />
+          )}
+        </div>
+        {list()}
+      </SwipeableDrawer>
+    </div>
+  );
+};
