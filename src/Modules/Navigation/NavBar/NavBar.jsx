@@ -8,23 +8,31 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
-import MenuIcon from '@mui/icons-material/Menu'; // Import MenuIcon
 import Icon from '../../../_icons/svgs/SolidIcons';
 import SolidButton from '../../../_components/Buttons/SolidButton';
 import '../navigation.theme.scss';
 import PiggieStackName from '../../BrandAndLogo/PiggieStackName';
+import { kebabCaseToNormal } from '../../../Utility/utility';
 
 export const NavBar = ({ isExpanded, setIsExpanded }) => {
   const drawerWidth = isExpanded ? 250 : 60;
 
   const list = () => (
     <Box sx={{ width: drawerWidth }} role="presentation">
-      <List>
+      <List
+        sx={{
+          marginBottom: '30px',
+        }}
+      >
         {['dashboard', 'portfolio', 'market-place', 'library'].map(
           (text, index) => (
-            <ListItem key={text} disablePadding>
+            <ListItem
+              sx={{
+                marginBottom: '10px',
+              }}
+              key={text}
+              disablePadding
+            >
               <ListItemButton
                 sx={{
                   '&:hover': {
@@ -36,24 +44,66 @@ export const NavBar = ({ isExpanded, setIsExpanded }) => {
                 }}
               >
                 <ListItemIcon>
-                  <Icon name={text} />
+                  <Icon
+                    name={text}
+                    fill={text === 'builder' ? '#EE7071' : '#f0f0f0'}
+                  />
                 </ListItemIcon>
-                {isExpanded && <ListItemText primary={text} />}{' '}
+                {isExpanded && (
+                  <ListItemText
+                    sx={{
+                      color: '#f0f0f0',
+                    }}
+                    primary={kebabCaseToNormal(text)}
+                  />
+                )}{' '}
               </ListItemButton>
             </ListItem>
           ),
         )}
       </List>
-      <Divider />
+      <Divider
+        sx={{
+          height: '1px', // Increase the thickness of the divider
+          marginLeft: '16px', // Add padding (margin) on the left
+          marginRight: '16px', // Add padding (margin) on the right
+          backgroundColor: '#f0f0f0', // Optionally, set a custom color for the divider
+          marginBottom: '30px',
+        }}
+      />
       <List>
         {['builder', 'explore', 'community'].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
+          <ListItem
+            sx={{
+              marginBottom: '10px',
+            }}
+            key={text}
+            disablePadding
+          >
+            <ListItemButton
+              sx={{
+                '&:hover': {
+                  backgroundColor: '#f0f0f0', // Change the background color on hover
+                },
+                '&:hover .MuiListItemIcon-root': {
+                  color: '#007bff', // Change icon color on hover
+                },
+              }}
+            >
               <ListItemIcon>
-                <Icon name={text} />
+                <Icon
+                  name={text}
+                  fill={text === 'builder' ? '#EE7071' : '#f0f0f0'}
+                />
               </ListItemIcon>
-              {isExpanded && <ListItemText primary={text} />}{' '}
-              {/* Only show text if expanded */}
+              {isExpanded && (
+                <ListItemText
+                  sx={{
+                    color: text === 'builder' ? '#EE7071' : '#f0f0f0',
+                  }}
+                  primary={kebabCaseToNormal(text)}
+                />
+              )}{' '}
             </ListItemButton>
           </ListItem>
         ))}
