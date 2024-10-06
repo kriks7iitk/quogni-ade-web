@@ -9,6 +9,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import Inspector from './Inspector/Inspector';
 import BuilderHeader from './BuilderHeader/BuilderHeader';
 import LeftMenuBar from './LeftMenuBar/LeftMenuBar';
+import RightSideTray from './RightSideTray/RightSideTray';
 
 export default function VisualBuilder() {
   const dispatch = useDispatch();
@@ -91,7 +92,7 @@ export default function VisualBuilder() {
             </div>
             <Inspector onResize={setDrawerHeight} />
           </div>
-          {/* Tray should come here */}
+          <RightSideTray />
         </div>
         {activeItem?.data?.current?.isTrayElement && (
           <DragOverlayWrap draggedItem={activeItem} />
