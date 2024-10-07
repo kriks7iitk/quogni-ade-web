@@ -19,12 +19,16 @@
       border: none;
       justify-content: start;
       flex-direction: row;
+      height: 30px;
+      width: 24px;
+      padding: 3px;
     }
 
     .navigation-list{
       display: flex;
       flex-direction: column;
       gap: 30px;
+      align-items: center;
       padding-top: 30px;
     }
 

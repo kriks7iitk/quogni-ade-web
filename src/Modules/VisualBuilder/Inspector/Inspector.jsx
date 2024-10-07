@@ -1,16 +1,17 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useContext } from 'react';
 import { ResizableBox } from 'react-resizable';
 import './inspector.scss';
-import 'react-resizable/css/styles.css'; // Import styles for resizable
+import 'react-resizable/css/styles.css';
 import InspectorHeader from './InspectorComponents/InspectorHeader';
+import { InspectorContext } from '../_contexts/InspectorProvider';
 
-export default function Inspector({ onResize }) {
-  const COLLAPSED_HEIGHT = 50; // Height at which the drawer is considered collapsed
+export default function Inspector() {
+  const COLLAPSED_HEIGHT = 51;
   const EXPANDED_HEIGHT = 300;
-  const [height, setHeight] = useState(EXPANDED_HEIGHT); // Initial height of the drawer
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
-  const [width, setWidth] = useState(2000); // Set initial width of the ResizableBox
+  const [width, setWidth] = useState(2000);
+  const { setInspectorHeight, inspectorHeight } = useContext(InspectorContext);
 
   const containerRef = useRef(null);
 
@@ -18,34 +19,28 @@ export default function Inspector({ onResize }) {
     setIsDragging(true);
   };
 
-  // Detect when resizing stops
   const onResizeStop = () => {
     setIsDragging(false);
   };
 
   const handleResize = (event, { size }) => {
     const newHeight = size.height;
-    setHeight(newHeight); // Update the height based on the resize
-    onResize(newHeight); // Call the onResize function to inform parent
-
-    console.log('onResize triggered');
+    if (inspectorHeight <= 500) setInspectorHeight(newHeight);
     if (newHeight > COLLAPSED_HEIGHT) {
-      setIsCollapsed(false); // Drawer is expanded
+      setIsCollapsed(false);
     } else {
-      setIsCollapsed(true); // Drawer is collapsed
+      setIsCollapsed(true);
     }
   };
   const toggleDrawer = () => {
-    setIsCollapsed((prev) => !prev); // Toggle the collapsed state
-    setHeight(isCollapsed ? EXPANDED_HEIGHT : COLLAPSED_HEIGHT);
+    setIsCollapsed((prev) => !prev);
+    setInspectorHeight(isCollapsed ? EXPANDED_HEIGHT : COLLAPSED_HEIGHT);
   };
-  // Set the width of the resizable box to the parent container's width
   useEffect(() => {
     if (containerRef.current) {
       setWidth(containerRef.current.offsetWidth);
     }
 
-    // Add a resize event listener to update the width dynamically
     const handleResize = () => {
       if (containerRef.current) {
         setWidth(containerRef.current.offsetWidth);
@@ -58,37 +53,31 @@ export default function Inspector({ onResize }) {
     };
   }, []);
   return (
-    <div className={`bg-[#F3F4F8] drawer-container border-t-2 ${isDragging?'border-[#c7fc94]':'border-[#0b1644]'} fixed left-15 bottom-0`}>
+    <div
+      className={`bg-[#F3F4F8] drawer-container border-t-2 ${isDragging ? 'border-[#c7fc94]' : 'border-[#0b1644]'} bottom-0`}
+    >
       <ResizableBox
-        width={width} // Set a fixed or calculated width here
-        height={height}
-        minConstraints={[width, COLLAPSED_HEIGHT]} // Minimum size constraints
-        maxConstraints={[width, 500]} // Maximum size constraints
+        height={inspectorHeight}
+        minConstraints={[width, COLLAPSED_HEIGHT]}
+        maxConstraints={[width, 500]}
         onResize={handleResize}
-        onResizeStart={onResizeStart} // Handle resize start
-        onResizeStop={onResizeStop} // Handle resize stop
-        axis="y" // Restrict resizing to the vertical axis
-        resizeHandles={['n']} // Change to 'n' for the handle to be on the top
+        onResizeStart={onResizeStart}
+        onResizeStop={onResizeStop}
+        axis="y"
+        resizeHandles={['n']}
         // handle={(h) => <span className="resize-handle" onMouseDown={h.onMouseDown} onTouchStart={h.onTouchStart} />}
       >
         <div
           style={{
-            height: `${height}px`,
             overflow: 'hidden',
             position: 'relative',
             transition: 'height 0.3s ease-in-out',
           }}
         >
-          
-
-          {!isCollapsed && (
-            <InspectorHeader toggleDrawer={toggleDrawer} isCollapsed={isCollapsed} />
-          )}
-
-          {/* Collapsed content */}
-          {isCollapsed && (
-            <InspectorHeader toggleDrawer={toggleDrawer} isCollapsed={isCollapsed} />
-          )}
+          <InspectorHeader
+            toggleDrawer={toggleDrawer}
+            isCollapsed={isCollapsed}
+          />
         </div>
       </ResizableBox>
     </div>

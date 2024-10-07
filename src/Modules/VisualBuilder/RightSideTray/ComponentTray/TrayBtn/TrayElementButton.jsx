@@ -19,8 +19,14 @@ export function TrayElementButton({ type, name }){
       margin: '5px',
     };
     return (
-      <button className='flex flex-col gap-2 h-[120px] w-[120px] cursor-grab'  ref={setNodeRef} style={style} {...listeners} {...attributes}>
-      {name}
+      <button
+        className="flex flex-col gap-2 h-[50px] w-[50px] cursor-grab"
+        ref={setNodeRef}
+        style={style}
+        {...listeners}
+        {...attributes}
+      >
+        {name}
       </button>
     );
 };
