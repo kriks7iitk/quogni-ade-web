@@ -7,6 +7,12 @@ import Library from './Library';
 import Explore from './Explore';
 import Builder from './Builder';
 import Community from './Community';
+import Wrench from './Wrench';
+import Setting from './Settings';
+import BackTest from './Backtest';
+import Performance from './Performace';
+import Filter from './Filter';
+import LineChart from './LineChart';
 
 const Icon = ({ name, ...props }) => {
   switch (name) {
@@ -26,6 +32,18 @@ const Icon = ({ name, ...props }) => {
       return <Builder {...props} />;
     case 'community':
       return <Community {...props} />;
+    case 'wrench':
+      return <Wrench {...props} />;
+    case 'setting':
+      return <Setting {...props} />;
+    case 'back-test':
+      return <BackTest {...props} />;
+    case 'performance':
+      return <Performance {...props} />;
+    case 'filter':
+      return <Filter {...props} />;
+    case 'line-chart':
+      return <LineChart {...props} />;
     default:
       return null;
   }

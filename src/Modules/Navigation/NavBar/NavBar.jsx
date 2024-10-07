@@ -41,9 +41,16 @@ export const NavBar = ({ isExpanded, setIsExpanded }) => {
                   '&:hover .MuiListItemIcon-root': {
                     color: '#007bff', // Change icon color on hover
                   },
+                  '.MuiListItemIcon-root': {
+                    width: '40px', // Change icon color on hover
+                  },
                 }}
               >
-                <ListItemIcon>
+                <ListItemIcon
+                  sx={{
+                    width: '40px',
+                  }}
+                >
                   <Icon
                     name={text}
                     fill={text === 'builder' ? '#EE7071' : '#f0f0f0'}

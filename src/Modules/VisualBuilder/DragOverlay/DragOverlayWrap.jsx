@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react'
 import { DragOverlay  } from '@dnd-kit/core'
-import { TrayElementButtonOverlay } from '../ComponentTray/TrayBtn/TrayElementButton';
+import { TrayElementButtonOverlay } from '../RightSideTray/ComponentTray/TrayBtn/TrayElementButton';
 
 export default function DragOverlayWrap({draggedItem}) {
   const [node, setNode] = useState(null)
