@@ -1,20 +1,11 @@
 .drawer-container {
-    position: relative; /* Change to relative */
-    width: 100%; /* Full width of the parent */
-    background-color: #f5f5f5; /* Background color for visibility */
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1); /* Optional shadow for effect */
+    position: relative; 
+    width: 100%; 
+    background-color: #f5f5f5; 
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1); 
   }
   
   .inspector {
     border-top: 1px solid #ccc; /* Optional border */
   }
   
-  .resize-handle {
-    position: absolute;
-    top: 0; /* At the top of the drawer */
-    left: 0;
-    right: 0;
-    height: 10px; /* Height of the resize handle */
-    cursor: ns-resize; /* Cursor style for resizing */
-    background-color: transparent; /* Make it transparent or color it as needed */
-  }

@@ -1,5 +1,36 @@
 .left-menu {
-    width: 27px;
+    width: 32px;
     height: 100%;
-    background: linear-gradient(to bottom, #C5FC90, #ffffff);;
+    display: flex;
+    flex-direction: column;
+    padding: 10px 2px 0px 0px;
+    background: linear-gradient(to bottom, #C5FC90, #ffffff);
+
+    .header-btn-container{
+      padding-bottom: 10px;
+      border-bottom: 1px solid #0B1644;
+      background: none;
+
+      
+    }
+    .header-button{
+      display: flex;
+      background: none;
+      border: none;
+      justify-content: start;
+      flex-direction: row;
+      height: 30px;
+      width: 24px;
+      padding: 3px;
+    }
+
+    .navigation-list{
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      align-items: center;
+      padding-top: 30px;
+    }
+
+    
   }

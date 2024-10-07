@@ -9,6 +9,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import Inspector from './Inspector/Inspector';
 import BuilderHeader from './BuilderHeader/BuilderHeader';
 import LeftMenuBar from './LeftMenuBar/LeftMenuBar';
+import RightSideTray from './RightSideTray/RightSideTray';
+import InspectorProvider from './_contexts/InspectorProvider';
 
 export default function VisualBuilder() {
   const dispatch = useDispatch();
@@ -78,20 +80,26 @@ export default function VisualBuilder() {
         <BuilderHeader />
         <div className="horizontal-layout">
           <LeftMenuBar />
-          <div className="vertical-layout">
-            <div
-              className="editor-class"
-              style={{ height: `calc(100vh - ${drawerHeight}px - 40px)` }}
-            >
-              <BuilderGrid
-                strategyDef={strategyDef}
-                gridSize={gridSize}
-                setStrategyDef={setStrategyDef}
-              />
+          {/* Inspector context */}
+          <InspectorProvider>
+            <div className="vertical-layout">
+              <div
+                className="editor-class"
+                // style={{
+                //   height: `calc(100vh - ${drawerHeight}px - 40px - 2px)`,
+                // }}
+              >
+                <BuilderGrid
+                  strategyDef={strategyDef}
+                  gridSize={gridSize}
+                  setStrategyDef={setStrategyDef}
+                />
+              </div>
+              <Inspector />
             </div>
-            <Inspector onResize={setDrawerHeight} />
-          </div>
-          {/* Tray should come here */}
+
+            <RightSideTray />
+          </InspectorProvider>
         </div>
         {activeItem?.data?.current?.isTrayElement && (
           <DragOverlayWrap draggedItem={activeItem} />
