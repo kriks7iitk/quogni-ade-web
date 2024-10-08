@@ -3,6 +3,7 @@ import { CgArrowsExpandLeft } from 'react-icons/cg';
 import { RiCollapseDiagonal2Line } from 'react-icons/ri';
 import OptionsOverlay from './OptionsOverlay';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
+import '../inspector.scss';
 
 const InspectorHeader = ({ toggleDrawer, isCollapsed, addTab }) => {
   const [tabs, setTabs] = useState([]);
@@ -16,7 +17,7 @@ const InspectorHeader = ({ toggleDrawer, isCollapsed, addTab }) => {
   };
   return (
     <div
-      className="inspector-header flex items-center  bg-white p-1 border-b border-gray-200 shadow-sm"
+      className="inspector-header flex items-center p-1 border-b border-gray-200"
       style={{ width: '100%' }}
     >
       <button

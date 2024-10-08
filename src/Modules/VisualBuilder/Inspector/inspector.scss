@@ -8,4 +8,14 @@
   .inspector {
     border-top: 1px solid #ccc; /* Optional border */
   }
+
+  .inspector-header{
+    background-color: var(--ps-white-1);
+    box-shadow: 0 4px 8px rgba(0, 11, 80, 0.1);
+  }
+
+  .resizable-box {
+    flex-grow: 1; /* Make the resizable box fill the remaining space */
+    width: 100%;
+  }
   

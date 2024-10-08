@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useContext } from 'react';
 import TimeLineY from './Grid';
 import PropTypes from 'prop-types';
-import { TrayElementButton } from '../RightSideTray/ComponentTray/TrayBtn/TrayElementButton';
+import { TrayElementButton } from '../RightSideTray/CollapsedTray/ComponentTray/TrayBtn/TrayElementButton';
 import { Ruler } from './Ruler/Ruler';
 import ComponentRenderer from '../Components/ComponentRenderer';
 import { useSelector, useDispatch } from 'react-redux';

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, createContext } from 'react';
 import { DndContext } from '@dnd-kit/core';
 import './builder.scss';
 import DragOverlayWrap from './DragOverlay/DragOverlayWrap';
@@ -12,11 +12,15 @@ import LeftMenuBar from './LeftMenuBar/LeftMenuBar';
 import RightSideTray from './RightSideTray/RightSideTray';
 import InspectorProvider from './_contexts/InspectorProvider';
 
+export const VisualBuilderContext = createContext(null);
+
 export default function VisualBuilder() {
   const dispatch = useDispatch();
   const strategyDef = useSelector((state) => state.strategy.data);
   const [drawerHeight, setDrawerHeight] = useState(200);
   const [activeItem, setActiveItem] = useState(null);
+  const [expandSideTray, setExpandSideTray] = useState(false);
+  const [subRoute, setSubRoute] = useState('builder');
 
   const setStrategyDef = (data) => {
     dispatch(updateDefinition(data));
@@ -32,6 +36,10 @@ export default function VisualBuilder() {
         y: Math.ceil(transform.y / gridSize) * gridSize,
       };
     };
+  };
+
+  const toggleRightDrawer = () => {
+    setExpandSideTray(!expandSideTray);
   };
 
   const snapToGridModifier = createSnapModifier(gridSize);
@@ -72,39 +80,44 @@ export default function VisualBuilder() {
 
   return (
     <div className="builder-layout">
-      <DndContext
-        onDragStart={handleDragStart}
-        onDragEnd={handleDragEnd}
-        modifiers={[snapToGridModifier]}
+      <VisualBuilderContext.Provider
+        value={{
+          expandSideTray,
+          setExpandSideTray,
+          toggleRightDrawer,
+          subRoute,
+          setSubRoute,
+        }}
       >
-        <BuilderHeader />
-        <div className="horizontal-layout">
-          <LeftMenuBar />
-          {/* Inspector context */}
-          <InspectorProvider>
-            <div className="vertical-layout">
-              <div
-                className="editor-class"
-                // style={{
-                //   height: `calc(100vh - ${drawerHeight}px - 40px - 2px)`,
-                // }}
-              >
-                <BuilderGrid
-                  strategyDef={strategyDef}
-                  gridSize={gridSize}
-                  setStrategyDef={setStrategyDef}
-                />
+        <DndContext
+          onDragStart={handleDragStart}
+          onDragEnd={handleDragEnd}
+          modifiers={[snapToGridModifier]}
+        >
+          <BuilderHeader />
+          <div className="horizontal-layout">
+            <LeftMenuBar />
+            <InspectorProvider>
+              <div className="vertical-layout">
+                {subRoute === 'builder' && (
+                  <div className="editor-class">
+                    <BuilderGrid
+                      strategyDef={strategyDef}
+                      gridSize={gridSize}
+                      setStrategyDef={setStrategyDef}
+                    />
+                  </div>
+                )}
+                <Inspector />
               </div>
-              <Inspector />
-            </div>
-
-            <RightSideTray />
-          </InspectorProvider>
-        </div>
-        {activeItem?.data?.current?.isTrayElement && (
-          <DragOverlayWrap draggedItem={activeItem} />
-        )}
-      </DndContext>
+              <RightSideTray />
+            </InspectorProvider>
+          </div>
+          {activeItem?.data?.current?.isTrayElement && (
+            <DragOverlayWrap draggedItem={activeItem} />
+          )}
+        </DndContext>
+      </VisualBuilderContext.Provider>
     </div>
   );
 }
