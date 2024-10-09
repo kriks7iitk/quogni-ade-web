@@ -50,6 +50,9 @@ class StockChart extends React.Component {
       close: d.close,
       signal: d.signal,
       high: d.high,
+      open: d.open,
+      low: d.low,
+      volume: d.volume,
     }));
 
     const ema12 = ema()
@@ -71,6 +74,9 @@ class StockChart extends React.Component {
     const elder = elderRay();
 
     const calculatedData = elder(ema26(ema12(formattedData)));
+
+    console.log('calculated data is');
+    console.log(calculatedData);
 
     const { margin, xScaleProvider } = this;
 
@@ -105,7 +111,7 @@ class StockChart extends React.Component {
         xExtents={xExtents}
         zoomAnchor={lastVisibleItemBasedZoomAnchor}
       >
-        <Chart
+        {/* <Chart
           id={2}
           height={barChartHeight}
           origin={barChartOrigin}
@@ -115,9 +121,9 @@ class StockChart extends React.Component {
             fillStyle={this.volumeColor}
             yAccessor={this.volumeSeries}
           />
-        </Chart>
+        </Chart> */}
         <Chart id={3} height={chartHeight} yExtents={this.candleChartExtents}>
-          <XAxis showGridLines showTicks={false} showTickLabel={false} />
+          <XAxis showGridLines showTicks={true} showTickLabel={true} />
           <YAxis showGridLines tickFormat={this.pricesDisplayFormat} />
           <CandlestickSeries />
           <LineSeries
