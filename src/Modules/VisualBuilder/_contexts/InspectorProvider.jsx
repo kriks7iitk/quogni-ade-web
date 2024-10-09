@@ -4,7 +4,7 @@ export const InspectorContext = createContext(null);
 
 
 export default function InspectorProvider({ children }) {
-  const EXPANDED_HEIGHT = 1000;
+  const EXPANDED_HEIGHT = 300;
   const [inspectorHeight, setInspectorHeight] = useState(EXPANDED_HEIGHT);
   
 

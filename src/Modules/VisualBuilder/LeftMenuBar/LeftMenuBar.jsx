@@ -1,10 +1,12 @@
-import React from 'react';
+import React,{ useContext }  from 'react';
 import './leftMenu.theme.scss';
 import SolidButton from '../../../_components/Buttons/SolidButton';
 import { Tooltip } from 'react-tooltip';
 import { NavLink, Routes, Route, BrowserRouter } from 'react-router-dom';
+import { VisualBuilderContext } from '../VisualBuilder';
 
 export default function LeftMenuBar() {
+  const { setExpandSideTray, setSubRoute } = useContext(VisualBuilderContext);
   return (
       <div className="left-menu">
         <div className="header-btn-container">
@@ -22,6 +24,10 @@ export default function LeftMenuBar() {
                 // iconFill="#0B1644"
                 iconFill="#EE7071"
                 hoverIconFill="#EE7071"
+                onClick={() => {
+                  setSubRoute('builder');
+                  setExpandSideTray(false);
+                }}
               />
             </NavLink>
           </a>
@@ -117,6 +123,10 @@ export default function LeftMenuBar() {
               iconWidth={23}
               className="header-button hover:bg-[#000050] "
               iconFill="#0B1644"
+              onClick={() => {
+                setSubRoute('back-test');
+                setExpandSideTray(true);
+              }}
             />
             </NavLink>
           </a>

@@ -4,21 +4,26 @@ import './inspector.scss';
 import 'react-resizable/css/styles.css';
 import InspectorHeader from './InspectorComponents/InspectorHeader';
 import { InspectorContext } from '../_contexts/InspectorProvider';
+import { VisualBuilderContext } from '../VisualBuilder';
 import lineData from '../../../assets/candelstick_data';
-import CandlestickChart from './InspectorComponents/Candlestick/CandlestickChart';
 import LineChart from './InspectorComponents/LineChart/LineChart';
 
 export default function Inspector() {
+  const { subRoute, setSubRoute, setExpandSideTray } =
+    useContext(VisualBuilderContext);
   const COLLAPSED_HEIGHT = 51;
-  const EXPANDED_HEIGHT = 1000;
+  const drawerRef = useRef(null);
+  const EXPANDED_HEIGHT = 300;
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
-  const [width, setWidth] = useState(window.outerWidth-200);
+  const parentRef = useRef(null);
+  const [width, setWidth] = useState(0);
   const { setInspectorHeight, inspectorHeight } = useContext(InspectorContext);
+  const [parentHeight, setParentHeight] = useState(0);
 
   const initialTabs = ['Strategy1']; // Initial tabs
   const [tabs, setTabs] = useState(initialTabs); // State to store the tabs
-  const [activeTab, setActiveTab] = useState(initialTabs[0]); 
+  const [activeTab, setActiveTab] = useState(initialTabs[0]);
 
   const containerRef = useRef(null);
 
@@ -30,9 +35,25 @@ export default function Inspector() {
     setIsDragging(false);
   };
 
+  useEffect(() => {
+    computeWidth();
+    window.addEventListener('resize', computeWidth);
+    return () => {
+      window.removeEventListener('resize', computeWidth);
+    };
+  }, []);
+  const computeWidth = () => {
+    if (parentRef.current) {
+      const parentWidth = parentRef.current.clientWidth; // Get the parent's width
+      setWidth(parentWidth); // Update the state with the new width
+    }
+  };
+
   const handleResize = (event, { size }) => {
+    if (subRoute === 'back-test') return;
+
     const newHeight = size.height;
-    if (inspectorHeight <= 1000) setInspectorHeight(newHeight);
+    if (inspectorHeight <= 500) setInspectorHeight(newHeight);
     if (newHeight > COLLAPSED_HEIGHT) {
       setIsCollapsed(false);
     } else {
@@ -40,48 +61,61 @@ export default function Inspector() {
     }
   };
   const toggleDrawer = () => {
-    setIsCollapsed((prev) => !prev);
-    setInspectorHeight(isCollapsed ? EXPANDED_HEIGHT : COLLAPSED_HEIGHT);
+    if (subRoute === 'back-test') setSubRoute('builder');
+    setExpandSideTray(false);
+    if (subRoute === 'back-test') {
+      setIsCollapsed(false);
+      setInspectorHeight(EXPANDED_HEIGHT);
+    } else {
+      setIsCollapsed((prev) => !prev);
+      setInspectorHeight(isCollapsed ? EXPANDED_HEIGHT : COLLAPSED_HEIGHT);
+    }
   };
 
   useEffect(() => {
-    if (containerRef.current) {
-      setWidth(containerRef.current.offsetWidth);
-    }
-
-    const handleResize = () => {
-      if (containerRef.current) {
-        setWidth(containerRef.current.offsetWidth);
+    // Function to update the parent's height dynamically
+    const updateParentHeight = () => {
+      if (drawerRef.current) {
+        setParentHeight(drawerRef.current.clientHeight);
       }
     };
 
-    window.addEventListener('resize', handleResize);
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
+    // Update parent height initially and on window resize
+    updateParentHeight();
+    window.addEventListener('resize', updateParentHeight);
 
-  console.log("height of the inspector",inspectorHeight)
-  console.log("width of the inspector",width)
+    // Clean up event listener on component unmount
+    return () => {
+      window.removeEventListener('resize', updateParentHeight);
+    };
+  }, [subRoute]);
   return (
     <div
       className={`bg-[#F3F4F8] drawer-container border-t-2 ${isDragging ? 'border-[#c7fc94]' : 'border-[#0b1644]'} bottom-0`}
+      style={{
+        height: '100%',
+        transition: 'height 0.5s ease',
+        overflow: 'hidden',
+      }}
+      ref={drawerRef}
     >
       <ResizableBox
-        height={inspectorHeight}
+        className="resizable-box"
+        height={subRoute == 'back-test' ? parentHeight : inspectorHeight}
         minConstraints={[width, COLLAPSED_HEIGHT]}
         maxConstraints={[width, 500]}
         onResize={handleResize}
         onResizeStart={onResizeStart}
         onResizeStop={onResizeStop}
         axis="y"
-        resizeHandles={['n']}
+        resizeHandles={subRoute === 'back-test' ? [] : ['n']}
       >
         <div
           style={{
             overflow: 'hidden',
             position: 'relative',
             transition: 'height 0.3s ease-in-out',
+            height: '100%',
           }}
         >
           <InspectorHeader
@@ -92,17 +126,20 @@ export default function Inspector() {
             tabs={tabs}
             setTabs={setTabs}
           />
-          {!isCollapsed && (
+          {subRoute == 'back-test' && (
             <div ref={containerRef} className="inspector-content">
-              <div>
-                <div>
-                   {activeTab === 'Strategy1' && (
-                    <div className='w-full h-full flex justify-center items-center p-5 '>
-                    <LineChart data={lineData} width={width} height={inspectorHeight} />
-                    </div>
-                  )}
+              {activeTab === 'Strategy1' && (
+                <div
+                  className="w-full h-full flex justify-center items-center p-5 "
+                  ref={parentRef}
+                >
+                  <LineChart
+                    data={lineData}
+                    width={width}
+                    height={parentHeight - 100}
+                  />
                 </div>
-              </div>
+              )}
             </div>
           )}
         </div>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { TrayElementButton } from './ComponentTray/TrayBtn/TrayElementButton';
+import { TrayElementButton } from './TrayBtn/TrayElementButton';
 
 export default function ElementTray() {
   const trayItems = [

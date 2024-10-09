@@ -7,6 +7,7 @@ import Ruler from './Modules/Experiment/Ruler';
 import { Toaster } from 'react-hot-toast';
 import { Provider } from 'react-redux';
 import store from './_stores/store';
+import './app.theme.scss';
 import Dashboard from './Modules/Routes/Dashboard/Dashboard';
 import Portfolio from './Modules/Routes/Portfolio/Portfolio';
 import Library from './Modules/Routes/Library/Library';
@@ -22,7 +23,7 @@ import LineChart from './Modules/VisualBuilder/BuilderRoutes/LineChartComponent/
 
 
 function App() {
-  const [isNavBarExpanded, setIsNavBarExpanded] = useState(true);
+  const [isNavBarExpanded, setIsNavBarExpanded] = useState(false);
 
   return (
     <div className="app-container">
