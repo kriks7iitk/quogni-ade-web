@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import Icon from '../../_icons/svgs/SolidIcons';
 
@@ -13,7 +13,10 @@ const SolidButton = ({
   iconWidth,
   iconFill,
   rightIcon,
+  hoverIconFill
 }) => {
+
+  const [isHovered, setIsHovered] = useState(false);
   const getSizeClass = () => {
     switch (size) {
       case 'small':
@@ -25,28 +28,31 @@ const SolidButton = ({
     }
   };
 
+
   return (
     <button
       onClick={onClick}
-      className={`flex items-center bg-${color}-500 text-white rounded ${getSizeClass()} ${className}`}
+      className={`flex items-center bg-${color}-500 text-white rounded ${getSizeClass()} ${className} hover:bg-${color}-600 transition-all duration-300`}
       disabled={disabled}
       type="button"
+      onMouseEnter={() => setIsHovered(true)} 
+      onMouseLeave={() => setIsHovered(false)}
     >
       {leftIcon && (
         <Icon
-          className="mr-2"
+        className="ml-2 transition-colors duration-300"
           name={leftIcon}
           width={iconWidth}
-          fill={iconFill}
+          fill={isHovered ? hoverIconFill : iconFill}
         />
       )}
       {children}
       {rightIcon && (
         <Icon
-          className="ml-2"
+        className=" transition-colors duration-300"
           name={rightIcon}
           width={iconWidth}
-          fill={iconFill}
+          fill={isHovered ? hoverIconFill : iconFill}
         />
       )}
     </button>
@@ -62,6 +68,7 @@ SolidButton.propTypes = {
   disabled: PropTypes.bool,
   iconWidth: PropTypes.string,
   iconFill: PropTypes.string,
+  hoverIconFill: PropTypes.string,
   leftIcon: PropTypes.string,
   rightIcon: PropTypes.string,
 };
