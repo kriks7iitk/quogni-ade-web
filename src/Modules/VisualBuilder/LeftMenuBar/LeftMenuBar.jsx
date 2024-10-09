@@ -22,10 +22,11 @@ export default function LeftMenuBar() {
               <SolidButton
                 leftIcon="builder"
                 iconWidth={20}
-                className="header-button hover:bg-[#000050]"
+                className="hover:bg-[#000050] bg-green-900/20 h-10 w-8"
                 // iconFill="#0B1644"
                 iconFill="#EE7071"
                 hoverIconFill="#EE7071"
+                isActive={isActiveSubRoute('builder')}
                 
               />
             </NavLink>
@@ -49,10 +50,11 @@ export default function LeftMenuBar() {
             >
               <SolidButton
                 leftIcon="wrench"
-                iconWidth={15}
-                className="header-button hover:bg-[#000050]"
-                iconFill="#0B1644"
+                iconWidth={20}
+                className={`${isActiveSubRoute('indicators')?'bg-[#000050]':''} h-10 w-8 hover:bg-[#000050]`}
+                iconFill={isActiveSubRoute('indicators')?'#CAFC99':'#0B1644'}
                 hoverIconFill="#CAFC99"
+                
                 onClick={() => {
                   setSubRoute('indicators');
                   setDrawerOpen(true);
@@ -79,8 +81,8 @@ export default function LeftMenuBar() {
             <SolidButton
               leftIcon="line-chart"
               iconWidth={18}
-              className="header-button hover:bg-[#000050] "
-              iconFill="#0B1644"
+              className={`${isActiveSubRoute('line-chart')?'bg-[#000050]':''} h-10 w-8 hover:bg-[#000050]`}
+                iconFill={isActiveSubRoute('line-chart')?'#CAFC99':'#0B1644'}
               onClick={() => {
                 setSubRoute('line-chart');
                 setDrawerOpen(true);
@@ -106,8 +108,8 @@ export default function LeftMenuBar() {
             <SolidButton
               leftIcon="filter"
               iconWidth={18}
-              className="header-button hover:bg-[#000050] "
-              iconFill="#0B1644"
+              className={`${isActiveSubRoute('filter')?'bg-[#000050]':''} h-10 w-8 hover:bg-[#000050]`}
+                iconFill={isActiveSubRoute('filter')?'#CAFC99':'#0B1644'}
               onClick={() => {
                 setSubRoute('filter');
                 
@@ -134,8 +136,8 @@ export default function LeftMenuBar() {
             <SolidButton
               leftIcon="back-test"
               iconWidth={23}
-              className="header-button hover:bg-[#000050] "
-              iconFill="#0B1644"
+              className={`${isActiveSubRoute('back-test')?'bg-[#000050]':''} h-10 w-8 hover:bg-[#000050]`}
+                iconFill={isActiveSubRoute('back-test')?'#CAFC99':'#0B1644'}
               onClick={() => {
                setSubRoute('back-test');
                 setExpandSideTray(true);
@@ -161,8 +163,8 @@ export default function LeftMenuBar() {
             <SolidButton
               leftIcon="performance"
               iconWidth={22}
-              className="header-button hover:bg-[#000050] "
-              iconFill="#0B1644"
+              className={`${isActiveSubRoute('performance')?'bg-[#000050]':''} h-10 w-8 hover:bg-[#000050]`}
+                iconFill={isActiveSubRoute('performance')?'#CAFC99':'#0B1644'}
               onClick={() => {
                 setSubRoute('performance');
                 setDrawerOpen(true);
@@ -180,7 +182,7 @@ export default function LeftMenuBar() {
 
           <a id="strategysettings">
           <NavLink
-              to="performance"
+              to="settings"
               className={({ isActive }) =>
                 `nav-link ${isActive ? 'active-tab' : ''}`
               }
@@ -189,8 +191,8 @@ export default function LeftMenuBar() {
             <SolidButton
               leftIcon="setting"
               iconWidth={20}
-              className="header-button hover:bg-[#000050] "
-              iconFill="#0B1644"
+              className={`${isActiveSubRoute('settings')?'bg-[#000050]':''} h-10 w-8 hover:bg-[#000050]`}
+                iconFill={isActiveSubRoute('settings')?'#CAFC99':'#0B1644'}
               onClick={() => {
                 setSubRoute('settings');
                 setDrawerOpen(true);
