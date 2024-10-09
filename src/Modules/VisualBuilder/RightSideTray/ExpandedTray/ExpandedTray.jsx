@@ -5,6 +5,7 @@ import { VisualBuilderContext } from '../../VisualBuilder';
 
 export default function ExpandedTray({ title, showBack }) {
   const { subRoute } = useContext(VisualBuilderContext);
+  // const title =
   return (
     <div className="expanded-tray">
       <div className="expanded-tray-header">

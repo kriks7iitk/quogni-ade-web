@@ -69,7 +69,7 @@ const BuilderGrid = ({ strategyDef, gridSize, setStrategyDef }) => {
   return (
     <div
       style={{
-        height: `calc(100vh - ${inspectorHeight}px - 40px - 2px)`,
+        height: `calc(100vh - ${inspectorHeight}px - 50px - 2px)`,
       }}
     >
       <div

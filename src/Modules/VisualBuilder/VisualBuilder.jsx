@@ -17,7 +17,6 @@ export const VisualBuilderContext = createContext(null);
 export default function VisualBuilder() {
   const dispatch = useDispatch();
   const strategyDef = useSelector((state) => state.strategy.data);
-  const [drawerHeight, setDrawerHeight] = useState(200);
   const [activeItem, setActiveItem] = useState(null);
   const [expandSideTray, setExpandSideTray] = useState(false);
   const [subRoute, setSubRoute] = useState('builder');

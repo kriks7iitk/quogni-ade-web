@@ -1,20 +1,28 @@
 import React, { useState, useRef } from 'react';
 import { CgArrowsExpandLeft } from 'react-icons/cg';
 import { RiCollapseDiagonal2Line } from 'react-icons/ri';
-import OptionsOverlay from './OptionsOverlay';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import '../inspector.scss';
 
-const InspectorHeader = ({ toggleDrawer, isCollapsed, addTab }) => {
-  const [tabs, setTabs] = useState([]);
-  const [activeTab, setActiveTab] = useState(null);
+const InspectorHeader = ({
+  toggleDrawer,
+  isCollapsed,
+  activeTab,
+  setActiveTab,
+  tabs,
+  setTabs,
+}) => {
+  console.log('activeTab:', activeTab);
+  console.log('tabs:', tabs);
 
-  const handleOptionSelect = (optionLabel) => {
-    if (!tabs.includes(optionLabel)) {
-      setTabs((prevTabs) => [...prevTabs, optionLabel]);
-      setActiveTab(optionLabel);
+  const handleTabClose = (tab) => {
+    setTabs((prevTabs) => prevTabs.filter((t) => t !== tab));
+    if (activeTab === tab) {
+      const remainingTabs = tabs.filter((t) => t !== tab);
+      setActiveTab(remainingTabs.length > 0 ? remainingTabs[0] : null);
     }
   };
+
   return (
     <div
       className="inspector-header flex items-center p-1 border-b border-gray-200"
@@ -27,28 +35,35 @@ const InspectorHeader = ({ toggleDrawer, isCollapsed, addTab }) => {
       >
         {isCollapsed ? <CgArrowsExpandLeft /> : <RiCollapseDiagonal2Line />}
       </button>
-      <OptionsOverlay onSelectOption={handleOptionSelect} />
 
       {/* Render Tabs Navigation */}
-      <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList>
-          {tabs.map((tab) => (
-            <TabsTrigger key={tab} value={tab}>
-              {tab}
-              <button
-                className="ml-2 mr-1 text-red-500 p-1"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setTabs(tabs.filter((t) => t !== tab));
-                  if (activeTab === tab) setActiveTab(tabs[0] || null);
-                }}
-              >
-                &times;
-              </button>
-            </TabsTrigger>
-          ))}
-        </TabsList>
-      </Tabs>
+      <div className="tabs-list flex space-x-4 ml-4">
+        {tabs.map((tab) => (
+          <button
+            key={tab}
+            className={`tabs-trigger px-4 py-2 rounded-md ${
+              activeTab === tab
+                ? 'bg-[#000050] text-white'
+                : 'bg-gray-200 text-gray-700'
+            }`}
+            onClick={() => setActiveTab(tab)}
+          >
+            {tab}
+
+            <span
+              className="ml-2 cursor-pointer text-red-500"
+              onClick={(e) => {
+                e.stopPropagation();
+                setTabs(tabs.filter((t) => t !== tab));
+                if (activeTab === tab) setActiveTab(tabs[0] || null);
+                handleTabClose(tab);
+              }}
+            >
+              &times;
+            </span>
+          </button>
+        ))}
+      </div>
     </div>
   );
 };
