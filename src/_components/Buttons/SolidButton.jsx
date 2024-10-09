@@ -13,7 +13,8 @@ const SolidButton = ({
   iconWidth,
   iconFill,
   rightIcon,
-  hoverIconFill
+  hoverIconFill,
+  isActive = false,
 }) => {
 
   const [isHovered, setIsHovered] = useState(false);
@@ -27,13 +28,24 @@ const SolidButton = ({
         return 'py-1.5 px-3 text-base'; // Medium size
     }
   };
+  const getActiveClass = () => {
+    // Define styles for active state
+    return isActive ? 'bg-blue-500 text-white' : ''; // Change to desired active styles
+  };
 
-
+  const getHoverOrActiveClass = () => {
+    // This function applies the same classes used for hover and active state
+    return `hover:bg-${color}-600 ${
+      isActive ? `bg-${color}-600` : ''
+    }`; // If active, apply hover styles
+  };
   return (
     <button
       onClick={onClick}
-      className={`flex items-center bg-${color}-500 text-white rounded ${getSizeClass()} ${className} hover:bg-${color}-600 transition-all duration-300`}
-      disabled={disabled}
+      className={`flex items-center rounded ${getSizeClass()} ${className} 
+        bg-${color}-500 text-white transition-all duration-300 ${getHoverOrActiveClass()} ${
+          disabled ? 'cursor-not-allowed opacity-50' : ''
+        }`}
       type="button"
       onMouseEnter={() => setIsHovered(true)} 
       onMouseLeave={() => setIsHovered(false)}
@@ -43,7 +55,7 @@ const SolidButton = ({
         className="ml-2 transition-colors duration-300"
           name={leftIcon}
           width={iconWidth}
-          fill={isHovered ? hoverIconFill : iconFill}
+          fill={isHovered||isActive ? hoverIconFill : iconFill}
         />
       )}
       {children}
@@ -52,7 +64,7 @@ const SolidButton = ({
         className=" transition-colors duration-300"
           name={rightIcon}
           width={iconWidth}
-          fill={isHovered ? hoverIconFill : iconFill}
+          fill={isHovered || isActive ? hoverIconFill : iconFill}
         />
       )}
     </button>

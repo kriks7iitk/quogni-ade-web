@@ -4,6 +4,7 @@ import { RiCollapseDiagonal2Line } from 'react-icons/ri';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import '../inspector.scss';
 
+
 const InspectorHeader = ({
   toggleDrawer,
   isCollapsed,

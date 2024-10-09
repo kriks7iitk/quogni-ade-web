@@ -8,6 +8,7 @@ import { VisualBuilderContext } from '../VisualBuilder';
 import lineData from '../../../assets/candelstick_data';
 import LineChart from './InspectorComponents/LineChart/LineChart';
 
+
 export default function Inspector() {
   const { subRoute, setSubRoute, setExpandSideTray } =
     useContext(VisualBuilderContext);

@@ -3,7 +3,7 @@ import React from 'react'
 const Indicator = () => {
   return (
     <div>
-      This is Indicator
+      <h2>We are building up Indicators</h2>
     </div>
   )
 }

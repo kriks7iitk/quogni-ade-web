@@ -1,4 +1,4 @@
-import React,{ useContext }  from 'react';
+import React,{ useContext, useEffect }  from 'react';
 import './leftMenu.theme.scss';
 import SolidButton from '../../../_components/Buttons/SolidButton';
 import { Tooltip } from 'react-tooltip';
@@ -6,13 +6,15 @@ import { NavLink, Routes, Route, BrowserRouter } from 'react-router-dom';
 import { VisualBuilderContext } from '../VisualBuilder';
 
 export default function LeftMenuBar() {
-  const { setExpandSideTray, setSubRoute } = useContext(VisualBuilderContext);
+  const { setExpandSideTray,setDrawerOpen, setSubRoute, subRoute } = useContext(VisualBuilderContext);
+
+  const isActiveSubRoute = (route) => subRoute === route;
   return (
       <div className="left-menu">
         <div className="header-btn-container">
           <a id="builder-anchor" className="flex justify-center items-center">
             <NavLink
-              to="builder"
+              to="/builder"
               className={({ isActive }) =>
                 `flex justify-center items-center ${isActive ? 'active-tab' : ''}`
               }
@@ -24,10 +26,7 @@ export default function LeftMenuBar() {
                 // iconFill="#0B1644"
                 iconFill="#EE7071"
                 hoverIconFill="#EE7071"
-                onClick={() => {
-                  setSubRoute('builder');
-                  setExpandSideTray(false);
-                }}
+                
               />
             </NavLink>
           </a>
@@ -44,9 +43,9 @@ export default function LeftMenuBar() {
           <a id="indicators">
             <NavLink
               to="indicators"
-              className={({ isActive }) =>
-                `nav-link ${isActive ? 'active-tab' : ''}`
-              }
+              // className={
+              //   `nav-link ${isActive? 'active-tab bg-blue-500 text-white' : ''}`
+              // }
             >
               <SolidButton
                 leftIcon="wrench"
@@ -54,6 +53,11 @@ export default function LeftMenuBar() {
                 className="header-button hover:bg-[#000050]"
                 iconFill="#0B1644"
                 hoverIconFill="#CAFC99"
+                onClick={() => {
+                  setSubRoute('indicators');
+                  setDrawerOpen(true);
+                  
+                }}
               />
             </NavLink>
           </a>
@@ -77,6 +81,10 @@ export default function LeftMenuBar() {
               iconWidth={18}
               className="header-button hover:bg-[#000050] "
               iconFill="#0B1644"
+              onClick={() => {
+                setSubRoute('line-chart');
+                setDrawerOpen(true);
+              }}
             />
             </NavLink>
           </a>
@@ -100,6 +108,11 @@ export default function LeftMenuBar() {
               iconWidth={18}
               className="header-button hover:bg-[#000050] "
               iconFill="#0B1644"
+              onClick={() => {
+                setSubRoute('filter');
+                
+                setDrawerOpen(true);
+              }}
             />
             </NavLink>
           </a>
@@ -124,7 +137,7 @@ export default function LeftMenuBar() {
               className="header-button hover:bg-[#000050] "
               iconFill="#0B1644"
               onClick={() => {
-                setSubRoute('back-test');
+               setSubRoute('back-test');
                 setExpandSideTray(true);
               }}
             />
@@ -150,6 +163,10 @@ export default function LeftMenuBar() {
               iconWidth={22}
               className="header-button hover:bg-[#000050] "
               iconFill="#0B1644"
+              onClick={() => {
+                setSubRoute('performance');
+                setDrawerOpen(true);
+              }}
             />
             </NavLink>
           </a>
@@ -174,6 +191,10 @@ export default function LeftMenuBar() {
               iconWidth={20}
               className="header-button hover:bg-[#000050] "
               iconFill="#0B1644"
+              onClick={() => {
+                setSubRoute('settings');
+                setDrawerOpen(true);
+              }}
             />
             </NavLink>
           </a>
