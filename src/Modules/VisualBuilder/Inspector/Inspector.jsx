@@ -6,8 +6,8 @@ import InspectorHeader from './InspectorComponents/InspectorHeader';
 import { InspectorContext } from '../_contexts/InspectorProvider';
 import { VisualBuilderContext } from '../VisualBuilder';
 import lineData from '../../../assets/candelstick_data';
-import CandlestickChart from './InspectorComponents/Candlestick/CandlestickChart';
 import LineChart from './InspectorComponents/LineChart/LineChart';
+import Chart from './InspectorComponents/LineChart/Chart';
 
 export default function Inspector() {
   const { subRoute, setSubRoute, setExpandSideTray } =
@@ -96,6 +96,7 @@ export default function Inspector() {
       style={{
         height: '100%',
         transition: 'height 0.5s ease',
+        width: '100%',
         overflow: 'hidden',
       }}
       ref={drawerRef}
@@ -127,7 +128,7 @@ export default function Inspector() {
             tabs={tabs}
             setTabs={setTabs}
           />
-          {subRoute == 'back-test' && (
+          {/* {subRoute == 'back-test' && (
             <div ref={containerRef} className="inspector-content">
               {activeTab === 'Strategy1' && (
                 <div
@@ -142,6 +143,9 @@ export default function Inspector() {
                 </div>
               )}
             </div>
+          )} */}
+          {subRoute == 'back-test' && (
+            <Chart chartData={lineData} height={parentHeight - 100} />
           )}
         </div>
       </ResizableBox>

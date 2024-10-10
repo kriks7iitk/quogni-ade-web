@@ -13,9 +13,16 @@ import SolidButton from '../../../_components/Buttons/SolidButton';
 import '../navigation.theme.scss';
 import PiggieStackName from '../../BrandAndLogo/PiggieStackName';
 import { kebabCaseToNormal } from '../../../Utility/utility';
+import { useNavigate } from 'react-router-dom';
+import { Tooltip } from 'react-tooltip';
 
 export const NavBar = ({ isExpanded, setIsExpanded }) => {
+  const navigate = useNavigate();
   const drawerWidth = isExpanded ? 250 : 60;
+
+  const handleNavigation = (path) => {
+    navigate(`/${path}`);
+  };
 
   const list = () => (
     <Box sx={{ width: drawerWidth }} role="presentation">
@@ -34,15 +41,17 @@ export const NavBar = ({ isExpanded, setIsExpanded }) => {
               disablePadding
             >
               <ListItemButton
+                onClick={() => handleNavigation(text)}
                 sx={{
                   '&:hover': {
-                    backgroundColor: '#f0f0f0', // Change the background color on hover
+                    backgroundColor: '#f0f0f0',
                   },
                   '&:hover .MuiListItemIcon-root': {
-                    color: '#007bff', // Change icon color on hover
+                    color: '#007bff',
                   },
                   '.MuiListItemIcon-root': {
-                    width: '40px', // Change icon color on hover
+                    width: '40px',
+                    color: '#007bff', // Change icon color on hover
                   },
                 }}
               >
@@ -58,8 +67,10 @@ export const NavBar = ({ isExpanded, setIsExpanded }) => {
                 </ListItemIcon>
                 {isExpanded && (
                   <ListItemText
+                    classes={{ root: 'list-item-text' }}
                     sx={{
                       color: '#f0f0f0',
+                      transition: 'color 0.3s',
                     }}
                     primary={kebabCaseToNormal(text)}
                   />
@@ -88,6 +99,7 @@ export const NavBar = ({ isExpanded, setIsExpanded }) => {
             disablePadding
           >
             <ListItemButton
+              onClick={() => handleNavigation(text)}
               sx={{
                 '&:hover': {
                   backgroundColor: '#f0f0f0', // Change the background color on hover

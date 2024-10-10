@@ -75,9 +75,6 @@ class StockChart extends React.Component {
 
     const calculatedData = elder(ema26(ema12(formattedData)));
 
-    console.log('calculated data is');
-    console.log(calculatedData);
-
     const { margin, xScaleProvider } = this;
 
     const { data, xScale, xAccessor, displayXAccessor } =

@@ -51,7 +51,6 @@ const BacktestHeader = () => {
     setValue(currentValue);
     console.log('currentValue', currentValue);
     dispatch(setSelectedOption(currentValue));
-
     setOpen(false);
   };
 

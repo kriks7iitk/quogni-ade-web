@@ -4,6 +4,7 @@ import { RiCollapseDiagonal2Line } from 'react-icons/ri';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import '../inspector.scss';
 
+
 const InspectorHeader = ({
   toggleDrawer,
   isCollapsed,
@@ -12,9 +13,6 @@ const InspectorHeader = ({
   tabs,
   setTabs,
 }) => {
-  console.log('activeTab:', activeTab);
-  console.log('tabs:', tabs);
-
   const handleTabClose = (tab) => {
     setTabs((prevTabs) => prevTabs.filter((t) => t !== tab));
     if (activeTab === tab) {

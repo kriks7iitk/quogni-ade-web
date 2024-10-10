@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import ThemeButton from '../../../../_components/Buttons/ThemeButton';
 import './right-expanded-tray.theme.scss';
 import { VisualBuilderContext } from '../../VisualBuilder';
+import BackTestTray from '../../BackTest/backTestTray';
 
 export default function ExpandedTray({ title, showBack }) {
   const { subRoute } = useContext(VisualBuilderContext);
@@ -17,7 +18,16 @@ export default function ExpandedTray({ title, showBack }) {
         <h3 className="expanded-tray-title">Expanded Tray</h3>
       </div>
       <div className="expanded-tray-content">
-        <p>ExpandedTray Content goes here</p>
+        <div className="expanded-tray-content">
+          {(() => {
+            switch (subRoute) {
+              case 'back-test':
+                return <BackTestTray />;
+              default:
+                return null;
+            }
+          })()}
+        </div>
       </div>
     </div>
   );
