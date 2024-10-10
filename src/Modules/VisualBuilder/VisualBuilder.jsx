@@ -57,6 +57,9 @@ export default function VisualBuilder() {
   const snapToGridModifier = createSnapModifier(gridSize);
 
   const handleDragStart = (event) => {
+    console.log('drag is starting');
+    console.log(event);
+    
     const { active } = event;
     setActiveItem(active);
   };
@@ -95,8 +98,12 @@ export default function VisualBuilder() {
   // }, [subRoute]);
   return (
     <div className="builder-layout">
-      <div className='bg-red-400 mr-40'>
-        <ComingSoonDawer isOpen={drawerOpen} onClose={() => setDrawerOpen(false)} subRoute={subRoute}>
+      <div className="bg-red-400 mr-40">
+        <ComingSoonDawer
+          isOpen={drawerOpen}
+          onClose={() => setDrawerOpen(false)}
+          subRoute={subRoute}
+        >
           {/* Render dynamic content inside the drawer based on subRoute */}
           {subRoute === 'indicators' && <Indicator />}
           {subRoute === 'line-chart' && <div>Line Chart Content</div>}
@@ -104,7 +111,7 @@ export default function VisualBuilder() {
           {subRoute === 'performance' && <div>Performance Content</div>}
           {subRoute === 'settings' && <div>Settings Content</div>}
         </ComingSoonDawer>
-        </div>
+      </div>
       <VisualBuilderContext.Provider
         value={{
           expandSideTray,
@@ -139,11 +146,8 @@ export default function VisualBuilder() {
               <RightSideTray />
             </InspectorProvider>
           </div>
-          {activeItem?.data?.current?.isTrayElement && (
-            <DragOverlayWrap draggedItem={activeItem} />
-          )}
+          {activeItem && <DragOverlayWrap draggedItem={activeItem} />}
         </DndContext>
-      
       </VisualBuilderContext.Provider>
     </div>
   );

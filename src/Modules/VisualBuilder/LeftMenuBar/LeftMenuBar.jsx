@@ -62,7 +62,6 @@ export default function LeftMenuBar() {
                 onClick={() => {
                   setSubRoute('indicators');
                   setDrawerOpen(true);
-                  
                 }}
               />
             </NavLink>

@@ -1,4 +1,6 @@
 .drawer-container {
+  display: flex;
+  flex-grow: 1;
     position: relative; 
     width: 100%; 
     background-color: #f5f5f5; 

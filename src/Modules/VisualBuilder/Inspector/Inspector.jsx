@@ -8,6 +8,7 @@ import { VisualBuilderContext } from '../VisualBuilder';
 import lineData from '../../../assets/candelstick_data';
 import LineChart from './InspectorComponents/LineChart/LineChart';
 import { useNavigate } from 'react-router-dom';
+import Chart from './InspectorComponents/LineChart/Chart';
 
 export default function Inspector() {
   const { subRoute, setSubRoute, setExpandSideTray } =
@@ -70,10 +71,11 @@ export default function Inspector() {
       setExpandSideTray(false);
       setTabs([])
       console.log('subRoute === back-test')
-    }
-    if (subRoute === 'back-test') {
       setIsCollapsed(false);
       setInspectorHeight(EXPANDED_HEIGHT);
+    }
+    if (subRoute === 'back-test') {
+      
     } else {
       setIsCollapsed((prev) => !prev);
       setInspectorHeight(isCollapsed ? EXPANDED_HEIGHT : COLLAPSED_HEIGHT);
@@ -103,6 +105,7 @@ export default function Inspector() {
       style={{
         height: '100%',
         transition: 'height 0.5s ease',
+        width: '100%',
         overflow: 'hidden',
       }}
       ref={drawerRef}
@@ -134,7 +137,7 @@ export default function Inspector() {
             tabs={tabs}
             setTabs={setTabs}
           />
-          {subRoute == 'back-test' && (
+          {/* {subRoute == 'back-test' && (
             <div ref={containerRef} className="inspector-content">
               {activeTab === 'Strategy1' && (
                 <div
@@ -149,6 +152,9 @@ export default function Inspector() {
                 </div>
               )}
             </div>
+          )} */}
+          {subRoute == 'back-test' && (
+            <Chart chartData={lineData} height={parentHeight - 100} />
           )}
         </div>
       </ResizableBox>

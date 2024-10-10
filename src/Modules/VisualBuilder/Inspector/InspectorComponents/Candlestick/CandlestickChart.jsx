@@ -15,8 +15,6 @@ const CandlestickChart = ({ data, width, ratio=window.devicePixelRatio || 1, hei
 
   if (!data || data.length === 0) {
     return <div>No data to display</div>;
-  }
-  console.log("height:", height);
 
 
   const formattedData = data
@@ -50,9 +48,6 @@ const CandlestickChart = ({ data, width, ratio=window.devicePixelRatio || 1, hei
  
   const strategyTriggerIndex = 10;
   const strategyTriggerDate = chartData[strategyTriggerIndex]?.date; 
-
-  
-  console.log("Strategy Trigger Date:", strategyTriggerDate);
 
   return (
     <ChartCanvas
