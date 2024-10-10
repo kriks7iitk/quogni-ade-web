@@ -16,7 +16,7 @@ export default function ExpandedTray({ title, showBack }) {
         />
         <h3 className="expanded-tray-title">Expanded Tray</h3>
       </div>
-      <div className="expanded-tray-content">
+      <div id='expanded-tray' className="expanded-tray-content">
         <p>ExpandedTray Content goes here</p>
       </div>
     </div>

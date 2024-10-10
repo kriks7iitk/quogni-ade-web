@@ -9,6 +9,12 @@ export default function LeftMenuBar() {
   const { setExpandSideTray,setDrawerOpen, setSubRoute, subRoute } = useContext(VisualBuilderContext);
 
   const isActiveSubRoute = (route) => subRoute === route;
+
+  useEffect(() => {
+    if (subRoute !== 'back-test') {
+      setExpandSideTray(false);
+    }
+  }, [subRoute]);
   return (
       <div className="left-menu">
         <div className="header-btn-container">
@@ -44,9 +50,6 @@ export default function LeftMenuBar() {
           <a id="indicators">
             <NavLink
               to="indicators"
-              // className={
-              //   `nav-link ${isActive? 'active-tab bg-blue-500 text-white' : ''}`
-              // }
             >
               <SolidButton
                 leftIcon="wrench"

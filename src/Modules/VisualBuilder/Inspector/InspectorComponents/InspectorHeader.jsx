@@ -30,6 +30,7 @@ const InspectorHeader = ({
       style={{ width: '100%' }}
     >
       <button
+        id='toggle-drawer'
         onClick={toggleDrawer}
         className="toggle-button rounded-full px-4 py-1"
         style={{ whiteSpace: 'nowrap' }}

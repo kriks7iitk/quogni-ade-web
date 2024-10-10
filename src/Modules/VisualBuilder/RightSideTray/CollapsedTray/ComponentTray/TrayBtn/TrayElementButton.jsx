@@ -10,11 +10,11 @@ const getIconForType = (type) => {
   console.log("Type of the element of Overlay",type)
   switch (type) {
     case 'candle':
-      return <MdCandlestickChart className="w-8 h-8" />;
+      return <MdCandlestickChart className="w-5 h-5" />;
     case 'line':
-      return <IoAnalyticsOutline className="w-8 h-8" />;
+      return <IoAnalyticsOutline className="w-5 h-5" />;
     case 'volume':
-      return <MdBarChart className="w-8 h-8" />;
+      return <MdBarChart className="w-5 h-5" />;
     default:
       return null;
   }
@@ -74,7 +74,7 @@ export function TrayElementButtonOverlay ({ name, type }){
   };
   console.log("Type of the element of Overlay",type)
   return (
-    <div className='bg-gray-300 w-16 h-16 rounded-lg shadow-md shadow-slate-300 flex  justify-center items-center ' >
+    <div className='bg-gray-300 w-8 h-8 rounded-md shadow-md shadow-slate-200 flex  justify-center items-center ' >
       {getIconForType(type)}
      {/* {name} */}
     </div>
