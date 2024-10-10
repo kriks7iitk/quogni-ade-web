@@ -6,6 +6,8 @@ import { Ruler } from './Ruler/Ruler';
 import ComponentRenderer from '../Components/ComponentRenderer';
 import { useSelector, useDispatch } from 'react-redux';
 import { InspectorContext } from '../_contexts/InspectorProvider';
+import { AiOutlineZoomIn } from "react-icons/ai";
+import { AiOutlineZoomOut } from "react-icons/ai";
 
 const BuilderGrid = ({ strategyDef, gridSize, setStrategyDef }) => {
   const dispatch = useDispatch();
@@ -76,9 +78,9 @@ const BuilderGrid = ({ strategyDef, gridSize, setStrategyDef }) => {
         className="grid-main-container"
         style={{ '--grid-size': `${gridSize}px` }}
       >
-        <div className="zoom-controls">
-          <button onClick={() => handleZoomIn(0, 0)}>Zoom In</button>
-          <button onClick={() => handleZoomOut(0, 0)}>Zoom Out</button>
+        <div className="zoom-controls gap-2">
+          <button onClick={() => handleZoomIn(0, 0)}><AiOutlineZoomIn className='w-10 h-10'/></button>
+          <button onClick={() => handleZoomOut(0, 0)}><AiOutlineZoomOut className='w-10 h-10'/></button>
         </div>
         {/* <Ruler orientation='vertical' zoomLevel={zoomLevel} />
             <Ruler orientation='horizontal' /> */}

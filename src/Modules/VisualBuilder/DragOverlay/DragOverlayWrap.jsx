@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
-import React, { useState, useEffect } from 'react'
-import { DragOverlay  } from '@dnd-kit/core'
+import React, { useState, useEffect } from 'react';
+import { DragOverlay } from '@dnd-kit/core';
 import { TrayElementButtonOverlay } from '../RightSideTray/CollapsedTray/ComponentTray/TrayBtn/TrayElementButton';
 import { StrategyItemOverlay } from '../BackTest/StrategyItem';
 import '../BackTest/back-test.theme.scss';
@@ -18,6 +18,7 @@ export default function DragOverlayWrap({ draggedItem }) {
       setNode(
         <TrayElementButtonOverlay
           name={draggedItem?.data?.current?.name}
+          type={draggedItem?.data?.current?.type}
         ></TrayElementButtonOverlay>,
       );
     }

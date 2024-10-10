@@ -1,5 +1,7 @@
 import * as React from "react";
 import { DiagramComponent } from "@syncfusion/ej2-react-diagrams";
+import { AiOutlineZoomIn } from "react-icons/ai";
+import { AiOutlineZoomOut } from "react-icons/ai";
 
 // App component with zoom in/out functionality
 export default function Ruler() {
@@ -22,8 +24,8 @@ export default function Ruler() {
   return (
     <div>
       <div>
-        <button onClick={handleZoomIn}>Zoom In</button>
-        <button onClick={handleZoomOut}>Zoom Out</button>
+        <button onClick={handleZoomIn}><AiOutlineZoomIn/></button>
+        <button onClick={handleZoomOut}><AiOutlineZoomOut/></button>
       </div>
       <DiagramComponent
         id="container"
