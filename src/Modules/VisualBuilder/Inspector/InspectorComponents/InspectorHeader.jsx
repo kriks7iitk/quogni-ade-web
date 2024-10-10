@@ -4,7 +4,6 @@ import { RiCollapseDiagonal2Line } from 'react-icons/ri';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import '../inspector.scss';
 
-
 const InspectorHeader = ({
   toggleDrawer,
   isCollapsed,
@@ -13,9 +12,6 @@ const InspectorHeader = ({
   tabs,
   setTabs,
 }) => {
-  console.log('activeTab:', activeTab);
-  console.log('tabs:', tabs);
-
   const handleTabClose = (tab) => {
     setTabs((prevTabs) => prevTabs.filter((t) => t !== tab));
     if (activeTab === tab) {
@@ -30,7 +26,7 @@ const InspectorHeader = ({
       style={{ width: '100%' }}
     >
       <button
-        id='toggle-drawer'
+        id="toggle-drawer"
         onClick={toggleDrawer}
         className="toggle-button rounded-full px-4 py-1"
         style={{ whiteSpace: 'nowrap' }}
@@ -40,31 +36,30 @@ const InspectorHeader = ({
 
       {/* Render Tabs Navigation */}
       <div className="tabs-list flex space-x-4 ml-4">
-        {tabs.map((tab) => (
-          <button
-            key={tab}
-            className={`tabs-trigger px-4 py-2 rounded-md ${
-              activeTab === tab
-                ? 'bg-[#000050] text-white'
-                : 'bg-gray-200 text-gray-700'
-            }`}
-            onClick={() => setActiveTab(tab)}
-          >
-            {tab}
-
-            <span
-              className="ml-2 cursor-pointer text-red-500"
-              onClick={(e) => {
-                e.stopPropagation();
-                setTabs(tabs.filter((t) => t !== tab));
-                if (activeTab === tab) setActiveTab(tabs[0] || null);
-                handleTabClose(tab);
-              }}
+        {tabs && tabs.length > 0 ? (
+          tabs.map((tab) => (
+            <button
+              key={tab}
+              className={`tabs-trigger px-4 py-2 rounded-md ${
+                activeTab === tab ? 'bg-[#000050] text-white' : 'bg-gray-200 text-gray-700'
+              }`}
+              onClick={() => setActiveTab(tab)}
             >
-              &times;
-            </span>
-          </button>
-        ))}
+              {tab}
+              <span
+                className="ml-2 cursor-pointer text-red-500"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleTabClose(tab);
+                }}
+              >
+                &times;
+              </span>
+            </button>
+          ))
+        ) : (
+          <span className="text-gray-500 font-semibold text-base p-2">Inspector</span> 
+        )}
       </div>
     </div>
   );

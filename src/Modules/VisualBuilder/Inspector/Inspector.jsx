@@ -7,7 +7,7 @@ import { InspectorContext } from '../_contexts/InspectorProvider';
 import { VisualBuilderContext } from '../VisualBuilder';
 import lineData from '../../../assets/candelstick_data';
 import LineChart from './InspectorComponents/LineChart/LineChart';
-
+import { useNavigate } from 'react-router-dom';
 
 export default function Inspector() {
   const { subRoute, setSubRoute, setExpandSideTray } =
@@ -27,6 +27,7 @@ export default function Inspector() {
   const [activeTab, setActiveTab] = useState(initialTabs[0]);
 
   const containerRef = useRef(null);
+  const navigate = useNavigate();
 
   const onResizeStart = () => {
     setIsDragging(true);
@@ -62,8 +63,14 @@ export default function Inspector() {
     }
   };
   const toggleDrawer = () => {
-    if (subRoute === 'back-test') setSubRoute('builder');
-    setExpandSideTray(false);
+    if (subRoute === 'back-test') {
+      setSubRoute('builder');
+      navigate('/builder');
+      setIsCollapsed(true);
+      setExpandSideTray(false);
+      setTabs([])
+      console.log('subRoute === back-test')
+    }
     if (subRoute === 'back-test') {
       setIsCollapsed(false);
       setInspectorHeight(EXPANDED_HEIGHT);

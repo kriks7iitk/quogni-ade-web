@@ -13,6 +13,7 @@ export default function LeftMenuBar() {
   useEffect(() => {
     if (subRoute !== 'back-test') {
       setExpandSideTray(false);
+
     }
   }, [subRoute]);
   return (
