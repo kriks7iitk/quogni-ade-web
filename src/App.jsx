@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  
+} from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import SignUp from './Modules/Auth/SignUp';
 import VisualBuilder from './Modules/VisualBuilder/VisualBuilder';
@@ -10,7 +15,7 @@ import store from './_stores/store';
 import './app.theme.scss';
 import { driver } from 'driver.js';
 import 'driver.js/dist/driver.css';
-import steps from './Utility/DriverSteps';
+import { step1 } from './Utility/DriverSteps';
 import Dashboard from './Modules/Routes/Dashboard/Dashboard';
 import Portfolio from './Modules/Routes/Portfolio/Portfolio';
 import Library from './Modules/Routes/Library/Library';
@@ -26,13 +31,18 @@ import LineChart from './Modules/VisualBuilder/BuilderRoutes/LineChartComponent/
 
 function App() {
   const [isNavBarExpanded, setIsNavBarExpanded] = useState(false);
+
   useEffect(() => {
-    // Initialize Driver.js
     const driverObj = driver({
       showProgress: true,
-      steps: steps,
+      steps: step1,
+      allowClose: true,
+      allowInteractions: true,
     });
-    driverObj.drive();
+    if(window.location.pathname === '/builder/back-test'){
+      driverObj.drive();
+    }
+   
   }, []);
 
   return (

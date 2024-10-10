@@ -1,10 +1,11 @@
 // components/BacktestHeader.js
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Check, ChevronsUpDown } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSelectedOption } from '../../../../_stores/Builderheader.reducer';
 import lineData from '../../../../assets/candelstick_data'; // Import the lineData array
-
+import { driver } from 'driver.js';
+import 'driver.js/dist/driver.css';
 import { Button } from '@/components/ui/button';
 import {
   Command,
@@ -20,29 +21,39 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
+import { step2 } from '../../../../Utility/DriverSteps';
+import { VisualBuilderContext } from '../../VisualBuilder';
 
-const options = [{
-     id:1,
-     stock:'AAPL',
-},
-{
-     id:2,
-     stock:'MSFT',
-},
-{
-     id:3,
-     stock:'Reliance',
-},
-{
-     id:4,
-     stock:'Tata',
-}
+const options = [
+  {
+    id: 1,
+    stock: 'AAPL',
+  },
+  {
+    id: 2,
+    stock: 'MSFT',
+  },
+  {
+    id: 3,
+    stock: 'Reliance',
+  },
+  {
+    id: 4,
+    stock: 'Tata',
+  },
 ];
 
 const BacktestHeader = () => {
+     const {subRoute} = useContext(VisualBuilderContext);
+     const driverObj = driver({
+          showProgress: true,
+          steps: step2,
+          allowClose: true,
+          allowInteractions: true,
+        });
+  
   const dispatch = useDispatch();
   const selectedOption = useSelector((state) => state?.chart?.selectedOption);
-
 
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(selectedOption);
@@ -52,16 +63,22 @@ const BacktestHeader = () => {
     console.log('currentValue', currentValue);
     dispatch(setSelectedOption(currentValue));
     setOpen(false);
+    if(subRoute==='back-test'){
+          driverObj.drive();
+    }
+    
+   
   };
 
   return (
-    <div  className="w-full flex gap-1 justify-end items-center pr-10 m-5">
-      <div >
+    <div className="w-full flex gap-1 justify-end items-center pr-10 m-5">
+      <div id="stockDropdown">
         {/* Dropdown Popover */}
         <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger asChild>
             <Button
-            id='stockDropdown'
+              
+              
               variant="outline"
               role="combobox"
               aria-expanded={open}

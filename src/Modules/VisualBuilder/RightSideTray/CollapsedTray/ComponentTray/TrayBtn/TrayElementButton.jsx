@@ -7,7 +7,7 @@ import { MdBarChart } from "react-icons/md";
 import zIndex from '@mui/material/styles/zIndex';
 
 const getIconForType = (type) => {
-  console.log("Type of the element of Overlay",type)
+  
   switch (type) {
     case 'candle':
       return <MdCandlestickChart className="w-5 h-5" />;
@@ -72,7 +72,6 @@ export function TrayElementButtonOverlay ({ name, type }){
     height:'40px',
     width:'62px'
   };
-  console.log("Type of the element of Overlay",type)
   return (
     <div className='bg-gray-300 w-8 h-8 rounded-md shadow-md shadow-slate-200 flex  justify-center items-center ' >
       {getIconForType(type)}

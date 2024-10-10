@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import IconButton from '@mui/material/IconButton';
@@ -24,7 +24,6 @@ export const NavBar = ({ isExpanded, setIsExpanded }) => {
   const handleNavigation = (path) => {
     navigate(`/${path}`);
     setSelectedItem(path);
-    
   };
   console.log('selectedItem', selectedItem);
 
@@ -39,37 +38,53 @@ export const NavBar = ({ isExpanded, setIsExpanded }) => {
           (text, index) => (
             <ListItem
               sx={{
-                marginBottom: '5px',
+                marginBottom: '20px',
               }}
               key={text}
               disablePadding
             >
               <ListItemButton
                 onClick={() => handleNavigation(text)}
-                
                 sx={{
-                  backgroundColor: selectedItem === text ? '#fff' : 'transparent',
+                  backgroundColor:
+                    selectedItem === text ? '#fff' : 'transparent',
                   color: selectedItem === text ? '#007bff' : '#f0f0f0',
+                  margin: isExpanded ? '10px' : '2px',
+                  borderRadius: '10px',
+
                   '&:hover': {
-                    color: '#007bff',
-                    
+                    backgroundColor: '#D3D3D3',
+                    color: '#000050',
+                    opacity: 0.8,
                   },
                   '&:hover .MuiListItemIcon-root': {
                     color: '#007bff',
                   },
                   '.MuiListItemIcon-root': {
-                    width: '20px',
+                    width: '30px',
                   },
                 }}
               >
                 <ListItemIcon
                   sx={{
                     width: '40px',
+                    justifyContent: 'left',
+                    '&:hover': {
+                      backgroundColor: '#D3D3D3',
+                      color: '#000050',
+                      opacity: 0.8,
+                    },
                   }}
                 >
                   <Icon
                     name={text}
-                    fill={text === 'builder' ? '#EE7071' : '#f0f0f0'}
+                    fill={
+                      selectedItem === text
+                        ? '#000050' // Color for selected item
+                        : text === 'builder'
+                          ? '#EE7071' // Color for 'builder'
+                          : '#f0f0f0'
+                    } // Default color}
                   />
                 </ListItemIcon>
                 {isExpanded && (
@@ -77,7 +92,11 @@ export const NavBar = ({ isExpanded, setIsExpanded }) => {
                     classes={{ root: 'list-item-text' }}
                     sx={{
                       color: selectedItem === text ? '#0b1644' : '#FFFFFF',
-                      transition: 'color 0.3s',
+                      // transition: 'color 0.3s',
+                      '&:hover': {
+                        color: '#000050',
+                        opacity: 1,
+                      },
                     }}
                     primary={kebabCaseToNormal(text)}
                   />
@@ -93,14 +112,14 @@ export const NavBar = ({ isExpanded, setIsExpanded }) => {
           marginLeft: '16px', // Add padding (margin) on the left
           marginRight: '16px', // Add padding (margin) on the right
           backgroundColor: '#f0f0f0', // Optionally, set a custom color for the divider
-          marginBottom: '30px',
+          marginBottom: '20px',
         }}
       />
       <List>
         {['builder', 'explore', 'community'].map((text, index) => (
           <ListItem
             sx={{
-              marginBottom: '30px',
+              marginBottom: '20px',
             }}
             key={text}
             disablePadding
@@ -109,22 +128,30 @@ export const NavBar = ({ isExpanded, setIsExpanded }) => {
               onClick={() => handleNavigation(text)}
               sx={{
                 backgroundColor: selectedItem === text ? '#fff' : 'transparent',
+                margin: isExpanded ? '10px' : '2px',
+                borderRadius: '10px',
+
                 '&:hover': {
-                  backgroundColor: '#f0f0f0',
-                  color: '#FFFF00', // Change text color on hover
+                  backgroundColor: '#D3D3D3',
+                  color: '#000050',
+                  opacity: 0.8,
                 },
                 '&:hover .MuiListItemIcon-root': {
-                  color: '##FFFF00', // Change icon color on hover
+                  color: '#FFFF00', // Change icon color on hover
                 },
               }}
             >
-              <ListItemIcon
-              >
+              <ListItemIcon>
                 <Icon
                   name={text}
-                  fill={text === 'builder' ? '#EE7071' : '#FFFFFF'}
+                  fill={
+                    selectedItem === text
+                      ? '#000050' // Color for selected item
+                      : text === 'builder'
+                        ? '#EE7071' // Color for 'builder'
+                        : '#f0f0f0'
+                  }
                   hoverIconFill="#FFFF00"
-
                 />
               </ListItemIcon>
               {isExpanded && (
@@ -159,7 +186,7 @@ export const NavBar = ({ isExpanded, setIsExpanded }) => {
           },
         }}
       >
-        <div className="menu-header-logo pt-2 pl-1.5">
+        <div className="menu-header-logo pt-3 pl-3">
           <SolidButton
             leftIcon="piggie-white"
             className="menu-icon"

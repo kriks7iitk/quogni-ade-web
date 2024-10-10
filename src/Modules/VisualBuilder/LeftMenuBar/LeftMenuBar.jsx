@@ -4,9 +4,12 @@ import SolidButton from '../../../_components/Buttons/SolidButton';
 import { Tooltip } from 'react-tooltip';
 import { NavLink, Routes, Route, BrowserRouter } from 'react-router-dom';
 import { VisualBuilderContext } from '../VisualBuilder';
+import { InspectorContext } from '../_contexts/InspectorProvider';
 
 export default function LeftMenuBar() {
-  const { setExpandSideTray,setDrawerOpen, setSubRoute, subRoute } = useContext(VisualBuilderContext);
+  const { setExpandSideTray,setDrawerOpen, setSubRoute, subRoute, setTabs, setIsCollapsed } = useContext(VisualBuilderContext);
+  const COLLAPSED_HEIGHT = 51;
+
 
   const isActiveSubRoute = (route) => subRoute === route;
 
@@ -48,35 +51,38 @@ export default function LeftMenuBar() {
         </div>
 
         <div className="navigation-list">
-          <a id="indicators">
+          <a id="builder">
             <NavLink
-              to="indicators"
+              to="/builder"
             >
               <SolidButton
                 leftIcon="wrench"
                 iconWidth={20}
-                className={`${isActiveSubRoute('indicators')?'bg-[#000050]':''} h-10 w-8 hover:bg-[#000050]`}
-                iconFill={isActiveSubRoute('indicators')?'#CAFC99':'#0B1644'}
+                className={`${isActiveSubRoute('builder')?'bg-[#000050]':''} h-10 w-8 hover:bg-[#000050]`}
+                iconFill={isActiveSubRoute('builder')?'#CAFC99':'#0B1644'}
                 hoverIconFill="#CAFC99"
                 
                 onClick={() => {
-                  setSubRoute('indicators');
+                  setSubRoute('builder');
                   setDrawerOpen(true);
+                  setTabs([]);
+                  setIsCollapsed(true);
+                  setInspectorHeight(COLLAPSED_HEIGHT);
                 }}
               />
             </NavLink>
           </a>
           <Tooltip
-            anchorSelect="#indicators"
-            content="Indicators"
+            anchorSelect="#builder"
+            content="Builder"
             place="right"
             effect="solid"
             style={{ zIndex: 9999 }}
           />
 
-          <a id="line-chart-anchor">
+          <a id="indicators">
           <NavLink
-              to="line-chart"
+              to="indicators"
               className={({ isActive }) =>
                 `nav-link ${isActive ? 'active-tab' : ''}`
               }
@@ -84,18 +90,18 @@ export default function LeftMenuBar() {
             <SolidButton
               leftIcon="line-chart"
               iconWidth={18}
-              className={`${isActiveSubRoute('line-chart')?'bg-[#000050]':''} h-10 w-8 hover:bg-[#000050]`}
-                iconFill={isActiveSubRoute('line-chart')?'#CAFC99':'#0B1644'}
+              className={`${isActiveSubRoute('indicators')?'bg-[#000050]':''} h-10 w-8 hover:bg-[#000050]`}
+                iconFill={isActiveSubRoute('indicators')?'#CAFC99':'#0B1644'}
               onClick={() => {
-                setSubRoute('line-chart');
+                setSubRoute('indicators');
                 setDrawerOpen(true);
               }}
             />
             </NavLink>
           </a>
           <Tooltip
-            anchorSelect="#line-chart-anchor"
-            content="Line Chart"
+            anchorSelect="#indicators"
+            content="Indicators"
             place="right"
             effect="solid"
             style={{ zIndex: 9999 }}

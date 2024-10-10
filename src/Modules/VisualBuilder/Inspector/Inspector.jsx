@@ -9,14 +9,15 @@ import lineData from '../../../assets/candelstick_data';
 import LineChart from './InspectorComponents/LineChart/LineChart';
 import { useNavigate } from 'react-router-dom';
 import Chart from './InspectorComponents/LineChart/Chart';
+import { Collapse } from '@mui/material';
 
 export default function Inspector() {
-  const { subRoute, setSubRoute, setExpandSideTray } =
+  const { subRoute, setSubRoute, setExpandSideTray, tabs, setTabs, isCollapsed, setIsCollapsed } =
     useContext(VisualBuilderContext);
   const COLLAPSED_HEIGHT = 51;
   const drawerRef = useRef(null);
   const EXPANDED_HEIGHT = 300;
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  // const [isCollapsed, setIsCollapsed] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const parentRef = useRef(null);
   const [width, setWidth] = useState(0);
@@ -24,7 +25,7 @@ export default function Inspector() {
   const [parentHeight, setParentHeight] = useState(0);
 
   const initialTabs = ['Strategy1']; // Initial tabs
-  const [tabs, setTabs] = useState(initialTabs); // State to store the tabs
+  // const [tabs, setTabs] = useState(initialTabs); // State to store the tabs
   const [activeTab, setActiveTab] = useState(initialTabs[0]);
 
   const containerRef = useRef(null);
@@ -37,6 +38,10 @@ export default function Inspector() {
   const onResizeStop = () => {
     setIsDragging(false);
   };
+
+  useEffect(() => {
+    
+  }, [subRoute]);
 
   useEffect(() => {
     computeWidth();
@@ -64,6 +69,8 @@ export default function Inspector() {
     }
   };
   const toggleDrawer = () => {
+    if (subRoute === 'back-test') setSubRoute('builder');
+    setExpandSideTray(false);
     if (subRoute === 'back-test') {
       setSubRoute('builder');
       navigate('/builder');
@@ -71,26 +78,35 @@ export default function Inspector() {
       setExpandSideTray(false);
       setTabs([])
       console.log('subRoute === back-test')
-      setIsCollapsed(false);
-      setInspectorHeight(EXPANDED_HEIGHT);
     }
     if (subRoute === 'back-test') {
-      
+      setIsCollapsed(false);
+      setInspectorHeight(EXPANDED_HEIGHT);
     } else {
       setIsCollapsed((prev) => !prev);
       setInspectorHeight(isCollapsed ? EXPANDED_HEIGHT : COLLAPSED_HEIGHT);
     }
   };
+ 
 
   useEffect(() => {
+    if (subRoute !== 'back-test') {
+      setExpandSideTray(false);
+      setInspectorHeight(COLLAPSED_HEIGHT);
+      console.log("Inspector Height",inspectorHeight)
+    }
     // Function to update the parent's height dynamically
     const updateParentHeight = () => {
       if (drawerRef.current) {
         setParentHeight(drawerRef.current.clientHeight);
+        console.log('Drawer ref height', drawerRef.current.clientHeight)
       }
     };
 
+    console.log("Parent Height",parentHeight)
+
     // Update parent height initially and on window resize
+   
     updateParentHeight();
     window.addEventListener('resize', updateParentHeight);
 
