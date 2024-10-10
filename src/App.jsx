@@ -1,5 +1,5 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 import SignUp from './Modules/Auth/SignUp';
 import VisualBuilder from './Modules/VisualBuilder/VisualBuilder';
 import { MainLayoutWithMenuBar } from './MainLayout';
@@ -8,22 +8,32 @@ import { Toaster } from 'react-hot-toast';
 import { Provider } from 'react-redux';
 import store from './_stores/store';
 import './app.theme.scss';
+import { driver } from 'driver.js';
+import 'driver.js/dist/driver.css';
+import steps from './Utility/DriverSteps';
 import Dashboard from './Modules/Routes/Dashboard/Dashboard';
 import Portfolio from './Modules/Routes/Portfolio/Portfolio';
 import Library from './Modules/Routes/Library/Library';
 import MarketPlace from './Modules/Routes/MarketPlace/MarketPlace';
 import Explore from './Modules/Routes/Explore/Explore';
 import Community from './Modules/Routes/Community/Community';
-import Indicator from './Modules/VisualBuilder/BuilderRoutes/IndicatorComponent/Indicator'
-import Backtest from './Modules/VisualBuilder/BuilderRoutes/BacktestComponent/Backtest'
-import Performance from './Modules/VisualBuilder/BuilderRoutes/PerformanceComponent/Performance'
-import StrategySettings from './Modules/VisualBuilder/BuilderRoutes/StrategySettingsComponent/StrategySettings'
-import Filter from './Modules/VisualBuilder/BuilderRoutes/FilterComponent/Filter'
-import LineChart from './Modules/VisualBuilder/BuilderRoutes/LineChartComponent/LineChart'
-
+import Indicator from './Modules/VisualBuilder/BuilderRoutes/IndicatorComponent/Indicator';
+import Backtest from './Modules/VisualBuilder/BuilderRoutes/BacktestComponent/Backtest';
+import Performance from './Modules/VisualBuilder/BuilderRoutes/PerformanceComponent/Performance';
+import StrategySettings from './Modules/VisualBuilder/BuilderRoutes/StrategySettingsComponent/StrategySettings';
+import Filter from './Modules/VisualBuilder/BuilderRoutes/FilterComponent/Filter';
+import LineChart from './Modules/VisualBuilder/BuilderRoutes/LineChartComponent/LineChart';
 
 function App() {
   const [isNavBarExpanded, setIsNavBarExpanded] = useState(false);
+  useEffect(() => {
+    // Initialize Driver.js
+    const driverObj = driver({
+      showProgress: true,
+      steps: steps,
+    });
+    driverObj.drive();
+  }, []);
 
   return (
     <div className="app-container">
@@ -43,11 +53,11 @@ function App() {
               </MainLayoutWithMenuBar>
             }
           >
-            <Route path="indicators" element={<Indicator/>} />
-            <Route path="line-chart" element={<LineChart/>} />
-            <Route path="filter" element={<Filter/>} />
-            <Route path="back-test" element={<Backtest/>} />
-            <Route path="performance" element={<Performance/>} />
+            <Route path="indicators" element={<Indicator />} />
+            <Route path="line-chart" element={<LineChart />} />
+            <Route path="filter" element={<Filter />} />
+            <Route path="back-test" element={<Backtest />} />
+            <Route path="performance" element={<Performance />} />
             <Route path="settings" element={<StrategySettings />} />
           </Route>
           <Route

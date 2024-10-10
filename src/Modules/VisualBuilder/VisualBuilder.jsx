@@ -1,7 +1,7 @@
 import React, { useState, createContext, useEffect } from 'react';
 import { DndContext } from '@dnd-kit/core';
 import './builder.scss';
-import { useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import DragOverlayWrap from './DragOverlay/DragOverlayWrap';
 import BuilderGrid from './DroppableGrid/BuilderGrid';
 import { updateDefinition } from '../../_stores/strategy.reducer';
@@ -26,6 +26,7 @@ export default function VisualBuilder() {
   
   const [subRoute, setSubRoute] = useState('builder'); 
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const navigate = useNavigate();
 
   const setStrategyDef = (data) => {
     dispatch(updateDefinition(data));
@@ -42,6 +43,12 @@ export default function VisualBuilder() {
       };
     };
   };
+
+  useEffect(() => {
+    setSubRoute('back-test');
+    navigate('/builder/back-test');
+    setExpandSideTray(true);
+  }, [VisualBuilderContext]);
 
   const toggleRightDrawer = () => {
     setExpandSideTray(!expandSideTray);

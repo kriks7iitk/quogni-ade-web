@@ -55,12 +55,13 @@ const BacktestHeader = () => {
   };
 
   return (
-    <div className="w-full flex gap-1 justify-end items-center pr-10 m-5">
-      <div>
+    <div  className="w-full flex gap-1 justify-end items-center pr-10 m-5">
+      <div >
         {/* Dropdown Popover */}
         <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger asChild>
             <Button
+            id='stockDropdown'
               variant="outline"
               role="combobox"
               aria-expanded={open}
