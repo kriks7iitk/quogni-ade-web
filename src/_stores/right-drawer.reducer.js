@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const rightDrawerSlice = createSlice({
   name: 'rightDrawer',
-  initialState: { showBackButton, loading: false, data: null },
+  initialState: { showBackButton: false, loading: false, data: null },
   reducers: {
     updateData: (state, action) => {
       state.data = action.payload;
