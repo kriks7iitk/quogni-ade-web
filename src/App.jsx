@@ -84,7 +84,7 @@ function App() {
             }
           />
           <Route
-            path="/dashboard"
+            path="/"
             element={
               <MainLayoutWithMenuBar
                 isNavBarExpanded={isNavBarExpanded}
