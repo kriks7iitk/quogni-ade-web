@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import ThemeButton from '../../../../_components/Buttons/ThemeButton';
 import './right-expanded-tray.theme.scss';
 import { VisualBuilderContext } from '../../VisualBuilder';
-import BackTestTray from '../../BackTest/backTestTray';
+import BackTestTray from '../../BackTest/BackTestTray';
 
 export default function ExpandedTray({ title, showBack }) {
   const { subRoute } = useContext(VisualBuilderContext);
