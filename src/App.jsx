@@ -2,7 +2,7 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
-  
+  useNavigate
 } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import SignUp from './Modules/Auth/SignUp';
@@ -29,10 +29,12 @@ import StrategySettings from './Modules/VisualBuilder/BuilderRoutes/StrategySett
 import Filter from './Modules/VisualBuilder/BuilderRoutes/FilterComponent/Filter';
 import LineChart from './Modules/VisualBuilder/BuilderRoutes/LineChartComponent/LineChart';
 
+
 function App() {
   const [isNavBarExpanded, setIsNavBarExpanded] = useState(false);
 
   useEffect(() => {
+
     const driverObj = driver({
       showProgress: true,
       steps: step1,
