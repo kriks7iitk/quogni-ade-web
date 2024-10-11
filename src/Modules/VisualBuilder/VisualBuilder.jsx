@@ -86,16 +86,14 @@ export default function VisualBuilder() {
     const { over, delta } = event;
     const data = activeItem?.data?.current;
     const isTrayElement = data?.isTrayElement;
+    console.log('drag end');
 
     if (isTrayElement && over && activeItem) {
       handleTrayElementDragEnd({ over, delta });
     }
     setActiveItem(null);
   };
-
-  // useEffect(() => {
-  //   setDrawerOpen(subRoute !== 'builder');
-  // }, [subRoute]);
+  
   return (
     <div className="builder-layout">
       <div className="bg-red-400 mr-40">

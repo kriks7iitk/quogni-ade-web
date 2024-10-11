@@ -2,15 +2,24 @@ import React from 'react';
 import ReactApexChart from 'react-apexcharts';
 
 export default function Chart({ chartData, height }) {
-  console.log('height is ', height);
-
-  const data = chartData.map((item) => {
+  const dataChart = chartData.map((item) => {
     return {
       x: new Date(item.Date),
       y: [item.open, item.high, item.low, item.close],
     };
   });
-  const chartSeries = [{ data }];
+  const lineData = chartData.map((item) => {
+    return {
+      x: new Date(item.Date),
+      y: item.open,
+    };
+  });
+
+  const chartSeries = [
+    { data: dataChart, type: 'candlestick', name: 'candle' },
+    // { data: lineData, type: 'line', name: 'line' },
+  ];
+
   const options = {
     chart: {
       type: 'candlestick',

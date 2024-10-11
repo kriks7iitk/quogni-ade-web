@@ -8,6 +8,7 @@ import { VisualBuilderContext } from '../VisualBuilder';
 import lineData from '../../../assets/candelstick_data';
 import LineChart from './InspectorComponents/LineChart/LineChart';
 import Chart from './InspectorComponents/LineChart/Chart';
+import { useDroppable } from '@dnd-kit/core';
 
 export default function Inspector() {
   const { subRoute, setSubRoute, setExpandSideTray } =
@@ -32,6 +33,10 @@ export default function Inspector() {
     setIsDragging(true);
   };
 
+  const { isOver, setNodeRef } = useDroppable({
+    id: 'backtest-inspector',
+  });
+
   const onResizeStop = () => {
     setIsDragging(false);
   };
@@ -45,8 +50,8 @@ export default function Inspector() {
   }, []);
   const computeWidth = () => {
     if (parentRef.current) {
-      const parentWidth = parentRef.current.clientWidth; // Get the parent's width
-      setWidth(parentWidth); // Update the state with the new width
+      const parentWidth = parentRef.current.clientWidth;
+      setWidth(parentWidth);
     }
   };
 
@@ -112,6 +117,7 @@ export default function Inspector() {
         axis="y"
         resizeHandles={subRoute === 'back-test' ? [] : ['n']}
       >
+        <div className="inspector-droppabble"></div>
         <div
           style={{
             overflow: 'hidden',
@@ -144,9 +150,26 @@ export default function Inspector() {
               )}
             </div>
           )} */}
-          {subRoute == 'back-test' && (
-            <Chart chartData={lineData} height={parentHeight - 100} />
-          )}
+          <div className="inspector-content">
+            <div
+              className="dropping-area"
+              ref={setNodeRef}
+              style={isOver ? { background: 'rgba(197, 252, 144, 0.3)' } : {}}
+            ></div>
+            <div
+              style={{
+                width: '100%',
+              }}
+            >
+              {subRoute == 'back-test' && (
+                <Chart chartData={lineData} height={parentHeight - 100} />
+              )}
+            </div>
+
+            {subRoute == 'builder' && (
+              <div>Run back test to see startegy performance result</div>
+            )}
+          </div>
         </div>
       </ResizableBox>
     </div>
