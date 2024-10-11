@@ -9,7 +9,7 @@ import Builder from './Builder';
 import Community from './Community';
 import Wrench from './Wrench';
 import Setting from './Settings';
-import BackTest from './Backtest';
+import BackTest from './BackTest';
 import Performance from './Performace';
 import Filter from './Filter';
 import LineChart from './LineChart';
