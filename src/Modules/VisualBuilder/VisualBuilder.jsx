@@ -14,17 +14,19 @@ import RightSideTray from './RightSideTray/RightSideTray';
 import InspectorProvider from './_contexts/InspectorProvider';
 import ComingSoonDawer from './BuilderRoutes/ComingSoonDawer';
 import Indicator from './BuilderRoutes/IndicatorComponent/Indicator';
+import { InspectorContext } from './_contexts/InspectorProvider';
 
 export const VisualBuilderContext = createContext(null);
 
 export default function VisualBuilder() {
-
   const dispatch = useDispatch();
   const strategyDef = useSelector((state) => state.strategy.data);
   const [activeItem, setActiveItem] = useState(null);
   const [expandSideTray, setExpandSideTray] = useState(false);
-  
-  const [subRoute, setSubRoute] = useState('builder'); 
+  const[tabs,setTabs] = useState(['Strategy1']);
+  const [isCollapsed, setIsCollapsed] = useState(false);
+
+  const [subRoute, setSubRoute] = useState('back-test');
   const [drawerOpen, setDrawerOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -59,7 +61,7 @@ export default function VisualBuilder() {
   const handleDragStart = (event) => {
     console.log('drag is starting');
     console.log(event);
-    
+
     const { active } = event;
     setActiveItem(active);
   };
@@ -118,6 +120,10 @@ export default function VisualBuilder() {
           subRoute,
           setSubRoute,
           setDrawerOpen,
+          tabs,
+          setTabs,
+          isCollapsed,
+          setIsCollapsed,
         }}
       >
         <DndContext

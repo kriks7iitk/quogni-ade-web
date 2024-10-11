@@ -11,7 +11,7 @@ export default function BackTestTray() {
     <div className="back-test-tray">
       {strategyList.map((item) => {
         return (
-          <div className="strategy-full-item">
+          <div id='expanded-tray' className="strategy-full-item">
             <div className="strategy-ser">{item.id}</div>
             <StrategyItem name={item.name} id={item.id} />
           </div>

@@ -78,7 +78,7 @@ const BuilderGrid = ({ strategyDef, gridSize, setStrategyDef }) => {
         className="grid-main-container"
         style={{ '--grid-size': `${gridSize}px` }}
       >
-        <div className="zoom-controls gap-2">
+        <div className="zoom-controls gap-3">
           <button onClick={() => handleZoomIn(0, 0)}><AiOutlineZoomIn className='w-5 h-5'/></button>
           <button onClick={() => handleZoomOut(0, 0)}><AiOutlineZoomOut className='w-5 h-5'/></button>
         </div>

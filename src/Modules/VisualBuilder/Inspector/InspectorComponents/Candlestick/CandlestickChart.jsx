@@ -15,6 +15,7 @@ const CandlestickChart = ({ data, width, ratio=window.devicePixelRatio || 1, hei
 
   if (!data || data.length === 0) {
     return <div>No data to display</div>;
+  }
 
 
   const formattedData = data
