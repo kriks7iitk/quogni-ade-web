@@ -89,7 +89,7 @@ export default function LeftMenuBar() {
             >
             <SolidButton
               leftIcon="line-chart"
-              iconWidth={18}
+              iconWidth={24}
               className={`${isActiveSubRoute('indicators')?'bg-[#000050]':''} h-10 w-8 hover:bg-[#000050]`}
                 iconFill={isActiveSubRoute('indicators')?'#CAFC99':'#0B1644'}
               onClick={() => {
@@ -116,7 +116,7 @@ export default function LeftMenuBar() {
             >
             <SolidButton
               leftIcon="filter"
-              iconWidth={18}
+              iconWidth={24}
               className={`${isActiveSubRoute('filter')?'bg-[#000050]':''} h-10 w-8 hover:bg-[#000050]`}
                 iconFill={isActiveSubRoute('filter')?'#CAFC99':'#0B1644'}
               onClick={() => {
@@ -144,7 +144,7 @@ export default function LeftMenuBar() {
             >
             <SolidButton
               leftIcon="back-test"
-              iconWidth={23}
+              iconWidth={24}
               className={`${isActiveSubRoute('back-test')?'bg-[#000050]':''} h-10 w-8 hover:bg-[#000050]`}
                 iconFill={isActiveSubRoute('back-test')?'#CAFC99':'#0B1644'}
               onClick={() => {
@@ -171,7 +171,7 @@ export default function LeftMenuBar() {
               >
             <SolidButton
               leftIcon="performance"
-              iconWidth={22}
+              iconWidth={24}
               className={`${isActiveSubRoute('performance')?'bg-[#000050]':''} h-10 w-8 hover:bg-[#000050]`}
                 iconFill={isActiveSubRoute('performance')?'#CAFC99':'#0B1644'}
               onClick={() => {
@@ -199,7 +199,7 @@ export default function LeftMenuBar() {
             
             <SolidButton
               leftIcon="setting"
-              iconWidth={20}
+              iconWidth={24}
               className={`${isActiveSubRoute('settings')?'bg-[#000050]':''} h-10 w-8 hover:bg-[#000050]`}
                 iconFill={isActiveSubRoute('settings')?'#CAFC99':'#0B1644'}
               onClick={() => {

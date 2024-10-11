@@ -44,14 +44,14 @@ const options = [
 ];
 
 const BacktestHeader = () => {
-     const {subRoute} = useContext(VisualBuilderContext);
-     const driverObj = driver({
-          showProgress: true,
-          steps: step2,
-          allowClose: true,
-          allowInteractions: true,
-        });
-  
+  const { subRoute } = useContext(VisualBuilderContext);
+  const driverObj = driver({
+    showProgress: true,
+    steps: step2,
+    allowClose: true,
+    allowInteractions: true,
+  });
+
   const dispatch = useDispatch();
   const selectedOption = useSelector((state) => state?.chart?.selectedOption);
 
@@ -63,22 +63,19 @@ const BacktestHeader = () => {
     console.log('currentValue', currentValue);
     dispatch(setSelectedOption(currentValue));
     setOpen(false);
-    if(subRoute==='back-test'){
-          driverObj.drive();
+    if (subRoute === 'back-test') {
+      driverObj.drive();
     }
-    
-   
   };
 
   return (
     <div className="w-full flex gap-1 justify-end items-center pr-10 m-5">
-      <div id="stockDropdown">
+      <div>
         {/* Dropdown Popover */}
         <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger asChild>
             <Button
-              
-              
+              id="stockDropdown"
               variant="outline"
               role="combobox"
               aria-expanded={open}

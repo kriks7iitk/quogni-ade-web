@@ -38,7 +38,7 @@ export const NavBar = ({ isExpanded, setIsExpanded }) => {
           (text, index) => (
             <ListItem
               sx={{
-                marginBottom: '20px',
+                marginBottom: '10px',
               }}
               key={text}
               disablePadding
