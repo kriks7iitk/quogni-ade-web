@@ -42,7 +42,7 @@ export const NavBar = ({ isExpanded, setIsExpanded }) => {
           marginBottom: '30px',
         }}
       >
-        {['dashboard', 'portfolio', 'market-place', 'library'].map(
+        {['dashboard', 'portfolio', 'market-place', 'library','test_route'].map(
           (text, index) => (
             <ListItem
               sx={{
