@@ -13,6 +13,7 @@ import BackTest from './BackTest';
 import Performance from './Performace';
 import Filter from './Filter';
 import LineChart from './LineChart';
+import Temp from './Temp'; 
 
 const Icon = ({ name, ...props }) => {
   switch (name) {
@@ -44,6 +45,8 @@ const Icon = ({ name, ...props }) => {
       return <Filter {...props} />;
     case 'line-chart':
       return <LineChart {...props} />;
+    case 'test_route':
+      return <Temp {...props}/>
     default:
       return null;
   }
