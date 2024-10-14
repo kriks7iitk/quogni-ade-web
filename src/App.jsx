@@ -116,9 +116,16 @@ function App() {
               </MainLayoutWithMenuBar>
             }
           />
-          <Route path="/test-route"  element={
-            <h1>Testing</h1>
-            }> Test Rute</Route>
+          <Route  
+            path="/test route"
+            element={
+              <MainLayoutWithMenuBar
+                isNavBarExpanded={isNavBarExpanded}
+                setIsNavBarExpanded={setIsNavBarExpanded}
+              >
+                <Library />
+              </MainLayoutWithMenuBar>
+            }/>
           <Route
             path="/market-place"
             element={
