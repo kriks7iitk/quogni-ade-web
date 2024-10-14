@@ -117,7 +117,7 @@ function App() {
             }
           />
           <Route  
-            path="/test route"
+            path="/test_route"
             element={
               <MainLayoutWithMenuBar
                 isNavBarExpanded={isNavBarExpanded}
