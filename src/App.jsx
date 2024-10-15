@@ -71,7 +71,6 @@ function App() {
             <Route path="back-test" element={<Backtest />} />
             <Route path="performance" element={<Performance />} />
             <Route path="settings" element={<StrategySettings />} />
-            <Route path="settings" element={<StrategySettings />} />
           </Route>
           <Route
             path="/experiment"
