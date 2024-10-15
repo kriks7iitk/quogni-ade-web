@@ -2,7 +2,7 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
-  
+  useNavigate
 } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import SignUp from './Modules/Auth/SignUp';
@@ -29,10 +29,12 @@ import StrategySettings from './Modules/VisualBuilder/BuilderRoutes/StrategySett
 import Filter from './Modules/VisualBuilder/BuilderRoutes/FilterComponent/Filter';
 import LineChart from './Modules/VisualBuilder/BuilderRoutes/LineChartComponent/LineChart';
 
+
 function App() {
   const [isNavBarExpanded, setIsNavBarExpanded] = useState(false);
 
   useEffect(() => {
+
     const driverObj = driver({
       showProgress: true,
       steps: step1,
@@ -69,6 +71,7 @@ function App() {
             <Route path="back-test" element={<Backtest />} />
             <Route path="performance" element={<Performance />} />
             <Route path="settings" element={<StrategySettings />} />
+            <Route path="settings" element={<StrategySettings />} />
           </Route>
           <Route
             path="/experiment"
@@ -82,7 +85,7 @@ function App() {
             }
           />
           <Route
-            path="/dashboard"
+            path="/"
             element={
               <MainLayoutWithMenuBar
                 isNavBarExpanded={isNavBarExpanded}
@@ -114,6 +117,16 @@ function App() {
               </MainLayoutWithMenuBar>
             }
           />
+          <Route  
+            path="/test_route"
+            element={
+              <MainLayoutWithMenuBar
+                isNavBarExpanded={isNavBarExpanded}
+                setIsNavBarExpanded={setIsNavBarExpanded}
+              >
+                <Library />
+              </MainLayoutWithMenuBar>
+            }/>
           <Route
             path="/market-place"
             element={

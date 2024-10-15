@@ -22,7 +22,15 @@ export const NavBar = ({ isExpanded, setIsExpanded }) => {
   const drawerWidth = isExpanded ? 250 : 60;
 
   const handleNavigation = (path) => {
-    navigate(`/${path}`);
+    console.log('path', path);
+    if(path === 'dashboard'){
+      navigate('/');
+    }else{
+      navigate(`/${path}`);
+
+    }
+    
+    
     setSelectedItem(path);
   };
 
@@ -33,7 +41,7 @@ export const NavBar = ({ isExpanded, setIsExpanded }) => {
           marginBottom: '30px',
         }}
       >
-        {['dashboard', 'portfolio', 'market-place', 'library'].map(
+        {['dashboard', 'portfolio', 'market-place', 'library','test_route'].map(
           (text, index) => (
             <ListItem
               sx={{
