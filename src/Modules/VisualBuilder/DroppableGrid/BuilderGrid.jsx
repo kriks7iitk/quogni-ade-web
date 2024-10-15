@@ -72,6 +72,7 @@ const BuilderGrid = ({ strategyDef, gridSize, setStrategyDef }) => {
     <div
       style={{
         height: `calc(100vh - ${inspectorHeight}px - 50px - 2px)`,
+        width: '100%',
       }}
     >
       <div
@@ -79,11 +80,15 @@ const BuilderGrid = ({ strategyDef, gridSize, setStrategyDef }) => {
         style={{ '--grid-size': `${gridSize}px` }}
       >
         <div className="zoom-controls gap-3">
-          <button onClick={() => handleZoomIn(0, 0)}><AiOutlineZoomIn className='w-5 h-5'/></button>
-          <button onClick={() => handleZoomOut(0, 0)}><AiOutlineZoomOut className='w-5 h-5'/></button>
+          <button onClick={() => handleZoomIn(0, 0)}>
+            <AiOutlineZoomIn className="w-5 h-5" />
+          </button>
+          <button onClick={() => handleZoomOut(0, 0)}>
+            <AiOutlineZoomOut className="w-5 h-5" />
+          </button>
         </div>
-        {/* <Ruler orientation='vertical' zoomLevel={zoomLevel} />
-            <Ruler orientation='horizontal' /> */}
+        <Ruler orientation="vertical" zoomLevel={zoomLevel} />
+        <Ruler orientation="horizontal" />
         <div
           className="grid-container"
           ref={gridRef}
@@ -111,17 +116,22 @@ const BuilderGrid = ({ strategyDef, gridSize, setStrategyDef }) => {
               height: `100%`,
             }}
           >
-            {/* {Object.keys(strategyDef).map((key) => {
-                    const timeLineElement = strategyDef[key];
-                    
-                    return (
-                        <TimeLineY id={key} key={`key_${key}`}>
-                            {Object.keys(timeLineElement).map((types, index) => (
-                                <ComponentRenderer key={index} componentDef={timeLineElement[types]} overId={key} setStrategyDef={setStrategyDef}/>
-                            ))}
-                        </TimeLineY>
-                    );
-                })} */}
+            {Object.keys(strategyDef).map((key) => {
+              const timeLineElement = strategyDef[key];
+
+              return (
+                <TimeLineY id={key} key={`key_${key}`}>
+                  {Object.keys(timeLineElement).map((types, index) => (
+                    <ComponentRenderer
+                      key={index}
+                      componentDef={timeLineElement[types]}
+                      overId={key}
+                      setStrategyDef={setStrategyDef}
+                    />
+                  ))}
+                </TimeLineY>
+              );
+            })}
           </div>
         </div>
       </div>

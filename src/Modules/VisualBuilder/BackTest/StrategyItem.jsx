@@ -6,7 +6,7 @@ export default function StrategyItem({ name, id, isDragged = false }) {
     id: `strategy-${id}`,
     data: {
       name,
-      isBakTestTrayItem: true,
+      isBackTestTrayItem: true,
     },
   });
 

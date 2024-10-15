@@ -25,7 +25,6 @@ export const NavBar = ({ isExpanded, setIsExpanded }) => {
     navigate(`/${path}`);
     setSelectedItem(path);
   };
-  console.log('selectedItem', selectedItem);
 
   const list = () => (
     <Box sx={{ width: drawerWidth }} role="presentation">

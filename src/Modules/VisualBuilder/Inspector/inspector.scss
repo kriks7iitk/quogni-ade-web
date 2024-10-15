@@ -34,4 +34,53 @@
       height: 100%;
     }
   }
+
+  .legends{
+    height: 70px;
+    display: flex;
+    flex-direction: column;
+    padding-left: 20px;
+    background-color: var(--ps-white-1);
+    margin: 5px 10px 5px 20px;
+    justify-content: center;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 11, 80, 0.1);
+
+    .heading{
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--ps-dark-blue);
+        }
+
+    .legend-mark {
+      margin-top: 10px;
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
+      .nifty{
+        background-color: #B45309;
+        border-radius: 12px;
+        font-size: 12px;
+        padding: 3px;
+        width: 60px;
+        display: flex;
+        justify-content: center;
+        color: var(--ps-green-bright);
+
+      }
+      .stock{
+        background-color: #000b50;
+        border-radius: 12px;
+        font-size: 12px;
+        padding: 3px;
+        width: auto;
+        display: flex;
+        justify-content: center;
+        color: var(--ps-green-bright);
+
+      }
+    }
+    }
+    
+  
   

@@ -12,7 +12,7 @@ export default function DragOverlayWrap({ draggedItem }) {
     console.log('showing drag overlay');
     console.log(draggedItem);
     const isTrayElementBtn = draggedItem?.data?.current?.isTrayElement;
-    const isBakTestTrayItem = draggedItem?.data?.current?.isBakTestTrayItem;
+    const isBackTestTrayItem = draggedItem?.data?.current?.isBackTestTrayItem;
 
     if (isTrayElementBtn) {
       setNode(
@@ -22,7 +22,11 @@ export default function DragOverlayWrap({ draggedItem }) {
         ></TrayElementButtonOverlay>,
       );
     }
-    if (isBakTestTrayItem) {
+    console.log('hellloo');
+
+    if (isBackTestTrayItem) {
+      console.log('this is runnig');
+
       setNode(<StrategyItemOverlay name={draggedItem?.data?.current?.name} />);
     }
   }, [draggedItem]);

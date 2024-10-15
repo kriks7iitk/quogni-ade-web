@@ -15,24 +15,37 @@ import InspectorProvider from './_contexts/InspectorProvider';
 import ComingSoonDawer from './BuilderRoutes/ComingSoonDawer';
 import Indicator from './BuilderRoutes/IndicatorComponent/Indicator';
 import { InspectorContext } from './_contexts/InspectorProvider';
+import {
+  updateData,
+  updateLoadingState,
+  updateBackButtonState,
+  updateTitleState,
+  updateRightDrawerJourneyState,
+  fetchSignal,
+} from '../../_stores/right-drawer.reducer';
+import toast from 'react-hot-toast';
 
 export const VisualBuilderContext = createContext(null);
 
 export default function VisualBuilder() {
   const dispatch = useDispatch();
-  const strategyDef = useSelector((state) => state.strategy.data);
+  // const strategyDef = useSelector((state) => state.strategy.data);
+  const [strategyDef, setStrategyDef] = useState({ 1: [], 2: [] });
   const [activeItem, setActiveItem] = useState(null);
   const [expandSideTray, setExpandSideTray] = useState(false);
-  const[tabs,setTabs] = useState(['Strategy1']);
+  const [tabs, setTabs] = useState(['Strategy1']);
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   const [subRoute, setSubRoute] = useState('back-test');
   const [drawerOpen, setDrawerOpen] = useState(false);
   const navigate = useNavigate();
 
-  const setStrategyDef = (data) => {
-    dispatch(updateDefinition(data));
-  };
+  // const setStrategyDef = (data) => {
+  //   dispatch(updateDefinition(data));
+  // };
+  const selectedOption = useSelector(
+    (state) => state?.rightDrawerData?.selectedStock,
+  );
 
   const gridSize = 10;
 
@@ -50,6 +63,7 @@ export default function VisualBuilder() {
     setSubRoute('back-test');
     navigate('/builder/back-test');
     setExpandSideTray(true);
+    dispatch(updateTitleState('Strategy list'));
   }, [VisualBuilderContext]);
 
   const toggleRightDrawer = () => {
@@ -59,11 +73,11 @@ export default function VisualBuilder() {
   const snapToGridModifier = createSnapModifier(gridSize);
 
   const handleDragStart = (event) => {
-    console.log('drag is starting');
-    console.log(event);
-
     const { active } = event;
     setActiveItem(active);
+    console.log('drag start');
+
+    console.log(active);
   };
 
   const handleTrayElementDragEnd = ({ over }) => {
@@ -84,18 +98,39 @@ export default function VisualBuilder() {
     });
   };
 
+  const handleBackTestDropEvent = (name) => {
+    if (!selectedOption) {
+      toast.error('Please select stock for run back testing');
+      return;
+    }
+    console.log('name is');
+    console.log(name);
+
+    dispatch(updateLoadingState(true));
+    dispatch(updateTitleState('Strategy performance'));
+    dispatch(updateBackButtonState(true));
+    dispatch(updateRightDrawerJourneyState('back-test-performance'));
+    dispatch(fetchSignal({ stock: selectedOption, strategyName: name }));
+  };
+
   const handleDragEnd = (event) => {
     const { over, delta } = event;
     const data = activeItem?.data?.current;
     const isTrayElement = data?.isTrayElement;
-    console.log('drag end');
+    const strategyName = data?.name;
+
+    const isBackTestTrayItem = data?.isBackTestTrayItem;
 
     if (isTrayElement && over && activeItem) {
       handleTrayElementDragEnd({ over, delta });
     }
+
+    if (isBackTestTrayItem) {
+      handleBackTestDropEvent(strategyName);
+    }
     setActiveItem(null);
   };
-  
+
   return (
     <div className="builder-layout">
       <div className="bg-red-400 mr-40">

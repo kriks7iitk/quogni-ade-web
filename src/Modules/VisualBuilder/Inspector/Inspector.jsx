@@ -10,6 +10,8 @@ import LineChart from './InspectorComponents/LineChart/LineChart';
 import { useNavigate } from 'react-router-dom';
 import Chart from './InspectorComponents/LineChart/Chart';
 import { useDroppable } from '@dnd-kit/core';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchIndex } from '../../../_stores/right-drawer.reducer';
 
 export default function Inspector() {
   const {
@@ -30,6 +32,7 @@ export default function Inspector() {
   const [width, setWidth] = useState(0);
   const { setInspectorHeight, inspectorHeight } = useContext(InspectorContext);
   const [parentHeight, setParentHeight] = useState(0);
+  const dispatch = useDispatch();
 
   const initialTabs = ['Strategy1']; // Initial tabs
   // const [tabs, setTabs] = useState(initialTabs); // State to store the tabs
@@ -53,12 +56,14 @@ export default function Inspector() {
   useEffect(() => {}, [subRoute]);
 
   useEffect(() => {
+    dispatch(fetchIndex('NIFTY50'));
     computeWidth();
     window.addEventListener('resize', computeWidth);
     return () => {
       window.removeEventListener('resize', computeWidth);
     };
   }, []);
+
   const computeWidth = () => {
     if (parentRef.current) {
       const parentWidth = parentRef.current.clientWidth;
