@@ -1,0 +1,167 @@
+
+.onboarding-page {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    width: 100%;
+    background-color: var(--ps-white-2);
+
+    .intro-page{
+        display: flex;
+        height: 100%;
+        position: relative;
+        flex-grow: 3;
+        justify-content: center;
+        align-items: center;
+        background-color: var(--ps-dark-blue);
+        border-top-right-radius: 50% 30%;
+        border-bottom-right-radius: 50% 30%;
+
+        @media (max-width: 768px) {
+            /* Smaller screens: change the center */
+            border-top-right-radius: 40% 50%;
+            border-bottom-right-radius: 40% 50%;
+        }
+
+        @media (min-width: 1200px) {
+            /* Larger screens: adjust the center differently */
+            border-top-right-radius: 20% 60%;
+            border-bottom-right-radius: 20% 60%;
+        }
+        .logo-img {
+            position: absolute;
+            top: 50%; 
+            right: 0; 
+            transform: translateY(-50%); 
+            transform: translate(20%, -50%); 
+            width: auto;  
+            height: 10%; 
+        }
+    }
+
+    .modal-page {
+        display: flex;
+        height: 100%;
+        flex-grow: 1;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+        background-color: var(--ps-white-2);
+        padding: 50px;
+    }
+}
+
+.sign-up-page{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    width: 75%;
+    padding: 5% 10% 10% 10%;
+    gap: 10px;
+
+
+    .logo-title{
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        gap: 15px;
+        font-family: 'Montserrat';
+    }
+
+    .intro-line {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .intro-line-2{
+        font-size: 16px;
+
+        // span {
+        //     font-size: 30px;
+        // }
+    }
+
+
+    .sign-up-form{
+        margin-top: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+}
+
+
+.or-divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 10px 5px 10px 5px;
+  
+    &::before,
+    &::after {
+      content: '';
+      flex: 1;
+      border-bottom: 1px solid #ccc;
+      margin: 0 10px; // Space around the text
+    }
+  
+    span {
+      white-space: nowrap; // Prevent text wrapping
+      font-size: 14px;     // Adjust text size
+      color: #666;         // Text color
+    }
+  }
+
+
+
+
+.oauth-buttons-container {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+
+    .auth-btn{
+        flex-grow: 1;
+    }
+}
+
+.confirm-button {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+
+    .term-container {
+        display: flex;
+        flex-direction: row;
+        font-size: var(--ps-txt-s);
+        gap: 10px;
+    }
+    .btn-class{
+        margin-top: 20px;
+        width: 100%;
+    }
+}
+
+
+.redirection-text {
+    font-size: var(--ps-txt-s);
+    color: var(--ps-dark-blue);
+}
+
+
+#tsparticles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    padding: 0;
+    margin: 0;
+    z-index: 0; /* if you use -1 you have to set to `"window"` the interactivity.detectsOn property */
+}
+
+
+.checking{
+    width: 60%;
+    height: 60%;
+}

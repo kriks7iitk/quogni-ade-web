@@ -1,0 +1,24 @@
+.ruler {
+    background-color: #f0f0f0;
+    position: absolute;
+  }
+  
+  .ruler-horizontal {
+    bottom: 0;
+  }
+  
+  .ruler-vertical {
+    bottom: 20px; /* Align with horizontal ruler */
+    left: 0;
+  }
+  
+  .ruler div {
+    text-align: center;
+  }
+  
+  .ruler span {
+    position: absolute;
+    bottom: -20px; /* Position label beneath tick */
+    font-size: 10px;
+  }
+  

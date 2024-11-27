@@ -1,0 +1,29 @@
+.menu-header-logo {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 20px;
+  
+}
+.menu-icon {
+  border: none;
+  display: flex;
+  align-items: start;
+  background: none;
+  padding-top: 3px;
+}
+.list-item-button {
+  background-color: transparent;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.list-item-button:hover {
+  color: #007bff;
+}
+
+.list-item-button:hover .MuiListItemIcon-root {
+  color: #007bff;
+}
+
+.drawer-class {
+  background: linear-gradient(to bottom, #C5FC90, #ffffff);
+}
