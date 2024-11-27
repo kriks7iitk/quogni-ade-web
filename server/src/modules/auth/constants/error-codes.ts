@@ -1,0 +1,5 @@
+export const AUTH_ERROR_CODE = {
+  USER_PHONE_NOT_EXIST: 'auth101',
+  INCORRECT_OTP: 'auth102',
+  PHONE_NOT_VERIFIED: 'auth103',
+};

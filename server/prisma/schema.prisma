@@ -1,0 +1,56 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("PG_DB_URL")
+}
+
+
+
+model User {
+  id              Int           @id @default(autoincrement())
+  phoneNumber     String        @unique
+  email           String        @unique
+  isPhoneVerified Boolean       @default(false) 
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  userDetails     UserDetails?  // One-to-one relation
+  sessions        Session[]     // One-to-many relation
+  userOtp         UserOtp?      // One-to-one relation
+}
+
+model UserDetails {
+  id          Int      @id @default(autoincrement())
+  username    String
+  fullname    String
+  dateOfBirth DateTime
+  sector      String
+  occupation  String
+  userId      Int      @unique
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Session {
+  id            Int       @id @default(autoincrement())
+  userId        Int
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @default(now())
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model UserOtp {
+  id          Int       @id @default(autoincrement())
+  otp         Int
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @default(now())
+  userId      Int       @unique
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
