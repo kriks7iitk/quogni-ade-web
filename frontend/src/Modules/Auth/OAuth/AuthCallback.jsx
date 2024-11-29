@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import CustomSkeleton from '../../Loaders/CustomSkeleton/CustomSkeleton';
 import { oAuthService } from '../../../_services';
+import { addToSessionStorage } from '../../../Utility/utility';
 
 const AuthCallback = () => {
   const location = useLocation();
@@ -18,7 +19,9 @@ const AuthCallback = () => {
         code: code,
         type: type
       };
-    const accessToken = await oAuthService.sendCode(body);
+    const response = await oAuthService.sendCode(body);
+    const jwtToken = response.accessToken;
+    addToSessionStorage('token', jwtToken);
     
     setLoading(false);
     } catch (error) {
