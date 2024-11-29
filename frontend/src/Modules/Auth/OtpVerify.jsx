@@ -1,30 +1,57 @@
 import React, { useState, useEffect } from 'react';
 import { authorizationService } from '../../_services';
-import { camelCaseToNormal } from '../../Utility/utility';
+import { addToSessionStorage, camelCaseToNormal } from '../../Utility/utility';
 import '../Auth/auth.theme.scss';
-import OtpVerify from './OtpVerify';
 import { toast } from 'react-hot-toast';
 import SolidThemeIcon from '../../_icons/svgs/SolidThemeIcons';
 import Icon from '../../_icons/svgs/SolidIcons';
 import PiggieStackName from '../BrandAndLogo/PiggieStackName';
-import InputField from '../../_components/Form/inputField';
-import SingleSelect from '../../_components/Form/SingleSelect';
+import OtpInput from '../../_components/Form/OtpInput';
 import SolidButton from '../../_components/Buttons/SolidButton';
-import { OCCUPATIONS } from './constants/auth.constant';
-import { convertOccupationData } from './utils/utilityFunction';
+import { useLocation } from 'react-router-dom';
 
-function OtpVerify({ phoneNumber }) {
-  const [otpData, setOTPData] = useState({});
+function OtpVerify() {
+  const [otp, setOtp] = useState('');
+  const location = useLocation();
+  const { phoneNumber, userId } = location.state || {};
 
-  // const handleSignIn = () => {
-  //   authorizationService.sendOtp(signIn).then((data) => {
-  //     console.log('printing data');
-  //     console.log(data);
-  //     //redirect to otp verification route of application
-  //   });
-  // };
+  const handleOtpChange = (otpValue) => {
+    if (otpValue?.length == 4) {
+      setOtp(otpValue);
+      authorizationService.authorize({ userId, otp }).then((response) => {
+        addToSessionStorage('token', response?.accessToken);
+      });
+      return;
+    }
+    setOtp(otpValue);
+  };
 
-  return <div className="sign-up-page"></div>;
+  return (
+    <div className="otp-verify-container">
+      <div className="logo-title">
+        <Icon name="piggie-white" fill="#000b50" width="35" />
+        <PiggieStackName firstColor="#F08788" secondColor="#000b50" size={25} />
+      </div>
+
+      <div className="otp-input-container">
+        <span
+          style={{
+            fontSize: 'var(--ps-txt-xs)',
+            width: 'inherit',
+            padding: '20px',
+          }}
+        >
+          Please enter the verification code send to your mobile number{' '}
+          <b>{phoneNumber}</b>
+        </span>
+        <OtpInput setOTP={setOtp} otp={otp} />
+      </div>
+      <div className="resend-otp">
+        <span>Didn't receive OTP?</span>
+        <span>Resend OTP in {} seconds</span>
+      </div>
+    </div>
+  );
 }
 
 export default OtpVerify;

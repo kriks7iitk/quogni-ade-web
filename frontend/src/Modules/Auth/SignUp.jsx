@@ -11,12 +11,16 @@ import SingleSelect from '../../_components/Form/SingleSelect';
 import SolidButton from '../../_components/Buttons/SolidButton';
 import { OCCUPATIONS } from './constants/auth.constant';
 import { convertOccupationData } from './utils/utilityFunction';
+import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 function SignUp() {
   const [signUp, setSignUp] = useState({});
   const [isSearchLoading, setIsSearchLoading] = useState(false);
   const [occupation, setOccupation] = useState(null);
   const occupationData = convertOccupationData(OCCUPATIONS);
+  const [serverError, setError] = useState({});
+  const navigate = useNavigate();
 
   const handleSignUp = () => {
     const body = {
@@ -24,11 +28,27 @@ function SignUp() {
       occupation: occupation?.value,
       sector: occupation?.sector,
     };
-    authorizationService.signUp(body).then((data) => {
-      console.log('printing data');
-      console.log(data);
-      //redirect to otp verification route of application
-    });
+    setError({});
+    authorizationService
+      .signUp(body)
+      .then((data) => {
+        navigate('/otp-verify', {
+          state: {
+            phoneNumber: data?.phoneNumber,
+            userId: data?.id,
+          },
+        });
+      })
+      .catch(({ error }) => {
+        if (error?.code === 'um101') {
+          const errorMessages = error?.meta?.target?.reduce((acc, item) => {
+            acc[item] = `${camelCaseToNormal(item)} already exist`;
+            return acc;
+          }, {});
+          setError({ ...errorMessages });
+        }
+        toast.error(error?.error);
+      });
   };
 
   useEffect(() => {}, []);
@@ -84,42 +104,60 @@ function SignUp() {
           value={signUp?.fullName}
         />
 
-        <InputField
-          leftIcon="user-name"
-          type="text"
-          id="user-name-input"
-          placeholder="User name"
-          required={true}
-          onChange={(value) => {
-            setSignUp({ ...signUp, username: value });
-          }}
-          value={signUp?.userName}
-        />
-        <InputField
-          type="phone"
-          id="phone-input"
-          required={true}
-          height={'40'}
-          inputProps={{
-            name: 'Phone',
-            required: true,
-            autoFocus: false,
-          }}
-          onChange={(value) => {
-            setSignUp({ ...signUp, phoneNumber: value });
-          }}
-        />
-        <InputField
-          leftIcon="email"
-          type="email"
-          id="email"
-          placeholder="Enter your email"
-          required={true}
-          onChange={(value) => {
-            setSignUp({ ...signUp, email: value });
-          }}
-          value={signUp?.email}
-        />
+        <div className="input-container">
+          <InputField
+            leftIcon="user-name"
+            type="text"
+            id="user-name-input"
+            placeholder="User name"
+            required={true}
+            onChange={(value) => {
+              setSignUp({ ...signUp, username: value });
+            }}
+            isError={!!serverError?.userName}
+            value={signUp?.userName}
+          />
+          {serverError?.username && (
+            <span className="error-label">{serverError?.username}</span>
+          )}
+        </div>
+        <div className="input-container">
+          <InputField
+            type="phone"
+            id="phone-input"
+            required={true}
+            height={'40'}
+            inputProps={{
+              name: 'Phone',
+              required: true,
+              autoFocus: false,
+            }}
+            isError={!!serverError?.phoneNumber}
+            onChange={(value) => {
+              setSignUp({ ...signUp, phoneNumber: value });
+            }}
+          />
+          {serverError?.phoneNumber && (
+            <span className="error-label">{serverError?.phoneNumber}</span>
+          )}
+        </div>
+        <div className="input-container">
+          <InputField
+            leftIcon="email"
+            type="email"
+            id="email"
+            placeholder="Enter your email"
+            required={true}
+            onChange={(value) => {
+              setSignUp({ ...signUp, email: value });
+            }}
+            isError={!!serverError?.email}
+            value={signUp?.email}
+          />
+          {serverError?.email && (
+            <span className="error-label">{serverError?.email}</span>
+          )}
+        </div>
         {/* Need to change to date picker library */}
         <InputField
           type="date"
@@ -178,6 +216,8 @@ function SignUp() {
           borderColor="none"
           bgColor={'var(--ps-pink)'}
           onClick={() => {
+            console.log('Sign up is called');
+
             handleSignUp();
           }}
         >
@@ -185,7 +225,7 @@ function SignUp() {
         </SolidButton>
       </div>
       <div className="redirection-text">
-        Already have a account? <a href="">Sign In </a>
+        Already have a account? <Link to="/signin">Sign In</Link>
       </div>
     </div>
   );

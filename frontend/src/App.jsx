@@ -30,6 +30,7 @@ import Filter from './Modules/VisualBuilder/BuilderRoutes/FilterComponent/Filter
 import LineChart from './Modules/VisualBuilder/BuilderRoutes/LineChartComponent/LineChart';
 import Onboarding from './Modules/Auth/Onboarding';
 import SignIn from './Modules/Auth/SignIn';
+import OtpVerify from './Modules/Auth/OtpVerify';
 
 function App() {
   const [isNavBarExpanded, setIsNavBarExpanded] = useState(false);
@@ -44,6 +45,8 @@ function App() {
     if (window.location.pathname === '/builder/back-test') {
       driverObj.drive();
     }
+
+    //authorize
   }, []);
 
   return (
@@ -63,6 +66,14 @@ function App() {
             element={
               <Onboarding>
                 <SignIn />
+              </Onboarding>
+            }
+          />
+          <Route
+            path="/otp-verify"
+            element={
+              <Onboarding>
+                <OtpVerify />
               </Onboarding>
             }
           />

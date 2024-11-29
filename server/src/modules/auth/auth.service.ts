@@ -6,11 +6,11 @@ import {
   UnauthorizedException,
 } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service";
-import { AuthorizeDto, SendOtpDto, SignUpDto } from "./auth.dto";
+import { AuthorizeDto, ResendOtpDto, SendOtpDto, SignUpDto } from "./auth.dto";
 import { UserService } from "../user/user.service";
 import { ConfigService } from "@nestjs/config";
 import axios from "axios";
-import { Prisma, User } from "@prisma/client";
+import { Prisma, PrismaClient, User } from "@prisma/client";
 import { AUTH_ERROR_CODE } from "./constants/error-codes";
 import { AUTH_ERROR_MESSAGE } from "./constants/error-messages";
 import { createError } from "@/utility/helpers";
@@ -40,8 +40,8 @@ export class AuthService {
           },
           client
         );
-        // const otp = await this.createOtp(client, user.id);
-        // await this.sendOTP({ phoneNumber: signUpDto.phoneNumber, otp });
+        const otp = await this.createOtp(client, user.id);
+        await this.sendOTP({ phoneNumber: signUpDto.phoneNumber, otp });
         return user;
       }
     );
@@ -157,7 +157,22 @@ export class AuthService {
             userId,
           },
         });
-        //add OTP time check as welll here
+        const now = new Date();
+        const creationTime = userOtp?.createdAt;
+        const differenceMs = now.getTime() - creationTime.getTime();
+        const timeLimit =
+          parseInt(this.configService.get("OTP_TIME_LIMIT_IN_MIN")) * 60 * 1000;
+        if (differenceMs > timeLimit) {
+          throw new BadRequestException({
+            message: {
+              ...createError(
+                AUTH_ERROR_CODE,
+                AUTH_ERROR_MESSAGE,
+                "OTP_EXPIRED"
+              ),
+            },
+          });
+        }
         if (!otp || otp !== userOtp.otp)
           throw new BadRequestException({
             message: {
@@ -206,6 +221,15 @@ export class AuthService {
         const otp = await this.createOtp(client, user.id);
         await this.sendOTP({ phoneNumber: signInDto.phoneNumber, otp });
         return user;
+      }
+    );
+  }
+
+  async resendOtp(resendOtpDto: ResendOtpDto) {
+    return await this.prismaService.withTransaction(
+      async (client: PrismaService) => {
+        const otp = await this.createOtp(client, resendOtpDto.userId);
+        await this.sendOTP({ phoneNumber: resendOtpDto.phoneNumber, otp });
       }
     );
   }

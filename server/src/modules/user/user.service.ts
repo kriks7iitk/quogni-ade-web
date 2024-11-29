@@ -45,12 +45,14 @@ export class UserService {
         });
       } catch (e) {
         if (e instanceof Prisma.PrismaClientKnownRequestError) {
-          // The .code property can be accessed in a type-safe manner
+          console.log(e);
+          
           if (e.code === "P2002") {
             throw new BadRequestException({
               message: {
                 error: USER_MOD_ERROR_MESSAGE.USER_EXIST,
                 code: USER_MOD_ERROR_CODES.USER_EXIST,
+                meta: e?.meta,
               },
             });
           }

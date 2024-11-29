@@ -59,6 +59,11 @@
     padding: 5% 10% 10% 10%;
     gap: 10px;
 
+    .input-container{
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+    }
 
     .logo-title{
         display: flex;
@@ -106,9 +111,9 @@
     }
   
     span {
-      white-space: nowrap; // Prevent text wrapping
-      font-size: 14px;     // Adjust text size
-      color: #666;         // Text color
+      white-space: nowrap;
+      font-size: 14px;    
+      color: #666;        
     }
   }
 
@@ -164,4 +169,53 @@
 .checking{
     width: 60%;
     height: 60%;
+}
+
+
+.otp-verify-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    height: 50%;
+    width: 75%;
+    padding: 5% 10% 10% 10%;
+    gap: 10px;
+
+    .logo-title{
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        
+    }
+
+    .otp-input-container{
+        display: flex;
+        margin-top: 20px;  
+        flex-direction: column;     
+        justify-content: center; 
+        align-items: center;
+    }
+
+    .resend-otp{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        justify-content: flex-start;
+        padding: 20px;
+        font-size: var(--ps-txt-xs);
+    }
+}
+
+.input-container{
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    
+
+    .error-label{
+        font-size: var(--ps-txt-xxs);
+        color: var(--ps-error);
+        font-weight: 500;
+    }
 }

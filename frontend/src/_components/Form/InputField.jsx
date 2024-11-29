@@ -8,6 +8,7 @@ export default function InputField({
   leftIcon,
   type,
   id,
+  isError = false,
   placeholder,
   required,
   inputProps,
@@ -26,10 +27,15 @@ export default function InputField({
       ...(!width && { width: '100%' }),
       ...customContainerStyle,
       ...(onFocus &&
+        !isError &&
         type == 'phone' && {
           borderColor: 'var(--ps-dark-blue)',
           boxShadow: '0 0 5px var(--ps-green-bright)',
         }),
+      ...(isError && {
+        borderColor: 'var(--ps-dark-blue)',
+        boxShadow: '0 0 5px var(--ps-error)',
+      }),
       display: 'flex',
       flexDirection: 'row',
     };
@@ -40,11 +46,12 @@ export default function InputField({
       ...(height && { height: `${height}px` }),
       ...(type == 'phone' && { border: 'none' }),
       ...customInputStyle,
+      ...(type == 'date' && { paddingLeft: '10px' }),
       ...(!leftIcon && {
-        // paddingLeft: '10px',
         borderTopLeftRadius: '8px',
         borderBottomLeftRadius: '8px',
       }),
+      ...(isError && {}),
     };
 
     const buttonStyle = {
@@ -59,7 +66,7 @@ export default function InputField({
             <PhoneInput
               country={'in'}
               preferredCountries={['us', 'in']}
-              inputProps={inputProps}
+              inputProps={{ ...inputProps, required }}
               containerStyle={containerStyle}
               inputStyle={inputStyle}
               buttonStyle={buttonStyle}

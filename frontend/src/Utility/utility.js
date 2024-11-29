@@ -10,3 +10,12 @@ export function kebabCaseToNormal(str) {
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ');
 }
+
+export function addToSessionStorage(key, value) {
+  try {
+    const serializedValue = JSON.stringify(value);
+    sessionStorage.setItem(key, serializedValue);
+  } catch (error) {
+    console.error('Error adding to sessionStorage:', error);
+  }
+}

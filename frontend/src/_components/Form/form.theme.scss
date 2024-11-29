@@ -79,3 +79,21 @@
         
     }
 }
+
+.custom-otp-input {
+    border-radius: 6px;
+    border-bottom: 2px solid var(--ps-dark-blue);
+    background: none;
+    font-size: 16px;
+    text-align: center;
+    transition: border 0.3s ease, box-shadow 0.3s ease;
+
+    &:focus {
+        // border: none;
+        border-bottom: 2px solid var(--ps-green-bright) !important;
+        // box-shadow: 0 0 5px var(--ps-green) !important;
+        outline: none;
+      }
+  }
+  
+  

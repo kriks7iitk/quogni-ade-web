@@ -47,6 +47,17 @@ export class AuthorizeDto {
 
   @IsNotEmpty({ message: "OTP is required" })
   @IsNumber(null, { message: "user id is invalid" })
-  @Length(4, 4, { message: "OTP must be 6 digits long" })
+  @Length(4, 4, { message: "OTP must be 4 digits long" })
   otp: number;
 }
+
+export class ResendOtpDto {
+  @IsNumber(null, { message: "user id is invalid" })
+  @IsNotEmpty({ message: "Phone number is required" })
+  userId: number;
+
+  @IsPhoneNumber(null, { message: "Phone number is invalid" })
+  @IsNotEmpty({ message: "Phone number is required" })
+  phoneNumber: string;
+}
+
