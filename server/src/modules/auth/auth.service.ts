@@ -65,7 +65,7 @@ export class AuthService {
     return otp;
   }
 
-  private async authorize(
+  async authorize(
     user: Prisma.UserGetPayload<{
       include: { userDetails: true };
     }>
@@ -85,7 +85,6 @@ export class AuthService {
     otp: number;
   }): Promise<any> {
     try {
-      console.log("hello");
       console.log(this.configService.get("OTP_SEND_URL"));
 
       const response = await axios.post(
@@ -224,7 +223,6 @@ export class AuthService {
       }
     );
   }
-
   async resendOtp(resendOtpDto: ResendOtpDto) {
     return await this.prismaService.withTransaction(
       async (client: PrismaService) => {
@@ -233,8 +231,7 @@ export class AuthService {
       }
     );
   }
-
-  private generateUserPayload(user: User, username: string): UserPayload {
+  generateUserPayload(user: User, username: string): UserPayload {
     return {
       sub: user.id,
       phoneNumber: user.phoneNumber,

@@ -1,22 +1,29 @@
 // user signup
 // return token stored in user dta
 import {
+    BadRequestException,
     Injectable,
   } from "@nestjs/common";
 import axios from "axios";
 import { TokenRequestDto } from "./oauth.dto";
-
+import { PrismaService } from "../prisma/prisma.service";
+import { Prisma } from "@prisma/client";
+import { createError } from "@/utility/helpers";
+import { AUTH_ERROR_CODE } from "../auth/constants/error-codes";
+import { AUTH_ERROR_MESSAGE } from "../auth/constants/error-messages";
+import { JwtService } from "@nestjs/jwt";
+import { AuthService } from "../auth/auth.service";
   @Injectable()
   export class OAuthService {
     constructor (
+        private readonly jwtService: JwtService,
+        private readonly authService: AuthService
     ) {}
       async getToken(tokenRequestDto: TokenRequestDto) {
         switch(tokenRequestDto.type) {
             case 'linkedin':
                 try {
-                console.log("type confirmed")
                 const code = tokenRequestDto.code;
-                console.log(tokenRequestDto);
                 const tokenUrl = 'https://www.linkedin.com/oauth/v2/accessToken';
                 const params = new URLSearchParams();
                 params.append('grant_type', 'authorization_code');
@@ -24,14 +31,12 @@ import { TokenRequestDto } from "./oauth.dto";
                 params.append('redirect_uri', `http://localhost:8082/oauth/callback/linkedin`);
                 params.append('client_id', '862eqspemtvr0p');
                 params.append('client_secret', 'WPL_AP1.2r9MGgNk8psNnnOY.EBKcUw==');
-                console.log(params);
-                console.log("hitting api")
                 const response = await axios.post(tokenUrl, params.toString(), {
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 });
-                console.log("done")
                 return response.data.access_token;
             } catch (err) {
+                // error handling TBD
                 console.log(err)
             }
             default:
@@ -58,6 +63,37 @@ import { TokenRequestDto } from "./oauth.dto";
             });
 
             return response.data;
+      }
+      async authorize(client: PrismaService, userId: number) {
+        const user = (await client.user.findUnique({
+            where: {
+              id: userId,
+            },
+            include: {
+              userDetails: true,
+            },
+          })) as Prisma.UserGetPayload<{
+            include: { userDetails: true };
+          }>;
+  
+          if (!user)
+            throw new BadRequestException({
+              message: {
+                ...createError(
+                  AUTH_ERROR_CODE,
+                  AUTH_ERROR_MESSAGE,
+                  "USER_PHONE_NOT_EXIST"
+                ),
+              },
+            });
+        return {
+            accessToken: this.jwtService.sign(
+                this.authService.generateUserPayload(user, user.userDetails.username),
+                {
+                    secret: "thisisnotthesecret"
+                }
+            ),
+        };
       }
   }
   

@@ -18,17 +18,15 @@ const AuthCallback = () => {
         code: code,
         type: type
       };
-      await oAuthService.sendCode(body);
-      console.log('success');
-
-      setLoading(false);
+    const accessToken = await oAuthService.sendCode(body);
+    
+    setLoading(false);
     } catch (error) {
       setLoading(false);
     }
   };
   
   useEffect(async () => {
-    console.log("runnning...")
     if (code && type) {
       sendToBackend();
     }
