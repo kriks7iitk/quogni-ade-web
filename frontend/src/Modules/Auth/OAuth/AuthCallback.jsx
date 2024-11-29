@@ -28,14 +28,11 @@ const AuthCallback = () => {
   };
   
   useEffect(async () => {
-    console.log(code)
-    console.log(type)
+    console.log("runnning...")
     if (code && type) {
-      setLoading(true)
-      await sendToBackend();
-      setLoading(false)
+      sendToBackend();
     }
-  }, [code, type]);
+  }, []);
 
   return (
     <div className="callback-container">

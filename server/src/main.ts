@@ -12,7 +12,7 @@ async function bootstrap() {
   app.use(
     cors({
       origin:
-        `http://localhost:3001`,
+        `http://localhost:8082`,
     })
   );
   const HOST = process.env.VITE_SERVER_HOST || "localhost";

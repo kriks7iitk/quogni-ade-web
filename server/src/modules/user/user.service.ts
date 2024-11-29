@@ -20,12 +20,15 @@ export class UserService {
   }
 
   async createUser(
-    { phoneNumber, email }: { phoneNumber: string; email: string },
+    { phoneNumber, email }: { phoneNumber?: string; email: string },
     userDetails: Partial<UserDetails>,
     client?: PrismaService
   ) {
     return await this.prisma.withTransaction(async (client: PrismaService) => {
       try {
+        console.log(phoneNumber);
+        console.log(email);
+        console.log(userDetails);
         return await client.user.create({
           data: {
             phoneNumber: phoneNumber,
@@ -46,6 +49,7 @@ export class UserService {
       } catch (e) {
         if (e instanceof Prisma.PrismaClientKnownRequestError) {
           // The .code property can be accessed in a type-safe manner
+          console.log(e)
           if (e.code === "P2002") {
             throw new BadRequestException({
               message: {

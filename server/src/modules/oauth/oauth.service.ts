@@ -21,7 +21,7 @@ import { TokenRequestDto } from "./oauth.dto";
                 const params = new URLSearchParams();
                 params.append('grant_type', 'authorization_code');
                 params.append('code', code);
-                params.append('redirect_uri', `http://localhost:3000/oauth/callback/linkedin`);
+                params.append('redirect_uri', `http://localhost:8082/oauth/callback/linkedin`);
                 params.append('client_id', '862eqspemtvr0p');
                 params.append('client_secret', 'WPL_AP1.2r9MGgNk8psNnnOY.EBKcUw==');
                 console.log(params);
