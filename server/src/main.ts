@@ -12,14 +12,12 @@ async function bootstrap() {
   app.use(
     cors({
       origin:
-        process.env.NODE_ENV == "prod"
-          ? `https://${process.env.VITE_CLIENT_HOST}:${process.env.VITE_CLIENT_PORT}`
-          : `http://${process.env.VITE_CLIENT_HOST}:${process.env.VITE_CLIENT_PORT}`,
+        `http://localhost:3001`,
     })
   );
   const HOST = process.env.VITE_SERVER_HOST || "localhost";
   const PORT = parseInt(process.env.VITE_SERVER_PORT, 10) || 3000;
-  await app.listen(PORT, HOST, () => {
+  await app.listen(3000, 'localhost', () => {
     console.log(`Server running on http://${HOST}:${PORT}`);
   });
 }

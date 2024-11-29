@@ -30,6 +30,8 @@ import Filter from './Modules/VisualBuilder/BuilderRoutes/FilterComponent/Filter
 import LineChart from './Modules/VisualBuilder/BuilderRoutes/LineChartComponent/LineChart';
 import Onboarding from './Modules/Auth/Onboarding';
 import SignIn from './Modules/Auth/SignIn';
+import AuthCallback from './Modules/Auth/OAuth/AuthCallback';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 function App() {
   const [isNavBarExpanded, setIsNavBarExpanded] = useState(false);
@@ -47,6 +49,7 @@ function App() {
   }, []);
 
   return (
+    <GoogleOAuthProvider clientId="54864273445-4qjkk55jpvec1so8ubseb7r75q95kakk.apps.googleusercontent.com">
     <div className="app-container">
       <Router>
         <Routes>
@@ -57,6 +60,10 @@ function App() {
                 <SignUp />
               </Onboarding>
             }
+          />
+          <Route
+            path="/oauth/callback/:type"
+            element={<AuthCallback />}
           />
           <Route
             path="/signin"
@@ -181,6 +188,7 @@ function App() {
 
       <Toaster />
     </div>
+    </GoogleOAuthProvider>
   );
 }
 

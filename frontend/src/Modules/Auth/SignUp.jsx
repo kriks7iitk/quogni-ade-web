@@ -11,6 +11,8 @@ import SingleSelect from '../../_components/Form/SingleSelect';
 import SolidButton from '../../_components/Buttons/SolidButton';
 import { OCCUPATIONS } from './constants/auth.constant';
 import { convertOccupationData } from './utils/utilityFunction';
+import GoogleOAuthButton from './OAuth/GoogleOAuth';
+import LinkedInOAuthButton from './OAuth/LinkedInOAuth';
 
 function SignUp() {
   const [signUp, setSignUp] = useState({});
@@ -146,22 +148,8 @@ function SignUp() {
       </div>
 
       <div className="oauth-buttons-container ">
-        <SolidButton
-          leftIcon="google"
-          iconFill="#ffffff"
-          hoverIconFill="#ffffff"
-          customClass="auth-btn"
-        >
-          Login with Google
-        </SolidButton>
-        <SolidButton
-          leftIcon="linkedin"
-          iconFill="#ffffff"
-          hoverIconFill="#ffffff"
-          customClass="auth-btn"
-        >
-          Login with LinkedIn
-        </SolidButton>
+        <GoogleOAuthButton />
+        <LinkedInOAuthButton />
       </div>
       <div className="confirm-button">
         <div className="term-container">

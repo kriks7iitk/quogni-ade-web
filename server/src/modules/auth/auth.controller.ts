@@ -2,6 +2,7 @@ import { Controller, Post, Body, Get } from "@nestjs/common";
 import { AuthService } from "./auth.service";
 import { SendOtpDto, SignUpDto, AuthorizeDto } from "@/modules/auth/auth.dto";
 import { User } from "@prisma/client";
+
 @Controller("auth")
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
