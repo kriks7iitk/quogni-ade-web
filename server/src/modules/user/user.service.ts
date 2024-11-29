@@ -55,6 +55,7 @@ export class UserService {
               message: {
                 error: USER_MOD_ERROR_MESSAGE.USER_EXIST,
                 code: USER_MOD_ERROR_CODES.USER_EXIST,
+                meta: e?.meta,
               },
             });
           }

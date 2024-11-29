@@ -51,6 +51,9 @@ CREATE UNIQUE INDEX "User_phoneNumber_key" ON "User"("phoneNumber");
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "UserDetails_username_key" ON "UserDetails"("username");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "UserDetails_userId_key" ON "UserDetails"("userId");
 
 -- CreateIndex

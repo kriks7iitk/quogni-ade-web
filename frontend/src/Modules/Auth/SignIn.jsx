@@ -11,16 +11,41 @@ import SingleSelect from '../../_components/Form/SingleSelect';
 import SolidButton from '../../_components/Buttons/SolidButton';
 import { OCCUPATIONS } from './constants/auth.constant';
 import { convertOccupationData } from './utils/utilityFunction';
+import { useNavigate } from 'react-router-dom';
 
 function SignIn() {
   const [signIn, setSignIn] = useState({});
+  const navigate = useNavigate();
+  const [serverError, setError] = useState({});
 
   const handleSignIn = () => {
-    authorizationService.sendOtp(signIn).then((data) => {
-      console.log('printing data');
-      console.log(data);
-      //redirect to otp verification route of application
-    });
+    console.log('sign in');
+    console.log(signIn);
+
+    if (!signIn?.phoneNumber) {
+      serverError['phoneNumber'] = 'Please enter the phone number';
+      return;
+    }
+    authorizationService
+      .sendOtp(signIn)
+      .then((data) => {
+        navigate('/otp-verify', {
+          state: {
+            phoneNumber: data?.phoneNumber,
+            userId: data?.id,
+          },
+        });
+      })
+      .catch(({ error }) => {
+        if (error?.code === 'auth101') {
+          const errorMessages = error?.meta?.target?.reduce((acc, item) => {
+            acc[item] = `${camelCaseToNormal(item)} already exist`;
+            return acc;
+          }, {});
+          setError({ ...errorMessages });
+        }
+        toast.error(error?.error);
+      });
   };
 
   useEffect(() => {}, []);
@@ -69,20 +94,26 @@ function SignIn() {
             >
               Phone number
             </span>
-            <InputField
-              type="phone"
-              id="phone-input"
-              required={true}
-              height={'40'}
-              inputProps={{
-                name: 'Phone',
-                required: true,
-                autoFocus: false,
-              }}
-              onChange={(value) => {
-                setSignIn({ ...signIn, phoneNumber: value });
-              }}
-            />
+            <div className="input-container">
+              <InputField
+                type="phone"
+                id="phone-input"
+                required={true}
+                height={'40'}
+                inputProps={{
+                  name: 'Phone',
+                  required: true,
+                  autoFocus: false,
+                }}
+                isError={!!serverError?.phoneNumber}
+                onChange={(value) => {
+                  setSignIn({ ...signIn, phoneNumber: value });
+                }}
+              />
+              {serverError?.phoneNumber && (
+                <span className="error-label">{serverError?.phoneNumber}</span>
+              )}
+            </div>
           </div>
         </div>
         <div class="or-divider">
@@ -116,7 +147,7 @@ function SignIn() {
               handleSignIn();
             }}
           >
-            Login
+            Send OTP
           </SolidButton>
         </div>
         <div className="redirection-text">
