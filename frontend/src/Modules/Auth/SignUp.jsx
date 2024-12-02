@@ -213,7 +213,7 @@ function SignUp() {
         </SolidButton>
       </div>
       <div className="redirection-text">
-        Already have a account? <Link to="/signin">Sign In</Link>
+        Already have a account? <Link style={{textDecoration: "underline"}} to="/signin">Sign In</Link>
       </div>
     </div>
   );

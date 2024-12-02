@@ -12,6 +12,7 @@ import SolidButton from '../../_components/Buttons/SolidButton';
 import { OCCUPATIONS } from './constants/auth.constant';
 import { convertOccupationData } from './utils/utilityFunction';
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 function SignIn() {
   const [signIn, setSignIn] = useState({});
@@ -159,16 +160,7 @@ function SignIn() {
             Stack?{' '}
           </span>
           <span>
-            <a
-              style={{
-                color: 'var(--ps-pink)',
-                fontWeight: '400',
-                textDecoration: 'underline',
-              }}
-              href=""
-            >
-              Sign up{' '}
-            </a>
+          {' '} <Link to="/signup" style={{textDecoration: "underline"}}>Sign Up</Link> {' '}
           </span>
           and Evolve your investment
         </div>

@@ -1,3 +1,11 @@
+/* prevent any uneccessary scrolling */
+html, body {
+    height: 100%; 
+    margin: 0; 
+    padding: 0; 
+    overflow: hidden;
+    box-sizing: border-box; 
+}
 
 .onboarding-page {
     display: flex;
@@ -58,7 +66,7 @@
     width: 75%;
     padding: 5% 10% 10% 10%;
     gap: 10px;
-
+    margin-bottom: 30px;
     .input-container{
         display: flex;
         flex-direction: column;
@@ -88,7 +96,6 @@
 
 
     .sign-up-form{
-        margin-top: 20px;
         display: flex;
         flex-direction: column;
         gap: 15px;
@@ -101,7 +108,7 @@
     align-items: center;
     text-align: center;
     margin: 10px 5px 10px 5px;
-  
+
     &::before,
     &::after {
       content: '';
@@ -219,3 +226,4 @@
         font-weight: 500;
     }
 }
+
