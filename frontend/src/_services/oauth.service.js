@@ -11,7 +11,7 @@ const sendCode = (body) => {
     },
     body: JSON.stringify(body)
   };
-  return fetch(`http://localhost:3000/oauth/register`, requestPayload).then(
+  return fetch(`${SERVER_HOST}/oauth/register`, requestPayload).then(
     handleResponse,
   );
 };
