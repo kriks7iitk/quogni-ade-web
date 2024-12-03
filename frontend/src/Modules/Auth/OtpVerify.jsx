@@ -19,9 +19,11 @@ function OtpVerify() {
   const handleOtpChange = (otpValue) => {
     if (otpValue?.length == 4) {
       setOtp(otpValue);
-      authorizationService.authorize({ userId, otp }).then((response) => {
-        addToSessionStorage('token', response?.accessToken);
-      });
+      authorizationService
+        .authorize({ userId, otp: otpValue })
+        .then((response) => {
+          addToSessionStorage('token', response?.accessToken);
+        });
       return;
     }
     setOtp(otpValue);
