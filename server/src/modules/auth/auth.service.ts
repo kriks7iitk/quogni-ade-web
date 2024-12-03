@@ -134,6 +134,9 @@ export class AuthService {
               ),
             },
           });
+        console.log("user is");
+        console.log(user);
+        
         await this.verifyOTP({ userId, otp }, client);
         return await this.authorize(user);
       }
@@ -162,6 +165,14 @@ export class AuthService {
         const differenceMs = now.getTime() - creationTime.getTime();
         const timeLimit =
           parseInt(this.configService.get("OTP_TIME_LIMIT_IN_MIN")) * 60 * 1000;
+        
+        console.log("OTP creation time is :", creationTime);
+        console.log("otp time limit is: ", timeLimit / 60000);
+        console.log(userOtp);
+        console.log("difference is ", differenceMs / 60000);
+        
+        
+        
         if (differenceMs > timeLimit) {
           throw new BadRequestException({
             message: {

@@ -1,7 +1,7 @@
 import { handleResponse } from '../Utility/responseHandler';
-
-export { signUp, sendOtp, authorize, getOccupations };
 import { SERVER_HOST } from '.';
+
+export { signUp, sendOtp, authorize, getOccupations, resendOtp };
 
 const getOccupations = () => {
   const requestPayload = {
@@ -49,8 +49,20 @@ const authorize = (body) => {
     },
     body: JSON.stringify(body),
   };
-  return fetch(
-    `${import.meta.env.VITE_SERVER_HOST}/auth/authorize`,
-    requestPayload,
-  ).then(handleResponse);
+  return fetch(`${SERVER_HOST}/auth/authorize`, requestPayload).then(
+    handleResponse,
+  );
+};
+
+const resendOtp = (body) => {
+  const requestPayload = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(body),
+  };
+  return fetch(`${SERVER_HOST}/auth/resend-otp`, requestPayload).then(
+    handleResponse,
+  );
 };

@@ -14,6 +14,7 @@ function OtpVerify() {
   const [otp, setOtp] = useState('');
   const location = useLocation();
   const { phoneNumber, userId } = location.state || {};
+  const [timer, setTimer] = useState(30);
 
   const handleOtpChange = (otpValue) => {
     if (otpValue?.length == 4) {
@@ -24,6 +25,17 @@ function OtpVerify() {
       return;
     }
     setOtp(otpValue);
+  };
+
+  const resendOTP = () => {
+    authorizationService
+      .resendOtp({ phoneNumber, userId })
+      .then((response) => {
+        toast.success('OTP sent success');
+      })
+      .catch(() => {
+        toast.error('Error occur in sending OTPß');
+      });
   };
 
   return (
@@ -44,7 +56,7 @@ function OtpVerify() {
           Please enter the verification code send to your mobile number{' '}
           <b>{phoneNumber}</b>
         </span>
-        <OtpInput setOTP={setOtp} otp={otp} />
+        <OtpInput setOTP={handleOtpChange} otp={otp} />
       </div>
       <div className="resend-otp">
         <span>Didn't receive OTP?</span>

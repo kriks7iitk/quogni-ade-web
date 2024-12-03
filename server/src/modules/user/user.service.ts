@@ -20,7 +20,7 @@ export class UserService {
   }
 
   async createUser(
-    { phoneNumber, email }: { phoneNumber: string; email: string },
+    { phoneNumber, email }: { phoneNumber?: string; email: string },
     userDetails: Partial<UserDetails>,
     client?: PrismaService
   ) {
@@ -36,8 +36,8 @@ export class UserService {
                 dateOfBirth: userDetails.dateOfBirth
                   ? new Date(userDetails.dateOfBirth)
                   : new Date(),
-                occupation: userDetails.occupation || "",
-                sector: userDetails.sector || "",
+                occupation: userDetails?.occupation || "",
+                sector: userDetails?.sector || "",
                 fullname: userDetails.fullName || "",
               },
             },
@@ -46,7 +46,7 @@ export class UserService {
       } catch (e) {
         if (e instanceof Prisma.PrismaClientKnownRequestError) {
           console.log(e);
-          
+
           if (e.code === "P2002") {
             throw new BadRequestException({
               message: {
