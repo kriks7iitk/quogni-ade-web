@@ -94,19 +94,18 @@ import { AuthService } from "../auth/auth.service";
       async userExists(email: string) {
         return await this.prisma.withTransaction(async (client: PrismaService) => {
           try {
-            const existingOAuthUser = await client.oAuthUser.findFirst({
+            const existingOAuthUser = await client.oAuthUser.findUnique({
               where: { 
                 email: email
               }
             });
 
-            const existingUser = await client.user.findFirst({
+            const existingUser = await client.user.findUnique({
               where: {
                 email: email
               }
             });
-            
-            return existingOAuthUser && existingUser;
+            return existingOAuthUser !== null || existingUser !== null;
           } catch (e) {
             console.log(e)
           }
