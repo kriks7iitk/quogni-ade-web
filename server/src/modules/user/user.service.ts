@@ -36,8 +36,8 @@ export class UserService {
                 dateOfBirth: userDetails.dateOfBirth
                   ? new Date(userDetails.dateOfBirth)
                   : new Date(),
-                occupation: userDetails.occupation || "",
-                sector: userDetails.sector || "",
+                occupation: userDetails?.occupation || "",
+                sector: userDetails?.sector || "",
                 fullname: userDetails.fullName || "",
               },
             },
@@ -45,7 +45,8 @@ export class UserService {
         });
       } catch (e) {
         if (e instanceof Prisma.PrismaClientKnownRequestError) {
-          // The .code property can be accessed in a type-safe manner
+          console.log(e);
+
           if (e.code === "P2002") {
             throw new BadRequestException({
               message: {

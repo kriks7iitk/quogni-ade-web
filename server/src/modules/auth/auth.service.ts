@@ -49,6 +49,9 @@ export class AuthService {
 
   private async createOtp(client: PrismaService, userId) {
     const otp = Math.floor(1000 + Math.random() * 9000);
+    console.log("otp is created");
+    console.log(otp);
+      
     await client.userOtp.upsert({
       where: {
         userId: userId,
@@ -133,6 +136,9 @@ export class AuthService {
               ),
             },
           });
+        console.log("user is");
+        console.log(user);
+        
         await this.verifyOTP({ userId, otp }, client);
         return await this.authorize(user);
       }
@@ -157,10 +163,17 @@ export class AuthService {
           },
         });
         const now = new Date();
-        const creationTime = userOtp?.createdAt;
+        const creationTime = userOtp?.updatedAt;
         const differenceMs = now.getTime() - creationTime.getTime();
         const timeLimit =
           parseInt(this.configService.get("OTP_TIME_LIMIT_IN_MIN")) * 60 * 1000;
+        
+        console.log("OTP creation time is :", creationTime);
+        console.log("otp time limit is: ", timeLimit / 60000);
+        console.log(userOtp);
+        console.log("difference is ", differenceMs / 60000);
+        console.log("otp is ", otp);
+
         if (differenceMs > timeLimit) {
           throw new BadRequestException({
             message: {
@@ -172,6 +185,10 @@ export class AuthService {
             },
           });
         }
+        console.log("otp input is ", otp);
+        console.log("saved otp is ", userOtp.otp);
+        console.log("otp match ", otp !== userOtp.otp);
+
         if (!otp || otp !== userOtp.otp)
           throw new BadRequestException({
             message: {
