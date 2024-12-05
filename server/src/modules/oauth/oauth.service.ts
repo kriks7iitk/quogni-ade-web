@@ -5,9 +5,9 @@ import {
     Injectable,
   } from "@nestjs/common";
 import axios from "axios";
-import { TokenRequestDto } from "./oauth.dto";
+import { OAuthSignUpDto, OAuthUserDetails, TokenRequestDto } from "./oauth.dto";
 import { PrismaService } from "../prisma/prisma.service";
-import { Prisma } from "@prisma/client";
+import { OAuthUserType, Prisma } from "@prisma/client";
 import { createError } from "@/utility/helpers";
 import { AUTH_ERROR_CODE } from "../auth/constants/error-codes";
 import { AUTH_ERROR_MESSAGE } from "../auth/constants/error-messages";
@@ -17,7 +17,8 @@ import { AuthService } from "../auth/auth.service";
   export class OAuthService {
     constructor (
         private readonly jwtService: JwtService,
-        private readonly authService: AuthService
+        private readonly authService: AuthService,
+        private prisma: PrismaService
     ) {}
       async getToken(tokenRequestDto: TokenRequestDto) {
         switch(tokenRequestDto.type) {
@@ -64,36 +65,74 @@ import { AuthService } from "../auth/auth.service";
 
             return response.data;
       }
-      async authorize(client: PrismaService, userId: number) {
-        const user = (await client.user.findUnique({
+
+      async authorize(
+        id: number
+      ) {
+          const user = await this.prisma.oAuthUser.findUnique({
             where: {
-              id: userId,
+              id: id
             },
             include: {
-              userDetails: true,
-            },
-          })) as Prisma.UserGetPayload<{
-            include: { userDetails: true };
-          }>;
-  
-          if (!user)
-            throw new BadRequestException({
-              message: {
-                ...createError(
-                  AUTH_ERROR_CODE,
-                  AUTH_ERROR_MESSAGE,
-                  "USER_PHONE_NOT_EXIST"
-                ),
-              },
-            });
-        return {
-            accessToken: this.jwtService.sign(
-                this.authService.generateUserPayload(user, user.userDetails.username),
-                {
-                    secret: "thisisnotthesecret"
-                }
-            ),
-        };
+              oAuthUserDetails: true
+            }
+          });
+
+          if (!user) {
+            // appropriate error
+          }
+
+          const accessToken = this.jwtService.sign(
+            this.authService.generateUserPayload(user, user.oAuthUserDetails.fullname), {
+              secret: "THISISNOTTHESECRET"
+            }
+          )
+
+          return accessToken;
       }
-  }
-  
+
+      async userExists(email: string) {
+        return await this.prisma.withTransaction(async (client: PrismaService) => {
+          try {
+            const existingOAuthUser = await client.oAuthUser.findFirst({
+              where: { 
+                email: email
+              }
+            });
+
+            const existingUser = await client.user.findFirst({
+              where: {
+                email: email
+              }
+            });
+            
+            return existingOAuthUser && existingUser;
+          } catch (e) {
+            console.log(e)
+          }
+      })
+    }
+
+    async createOAuthUser(oAuthSignUpDto: OAuthSignUpDto, oAuthUserDetails) {
+      return await this.prisma.withTransaction(async (client: PrismaService) => {
+          try {
+            if (this.userExists(oAuthSignUpDto.email)) {
+              console.log("TBD");
+            }
+            return await client.oAuthUser.create({
+              data: {
+                type: oAuthSignUpDto.type,
+                email: oAuthSignUpDto.email,
+                oAuthUserDetails: {
+                  create: {
+                    fullname: oAuthUserDetails.fullName || "",
+                  },
+                },
+              },
+            }); 
+          } catch (e) {
+              console.log(e);
+          }
+      })
+    }
+}

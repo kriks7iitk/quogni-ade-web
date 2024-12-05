@@ -33,7 +33,7 @@ import SignIn from './Modules/Auth/SignIn';
 import OtpVerify from './Modules/Auth/OtpVerify';
 import AuthCallback from './Modules/Auth/OAuth/AuthCallback';
 import { GoogleOAuthProvider } from '@react-oauth/google';
-
+import InfoModal from './Modules/Auth/InfoModal';
 function App() {
   const [isNavBarExpanded, setIsNavBarExpanded] = useState(false);
 
@@ -62,6 +62,16 @@ function App() {
               <Onboarding>
                 <SignUp />
               </Onboarding>
+            }
+          />
+          <Route
+            path="/modal"
+            element={
+              <InfoModal 
+              isOpen={true}
+              closeModal={false}
+              title="Welcome to Piggie Stack"
+              />
             }
           />
           <Route

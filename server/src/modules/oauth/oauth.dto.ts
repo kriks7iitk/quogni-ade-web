@@ -1,3 +1,4 @@
+import { OAuthUserType } from "@prisma/client";
 import {
     IsString,
     IsNotEmpty,
@@ -15,4 +16,20 @@ export class TokenRequestDto {
     @IsString()
     @IsNotEmpty({message: "redirect uri is required"})
     redirect_uri: string;
+}
+
+export class OAuthUserDetails {
+  @IsString()
+  @IsNotEmpty({message: "Name is required"})
+  fullName: string;
+}
+
+export class OAuthSignUpDto {
+  @IsString()
+  @IsNotEmpty({message: "Type is required"})
+  type: OAuthUserType;
+
+  @IsString()
+  @IsNotEmpty({message: "Email is required"})
+  email: string;
 }

@@ -28,7 +28,7 @@ export class UserService {
       try {
         return await client.user.create({
           data: {
-            phoneNumber: phoneNumber || "09",
+            phoneNumber: phoneNumber,
             email: email,
             userDetails: {
               create: {

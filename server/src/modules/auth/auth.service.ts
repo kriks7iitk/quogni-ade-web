@@ -10,7 +10,7 @@ import { AuthorizeDto, ResendOtpDto, SendOtpDto, SignUpDto } from "./auth.dto";
 import { UserService } from "../user/user.service";
 import { ConfigService } from "@nestjs/config";
 import axios from "axios";
-import { Prisma, PrismaClient, User } from "@prisma/client";
+import { OAuthUser, Prisma, PrismaClient, User } from "@prisma/client";
 import { AUTH_ERROR_CODE } from "./constants/error-codes";
 import { AUTH_ERROR_MESSAGE } from "./constants/error-messages";
 import { createError } from "@/utility/helpers";
@@ -231,10 +231,10 @@ export class AuthService {
       }
     );
   }
-  generateUserPayload(user: User, username: string): UserPayload {
+  
+  generateUserPayload(user: User | OAuthUser, username: string): UserPayload {
     return {
       sub: user.id,
-      phoneNumber: user.phoneNumber,
       username,
     };
   }
