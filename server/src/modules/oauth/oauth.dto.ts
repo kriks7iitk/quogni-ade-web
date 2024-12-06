@@ -33,3 +33,10 @@ export class OAuthSignUpDto {
   @IsNotEmpty({message: "Email is required"})
   email: string;
 }
+
+export class UpdateUserRequestDto {
+  username: string;
+  dateOfBirth: Date;
+  occupation: string;
+  sector: string;
+}

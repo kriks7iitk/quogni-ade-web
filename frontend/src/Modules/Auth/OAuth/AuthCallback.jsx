@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import CustomSkeleton from '../../Loaders/CustomSkeleton/CustomSkeleton';
 import { oAuthService } from '../../../_services';
 import { addToSessionStorage } from '../../../Utility/utility';
 
 const AuthCallback = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const queryParams = new URLSearchParams(location.search);
   const code = queryParams.get('code');
   const type = location.pathname.split('/')[3];  
@@ -19,10 +20,13 @@ const AuthCallback = () => {
         code: code,
         type: type
       };
-    const response = await oAuthService.sendCode(body);
-    const jwtToken = response.accessToken;
-    addToSessionStorage('token', jwtToken);
-    
+    oAuthService.sendCode(body).then((response) => {
+        const jwtToken = response.accessToken;
+        addToSessionStorage('token', jwtToken);
+        navigate('/modal');
+      }
+    );
+
     setLoading(false);
     } catch (error) {
       setLoading(false);

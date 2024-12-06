@@ -1,6 +1,6 @@
-import { Controller, Post, Body } from "@nestjs/common";
+import { Controller, Post, Body, Headers } from "@nestjs/common";
 import { OAuthService } from "./oauth.service";
-import { TokenRequestDto  } from "./oauth.dto";
+import { TokenRequestDto, UpdateUserRequestDto  } from "./oauth.dto";
 import { OAuthUserDetails } from "@prisma/client";
 
 @Controller("oauth")
@@ -42,5 +42,10 @@ export class OAuthController {
         default:
           throw new Error('Unsupported OAuth type');
       }
+  }
+
+  @Post("update-user")
+  async updateUser(@Body() updateUserRequestDto : UpdateUserRequestDto, @Headers('authotization') token: string) {
+    const details = await this.oAuthService.updateUserDetails(updateUserRequestDto, token);
   }
 }

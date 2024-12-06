@@ -11,7 +11,7 @@
     "start": "nest start",
     "start:dev": "nest start --watch",
     "db:migrate": "env-cmd -f ../.env npx prisma migrate deploy",
-    "db:migration:create": "env-cmd -f ../.env npx prisma migrate dev --name",
+    "db:migration:create": "env-cmd -f ../.env npx prisma migrate dev --name create",
     "db:migration:init": "env-cmd -f ../.env npx prisma migrate dev --name init",
     "db:create": "node scripts/dbHandler.js create",
     "db:reset": "env-cmd -f ../.env npx prisma migrate reset",

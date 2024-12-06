@@ -45,7 +45,11 @@ model OAuthUser {
 // username to be generated and added
 model OAuthUserDetails {
   id            Int        @id @default(autoincrement())
+  username      String     
   fullname      String 
+  dateOfBirth   DateTime
+  sector        String
+  occupation    String
   oAuthUserId   Int        @unique
   oAuthUser     OAuthUser  @relation(fields: [oAuthUserId], references: [id], onDelete: Cascade)
 }

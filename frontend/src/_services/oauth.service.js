@@ -1,7 +1,8 @@
 import { handleResponse } from '../Utility/responseHandler';
 
-export { sendCode };
+export { sendCode, sendOAuthUserDetails };
 import { SERVER_HOST } from '.';
+import { getFromSessionStorage } from '../Utility/utility';
 
 const sendCode = (body) => {
   const requestPayload = {
@@ -15,6 +16,22 @@ const sendCode = (body) => {
     handleResponse,
   );
 };
+
+const sendOAuthUserDetails = (body) => {
+  // token coming empty
+  const authToken = getFromSessionStorage('token');
+  const requestPayload = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${authToken}`, 
+    },
+    body: JSON.stringify(body)
+  };
+  return fetch(`${SERVER_HOST}/oauth/update-user`, requestPayload).then(
+    handleResponse,
+  );
+}
 
 
 

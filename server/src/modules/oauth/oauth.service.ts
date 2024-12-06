@@ -5,14 +5,11 @@ import {
     Injectable,
   } from "@nestjs/common";
 import axios from "axios";
-import { OAuthSignUpDto, OAuthUserDetails, TokenRequestDto } from "./oauth.dto";
+import { OAuthSignUpDto, TokenRequestDto, UpdateUserRequestDto } from "./oauth.dto";
 import { PrismaService } from "../prisma/prisma.service";
-import { OAuthUserType, Prisma } from "@prisma/client";
-import { createError } from "@/utility/helpers";
-import { AUTH_ERROR_CODE } from "../auth/constants/error-codes";
-import { AUTH_ERROR_MESSAGE } from "../auth/constants/error-messages";
 import { JwtService } from "@nestjs/jwt";
 import { AuthService } from "../auth/auth.service";
+import { Prisma } from "@prisma/client";
   @Injectable()
   export class OAuthService {
     constructor (
@@ -88,7 +85,7 @@ import { AuthService } from "../auth/auth.service";
             }
           )
 
-          return accessToken;
+          return {accessToken};
       }
 
       async userExists(email: string) {
@@ -116,8 +113,9 @@ import { AuthService } from "../auth/auth.service";
       return await this.prisma.withTransaction(async (client: PrismaService) => {
           try {
             if (this.userExists(oAuthSignUpDto.email)) {
-              console.log("TBD");
+              // show error
             }
+            const formattedDateOfBirth = new Date("1990-05-25").toISOString();
             return await client.oAuthUser.create({
               data: {
                 type: oAuthSignUpDto.type,
@@ -125,6 +123,10 @@ import { AuthService } from "../auth/auth.service";
                 oAuthUserDetails: {
                   create: {
                     fullname: oAuthUserDetails.fullName || "",
+                    username: "",
+                    dateOfBirth: formattedDateOfBirth,
+                    sector: "",
+                    occupation: ""
                   },
                 },
               },
@@ -133,5 +135,30 @@ import { AuthService } from "../auth/auth.service";
               console.log(e);
           }
       })
+    }
+
+    async updateUserDetails(updateUserRequestDto : UpdateUserRequestDto, token: string) {
+      const decoded = this.jwtService.verify(token);  
+      const userId = decoded?.sub;
+
+      const updatedUser = await this.prisma.oAuthUser.update({
+        where: { id: userId },
+        data: {
+          ...updateUserRequestDto,
+          oAuthUserDetails: {
+            update: {
+              username: updateUserRequestDto.username,
+              dateOfBirth: updateUserRequestDto.dateOfBirth,
+              sector: updateUserRequestDto.sector,
+              occupation: updateUserRequestDto.occupation,
+            }        
+          }
+        } as Prisma.OAuthUserDetailsUpdateWithoutOAuthUserInput,
+        include: {
+          oAuthUserDetails: true
+        }
+      });
+
+      return updatedUser;
     }
 }
