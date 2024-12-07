@@ -16,7 +16,7 @@ import './app.theme.scss';
 import { driver } from 'driver.js';
 import 'driver.js/dist/driver.css';
 import { step1 } from './Utility/DriverSteps';
-import Dashboard from './Modules/Routes/Dashboard/Dashboard';
+import Dashboard from './Modules/Dashboard/Dashboard';
 import Portfolio from './Modules/Routes/Portfolio/Portfolio';
 import Library from './Modules/Routes/Library/Library';
 import MarketPlace from './Modules/Routes/MarketPlace/MarketPlace';
@@ -67,6 +67,13 @@ function App() {
               <Onboarding>
                 <SignIn />
               </Onboarding>
+            }
+          />
+          <Route
+            path="/dashboard"
+            element={
+              <Dashboard>
+              </Dashboard>
             }
           />
           <Route
