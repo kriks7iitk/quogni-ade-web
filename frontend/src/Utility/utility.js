@@ -19,11 +19,11 @@ export function addToSessionStorage(key, value) {
     console.error('Error adding to sessionStorage:', error);
   }
 }
-// function not working
+
 export function getFromSessionStorage(key) {
   try {
     const serializedValue = sessionStorage.getItem(key);
-    return serializedValue ? JSON.parse(serializedValue) : null;
+    return serializedValue ? serializedValue : null;
   } catch (error) {
     console.error('Error getting from sessionStorage:', error);
   }

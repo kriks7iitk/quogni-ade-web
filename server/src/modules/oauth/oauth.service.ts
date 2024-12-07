@@ -138,22 +138,20 @@ import { Prisma } from "@prisma/client";
     }
 
     async updateUserDetails(updateUserRequestDto : UpdateUserRequestDto, token: string) {
-      const decoded = this.jwtService.verify(token);  
+      const decoded = this.jwtService.verify(token,{ secret: "THISISNOTTHESECRET" }); 
       const userId = decoded?.sub;
-
       const updatedUser = await this.prisma.oAuthUser.update({
         where: { id: userId },
         data: {
-          ...updateUserRequestDto,
           oAuthUserDetails: {
             update: {
               username: updateUserRequestDto.username,
               dateOfBirth: updateUserRequestDto.dateOfBirth,
-              sector: updateUserRequestDto.sector,
-              occupation: updateUserRequestDto.occupation,
+              sector: JSON.stringify(updateUserRequestDto.sector),
+              occupation: JSON.stringify(updateUserRequestDto.occupation),
             }        
           }
-        } as Prisma.OAuthUserDetailsUpdateWithoutOAuthUserInput,
+        },
         include: {
           oAuthUserDetails: true
         }

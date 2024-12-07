@@ -36,7 +36,7 @@ export class OAuthSignUpDto {
 
 export class UpdateUserRequestDto {
   username: string;
-  dateOfBirth: Date;
+  dateOfBirth: string;
   occupation: string;
   sector: string;
 }

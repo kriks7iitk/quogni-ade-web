@@ -18,8 +18,8 @@ const sendCode = (body) => {
 };
 
 const sendOAuthUserDetails = (body) => {
-  // token coming empty
   const authToken = getFromSessionStorage('token');
+
   const requestPayload = {
     method: 'POST',
     headers: {

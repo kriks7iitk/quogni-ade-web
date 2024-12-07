@@ -45,7 +45,9 @@ export class OAuthController {
   }
 
   @Post("update-user")
-  async updateUser(@Body() updateUserRequestDto : UpdateUserRequestDto, @Headers('authotization') token: string) {
-    const details = await this.oAuthService.updateUserDetails(updateUserRequestDto, token);
+  async updateUser(@Body() updateUserRequestDto : UpdateUserRequestDto, @Headers('authorization') token: string) {
+    const authToken = token.split(' ')[1].replace(/['"]+/g, '');;
+    const details = await this.oAuthService.updateUserDetails(updateUserRequestDto, authToken);
+    return details;
   }
 }

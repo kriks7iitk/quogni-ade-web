@@ -47,7 +47,7 @@ model OAuthUserDetails {
   id            Int        @id @default(autoincrement())
   username      String     
   fullname      String 
-  dateOfBirth   DateTime
+  dateOfBirth   String
   sector        String
   occupation    String
   oAuthUserId   Int        @unique
