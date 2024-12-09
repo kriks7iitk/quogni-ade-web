@@ -1,4 +1,4 @@
-export * as authorizationService from './auth.service';
+export { authenticationService } from './auth.service';
 export * as marketDataService from './marketData.service';
 
 export const SERVER_HOST =

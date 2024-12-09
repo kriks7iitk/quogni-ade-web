@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { authorizationService } from '../../_services';
+import { authenticationService } from '../../_services';
 import { camelCaseToNormal } from '../../Utility/utility';
 import '../Auth/auth.theme.scss';
 import { toast } from 'react-hot-toast';
@@ -11,22 +11,20 @@ import SingleSelect from '../../_components/Form/SingleSelect';
 import SolidButton from '../../_components/Buttons/SolidButton';
 import { OCCUPATIONS } from './constants/auth.constant';
 import { convertOccupationData } from './utils/utilityFunction';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 function SignIn() {
   const [signIn, setSignIn] = useState({});
   const navigate = useNavigate();
   const [serverError, setError] = useState({});
+  const [searchParams] = useSearchParams();
 
   const handleSignIn = () => {
-    console.log('sign in');
-    console.log(signIn);
-
     if (!signIn?.phoneNumber) {
       serverError['phoneNumber'] = 'Please enter the phone number';
       return;
     }
-    authorizationService
+    authenticationService
       .sendOtp(signIn)
       .then((data) => {
         navigate('/otp-verify', {
@@ -48,7 +46,19 @@ function SignIn() {
       });
   };
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    const toastMessage = searchParams.get('toastMessage');
+    if (toastMessage) {
+      toast.error(decodeURIComponent(toastMessage));
+      const newParams = new URLSearchParams(searchParams);
+      newParams.delete('toastMessage');
+      window.history.replaceState(
+        {},
+        '',
+        `${window.location.pathname}?${newParams.toString()}`,
+      );
+    }
+  }, [searchParams]);
 
   return (
     <div className="sign-up-page">

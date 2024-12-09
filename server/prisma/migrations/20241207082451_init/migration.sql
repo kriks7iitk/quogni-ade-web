@@ -2,8 +2,8 @@
 CREATE TABLE "User" (
     "id" SERIAL NOT NULL,
     "phoneNumber" TEXT NOT NULL,
-    "email" TEXT NOT NULL,
     "isPhoneVerified" BOOLEAN NOT NULL DEFAULT false,
+    "email" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -16,6 +16,7 @@ CREATE TABLE "UserDetails" (
     "username" TEXT NOT NULL,
     "fullname" TEXT NOT NULL,
     "dateOfBirth" TIMESTAMP(3) NOT NULL,
+    "isOnboarded" BOOLEAN NOT NULL DEFAULT false,
     "sector" TEXT NOT NULL,
     "occupation" TEXT NOT NULL,
     "userId" INTEGER NOT NULL,
@@ -27,8 +28,10 @@ CREATE TABLE "UserDetails" (
 CREATE TABLE "Session" (
     "id" SERIAL NOT NULL,
     "userId" INTEGER NOT NULL,
+    "expiringTime" TIMESTAMP(3) NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "ip" TEXT NOT NULL,
 
     CONSTRAINT "Session_pkey" PRIMARY KEY ("id")
 );
@@ -57,13 +60,16 @@ CREATE UNIQUE INDEX "UserDetails_username_key" ON "UserDetails"("username");
 CREATE UNIQUE INDEX "UserDetails_userId_key" ON "UserDetails"("userId");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "Session_userId_key" ON "Session"("userId");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "UserOtp_userId_key" ON "UserOtp"("userId");
 
 -- AddForeignKey
 ALTER TABLE "UserDetails" ADD CONSTRAINT "UserDetails_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Session" ADD CONSTRAINT "Session_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "Session" ADD CONSTRAINT "Session_userId_fkey" FOREIGN KEY ("userId") REFERENCES "UserDetails"("userId") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "UserOtp" ADD CONSTRAINT "UserOtp_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;

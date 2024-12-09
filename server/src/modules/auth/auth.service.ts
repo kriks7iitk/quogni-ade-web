@@ -10,12 +10,13 @@ import { AuthorizeDto, ResendOtpDto, SendOtpDto, SignUpDto } from "./auth.dto";
 import { UserService } from "../user/user.service";
 import { ConfigService } from "@nestjs/config";
 import axios from "axios";
-import { Prisma, PrismaClient, User } from "@prisma/client";
+import { Prisma, PrismaClient, Session, User } from "@prisma/client";
 import { AUTH_ERROR_CODE } from "./constants/error-codes";
 import { AUTH_ERROR_MESSAGE } from "./constants/error-messages";
 import { createError } from "@/utility/helpers";
 import { UserPayload } from "./interfaces/auth-interface";
 import { JwtService } from "@nestjs/jwt";
+import { SessionService } from "../session/sessions.services";
 
 @Injectable()
 export class AuthService {
@@ -23,6 +24,7 @@ export class AuthService {
     private readonly prismaService: PrismaService,
     private readonly configService: ConfigService,
     private userService: UserService,
+    private sessionsService: SessionService,
     private readonly jwtService: JwtService
   ) {}
 
@@ -49,9 +51,7 @@ export class AuthService {
 
   private async createOtp(client: PrismaService, userId) {
     const otp = Math.floor(1000 + Math.random() * 9000);
-    console.log("otp is created");
-    console.log(otp);
-      
+
     await client.userOtp.upsert({
       where: {
         userId: userId,
@@ -71,11 +71,15 @@ export class AuthService {
   private async authorize(
     user: Prisma.UserGetPayload<{
       include: { userDetails: true };
-    }>
+    }>,
+    ip: string,
+    client?: PrismaService
   ) {
+    const session = await this.sessionsService.create({ ip, user }, client);
     return {
       accessToken: this.jwtService.sign(
-        this.generateUserPayload(user, user.userDetails.username)
+        this.generateUserPayload(user, session),
+        { secret: this.configService.get<string>("JWT_SECRET") }
       ),
     };
   }
@@ -113,7 +117,10 @@ export class AuthService {
       );
     }
   }
-  async verifyPhoneNumberAndAuthorize({ userId, otp }: AuthorizeDto) {
+  async verifyPhoneNumberAndAuthorize(
+    { userId, otp }: AuthorizeDto,
+    ip: string
+  ) {
     return await this.prismaService.withTransaction(
       async (client: PrismaService) => {
         const user = (await client.user.findUnique({
@@ -137,11 +144,8 @@ export class AuthService {
               ),
             },
           });
-        console.log("user is");
-        console.log(user);
-        
         await this.verifyOTP({ userId, otp }, client);
-        return await this.authorize(user);
+        return await this.authorize(user, ip, client);
       }
     );
   }
@@ -163,17 +167,21 @@ export class AuthService {
             userId,
           },
         });
+        if (!userOtp)
+          throw new BadRequestException({
+            message: {
+              ...createError(
+                AUTH_ERROR_CODE,
+                AUTH_ERROR_MESSAGE,
+                "OTP_NOT_EXIST"
+              ),
+            },
+          });
         const now = new Date();
         const creationTime = userOtp?.updatedAt;
         const differenceMs = now.getTime() - creationTime.getTime();
         const timeLimit =
           parseInt(this.configService.get("OTP_TIME_LIMIT_IN_MIN")) * 60 * 1000;
-        
-        console.log("OTP creation time is :", creationTime);
-        console.log("otp time limit is: ", timeLimit / 60000);
-        console.log(userOtp);
-        console.log("difference is ", differenceMs / 60000);
-        console.log("otp is ", otp);
 
         if (differenceMs > timeLimit) {
           throw new BadRequestException({
@@ -186,11 +194,8 @@ export class AuthService {
             },
           });
         }
-        console.log("otp input is ", otp);
-        console.log("saved otp is ", userOtp.otp);
-        console.log("otp match ", otp !== userOtp.otp);
 
-        if (!otp || otp !== userOtp.otp)
+        if (!otp || String(otp) !== String(userOtp.otp))
           throw new BadRequestException({
             message: {
               ...createError(
@@ -226,7 +231,7 @@ export class AuthService {
           signInDto.phoneNumber
         );
         if (!user)
-          throw new UnauthorizedException({
+          throw new BadRequestException({
             message: {
               ...createError(
                 AUTH_ERROR_CODE,
@@ -251,11 +256,16 @@ export class AuthService {
     );
   }
 
-  private generateUserPayload(user: User, username: string): UserPayload {
+  private generateUserPayload(
+    user: Prisma.UserGetPayload<{
+      include: { userDetails: true };
+    }>,
+    session: Session
+  ): UserPayload {
     return {
       sub: user.id,
-      phoneNumber: user.phoneNumber,
-      username,
+      username: user.userDetails.username,
+      sessionId: session.id,
     };
   }
 }

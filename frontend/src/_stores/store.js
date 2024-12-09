@@ -13,8 +13,7 @@ const rootReducer = combineReducers({
 });
 
 const store = configureStore({
-    reducer: rootReducer,
-
+  reducer: rootReducer,
 });
 
 export default store;

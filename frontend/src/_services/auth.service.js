@@ -1,21 +1,38 @@
+import { BehaviorSubject } from 'rxjs';
 import { handleResponse } from '../Utility/responseHandler';
 import { SERVER_HOST } from '.';
+import { generateHeader } from '../Utility/authorization';
 
-export { signUp, sendOtp, authorize, getOccupations, resendOtp };
+const currentSessionSubject = new BehaviorSubject({
+  user: null,
+});
 
-const getOccupations = () => {
-  const requestPayload = {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  };
-  return fetch(`${SERVER_HOST}/auth/occupation`, requestPayload).then(
-    handleResponse,
-  );
+export const authenticationService = {
+  signUp,
+  sendOtp,
+  authorize,
+  resendOtp,
+  currentSession: currentSessionSubject.asObservable(),
+  get currentSessionValue() {
+    return currentSessionSubject.value;
+  },
+  updateCurrentSession(data) {
+    currentSessionSubject.next(data);
+  },
+  validateSession,
 };
 
-const signUp = (body) => {
+function validateSession() {
+  const requestPayload = {
+    method: 'GET',
+    headers: generateHeader(),
+  };
+  return fetch(`${SERVER_HOST}/sessions/validate`, requestPayload).then(
+    handleResponse,
+  );
+}
+
+function signUp(body) {
   const requestPayload = {
     method: 'POST',
     headers: {
@@ -26,9 +43,9 @@ const signUp = (body) => {
   return fetch(`${SERVER_HOST}/auth/signup`, requestPayload).then(
     handleResponse,
   );
-};
+}
 
-const sendOtp = (body) => {
+function sendOtp(body) {
   const requestPayload = {
     method: 'POST',
     headers: {
@@ -39,9 +56,9 @@ const sendOtp = (body) => {
   return fetch(`${SERVER_HOST}/auth/send-otp`, requestPayload).then(
     handleResponse,
   );
-};
+}
 
-const authorize = (body) => {
+function authorize(body) {
   const requestPayload = {
     method: 'POST',
     headers: {
@@ -52,9 +69,9 @@ const authorize = (body) => {
   return fetch(`${SERVER_HOST}/auth/authorize`, requestPayload).then(
     handleResponse,
   );
-};
+}
 
-const resendOtp = (body) => {
+function resendOtp(body) {
   const requestPayload = {
     method: 'POST',
     headers: {
@@ -65,4 +82,4 @@ const resendOtp = (body) => {
   return fetch(`${SERVER_HOST}/auth/resend-otp`, requestPayload).then(
     handleResponse,
   );
-};
+}

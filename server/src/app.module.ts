@@ -8,6 +8,9 @@ import { UserModule } from "./modules/user/user.module";
 import { PrismaModule } from "@/modules/prisma/prisma.module";
 import { LoggerModule } from "nestjs-pino";
 import { join } from "path";
+import { SessionModule } from "./modules/session/sessions.module";
+import { PassportModule } from "@nestjs/passport";
+import { JwtStrategy } from "./modules/auth/jwt-strategy/jwt-strategy";
 
 @Module({
   imports: [
@@ -55,22 +58,30 @@ import { join } from "path";
       },
     }),
     ConfigModule.forRoot({
-      envFilePath: join(__dirname, "../.env"),
+      // envFilePath: join(__dirname, "../.env"),
       isGlobal: true,
     }),
     PrismaModule,
     AuthModule,
     UserModule,
+    PassportModule.register({ defaultStrategy: "jwt" }),
+    SessionModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: async (configService: ConfigService) => ({
-        secret: configService.get("JWT_SECRET") || "yourSecretKey",
-        signOptions: { expiresIn: "15m" },
-      }),
+      useFactory: async (configService: ConfigService) => {
+        const secret = configService.get("JWT_SECRET") || "yourSecretKey";
+        console.log("JWT_SECRET:", secret);
+        return {
+          secret: secret,
+          secretOrPrivateKey: secret,
+          signOptions: { expiresIn: "15m" },
+        };
+      },
     }),
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, JwtStrategy],
+  exports: [],
 })
 export class AppModule {}
