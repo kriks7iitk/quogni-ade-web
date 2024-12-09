@@ -55,11 +55,8 @@ CREATE TABLE "UserDetails" (
 CREATE TABLE "Session" (
     "id" SERIAL NOT NULL,
     "userId" INTEGER NOT NULL,
-<<<<<<<< HEAD:server/prisma/migrations/20241207082451_init/migration.sql
     "expiringTime" TIMESTAMP(3) NOT NULL,
-========
     "oAuthUserId" INTEGER NOT NULL,
->>>>>>>> google-linkedin-oauth:server/prisma/migrations/20241206155619_init/migration.sql
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "ip" TEXT NOT NULL,

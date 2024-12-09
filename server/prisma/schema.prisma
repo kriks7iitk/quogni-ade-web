@@ -13,8 +13,6 @@ datasource db {
   url      = env("PG_DB_URL")
 }
 
-
-
 model User {
   id              Int           @id @default(autoincrement())
   phoneNumber     String        @unique
@@ -73,8 +71,8 @@ model Session {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @default(now())
   ip            String
-  user          UserDetails      @relation(fields: [userId], references: [userId], onDelete: Cascade)
-  oAuthUser     OAuthUser @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user          UserDetails      @relation(fields: [userId], references: [userId], onDelete: Cascade, map: "session_userId_fkey")
+  oAuthUser     OAuthUser @relation(fields: [userId], references: [id], onDelete: Cascade, map: "session_oAuthUser_fkey")
 }
 
 model UserOtp {

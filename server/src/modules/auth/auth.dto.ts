@@ -70,5 +70,5 @@ export type UserType = Prisma.UserGetPayload<{
 }>;
 
 export type OAuthUserType = Prisma.OAuthUserGetPayload<{
-  include: { userDetails: true };
+  include: { oAuthUerDetails: true };
 }>;
