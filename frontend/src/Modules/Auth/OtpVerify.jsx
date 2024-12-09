@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { authorizationService } from '../../_services';
+import { authenticationService } from '../../_services';
 import { addToSessionStorage, camelCaseToNormal } from '../../Utility/utility';
 import '../Auth/auth.theme.scss';
 import { toast } from 'react-hot-toast';
@@ -8,21 +8,26 @@ import Icon from '../../_icons/svgs/SolidIcons';
 import PiggieStackName from '../BrandAndLogo/PiggieStackName';
 import OtpInput from '../../_components/Form/OtpInput';
 import SolidButton from '../../_components/Buttons/SolidButton';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 function OtpVerify() {
   const [otp, setOtp] = useState('');
   const location = useLocation();
   const { phoneNumber, userId } = location.state || {};
   const [timer, setTimer] = useState(30);
+  const navigate = useNavigate();
 
   const handleOtpChange = (otpValue) => {
     if (otpValue?.length == 4) {
       setOtp(otpValue);
-      authorizationService
+      authenticationService
         .authorize({ userId, otp: otpValue })
         .then((response) => {
-          addToSessionStorage('token', response?.accessToken);
+          addToSessionStorage('ps-auth-token', response?.accessToken);
+          navigate('/dashboard');
+        })
+        .catch(({ error }) => {
+          toast.error(error?.message);
         });
       return;
     }

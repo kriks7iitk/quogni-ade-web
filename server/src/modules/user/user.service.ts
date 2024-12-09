@@ -6,8 +6,8 @@ import {
 import { PrismaService } from "@/modules/prisma/prisma.service";
 import { UserDetails } from "./interfaces/user-details.interface";
 import { Prisma } from "@prisma/client";
-import { USER_MOD_ERROR_MESSAGE } from "./constants/error-message";
-import { USER_MOD_ERROR_CODES } from "./constants/error-codes";
+import { USER_MOD_ERROR_MESSAGE } from "./dto/constants/error-message";
+import { USER_MOD_ERROR_CODES } from "./dto/constants/error-codes";
 
 @Injectable()
 export class UserService {
@@ -16,6 +16,16 @@ export class UserService {
   async findUserByPhoneNumber(phoneNumber: string) {
     return this.prisma.user.findUnique({
       where: { phoneNumber: phoneNumber },
+    });
+  }
+
+  async findUserById(id: number) {
+    return await this.prisma.withTransaction(async (client: PrismaService) => {
+      return client.user.findUnique({
+        where: {
+          id,
+        },
+      });
     });
   }
 

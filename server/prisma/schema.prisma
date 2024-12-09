@@ -18,32 +18,35 @@ datasource db {
 model User {
   id              Int           @id @default(autoincrement())
   phoneNumber     String        @unique
-  email           String        @unique
   isPhoneVerified Boolean       @default(false) 
+  email           String        @unique
   createdAt       DateTime      @default(now())
   updatedAt       DateTime      @updatedAt
   userDetails     UserDetails?  // One-to-one relation
-  sessions        Session[]     // One-to-many relation
   userOtp         UserOtp?      // One-to-one relation
 }
 
 model UserDetails {
-  id          Int      @id @default(autoincrement())
-  username    String   @unique
+  id          Int       @id @default(autoincrement())
+  sessions    Session[] // One-to-many relation
+  username    String    @unique
   fullname    String
   dateOfBirth DateTime
+  isOnboarded Boolean   @default(false) 
   sector      String
   occupation  String
-  userId      Int      @unique
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      Int       @unique
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Session {
   id            Int       @id @default(autoincrement())
-  userId        Int
+  userId        Int       @unique
+  expiringTime  DateTime  
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @default(now())
-  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  ip            String
+  user          UserDetails      @relation(fields: [userId], references: [userId], onDelete: Cascade)
 }
 
 model UserOtp {
@@ -54,3 +57,5 @@ model UserOtp {
   userId      Int       @unique
   user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
+
+

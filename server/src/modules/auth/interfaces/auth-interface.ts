@@ -1,5 +1,12 @@
+import { User } from "@prisma/client";
+
 export interface UserPayload {
-  sub: number; //user id
+  sub: number;
   username: string;
-  phoneNumber: string;
+  sessionId: number;
+}
+
+export interface UserData {
+  user: User;
+  sessionId: number;
 }

@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get } from "@nestjs/common";
+import { Controller, Post, Body, Get, Req } from "@nestjs/common";
 import { AuthService } from "./auth.service";
 import {
   SendOtpDto,
@@ -23,8 +23,12 @@ export class AuthController {
   }
 
   @Post("authorize")
-  async authorize(@Body() authorizeDto: AuthorizeDto) {
-    return await this.authService.verifyPhoneNumberAndAuthorize(authorizeDto);
+  async authorize(@Body() authorizeDto: AuthorizeDto, @Req() request: Request) {
+    const ip = request.headers["x-forwarded-for"] || "";
+    return await this.authService.verifyPhoneNumberAndAuthorize(
+      authorizeDto,
+      ip
+    );
   }
 
   @Post("resend-otp")

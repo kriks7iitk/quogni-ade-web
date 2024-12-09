@@ -3,6 +3,7 @@ import {
   Routes,
   Route,
   useNavigate,
+  Navigate,
 } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import SignUp from './Modules/Auth/SignUp';
@@ -31,28 +32,20 @@ import LineChart from './Modules/VisualBuilder/BuilderRoutes/LineChartComponent/
 import Onboarding from './Modules/Auth/Onboarding';
 import SignIn from './Modules/Auth/SignIn';
 import OtpVerify from './Modules/Auth/OtpVerify';
+import PrivateRoute from './Modules/Routes/PrivateRoute';
+import { authorize } from './Utility/authorization';
 
 function App() {
   const [isNavBarExpanded, setIsNavBarExpanded] = useState(false);
-
   useEffect(() => {
-    const driverObj = driver({
-      showProgress: true,
-      steps: step1,
-      allowClose: true,
-      allowInteractions: true,
-    });
-    if (window.location.pathname === '/builder/back-test') {
-      driverObj.drive();
-    }
-
-    //authorize
+    authorize();
   }, []);
 
   return (
     <div className="app-container">
       <Router>
         <Routes>
+          <Route path="/" element={<Navigate to="/dashboard" />} />
           <Route
             path="/signup"
             element={
@@ -84,7 +77,14 @@ function App() {
               </Onboarding>
             }
           />
-
+          <Route
+            path="/signup"
+            element={
+              <Onboarding>
+                <SignUp />
+              </Onboarding>
+            }
+          />
           <Route
             path="/builder"
             element={
@@ -107,25 +107,16 @@ function App() {
             <Route path="settings" element={<StrategySettings />} />
           </Route>
           <Route
-            path="/experiment"
+            path="/dashboard"
             element={
-              <MainLayoutWithMenuBar
-                isNavBarExpanded={isNavBarExpanded}
-                setIsNavBarExpanded={setIsNavBarExpanded}
-              >
-                <Ruler />
-              </MainLayoutWithMenuBar>
-            }
-          />
-          <Route
-            path="/"
-            element={
-              <MainLayoutWithMenuBar
-                isNavBarExpanded={isNavBarExpanded}
-                setIsNavBarExpanded={setIsNavBarExpanded}
-              >
-                <Dashboard />
-              </MainLayoutWithMenuBar>
+              <PrivateRoute>
+                <MainLayoutWithMenuBar
+                  isNavBarExpanded={isNavBarExpanded}
+                  setIsNavBarExpanded={setIsNavBarExpanded}
+                >
+                  <Dashboard />
+                </MainLayoutWithMenuBar>
+              </PrivateRoute>
             }
           />
           <Route
@@ -196,7 +187,6 @@ function App() {
           />
         </Routes>
       </Router>
-
       <Toaster />
     </div>
   );
