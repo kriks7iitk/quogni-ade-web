@@ -34,7 +34,9 @@ import SignIn from './Modules/Auth/SignIn';
 import OtpVerify from './Modules/Auth/OtpVerify';
 import PrivateRoute from './Modules/Routes/PrivateRoute';
 import { authorize } from './Utility/authorization';
-
+import AuthCallback from './Modules/Auth/OAuth/AuthCallback';
+import { GoogleOAuthProvider } from '@react-oauth/google';
+import InfoModal from './Modules/Auth/InfoModal';
 function App() {
   const [isNavBarExpanded, setIsNavBarExpanded] = useState(false);
   useEffect(() => {
@@ -42,6 +44,7 @@ function App() {
   }, []);
 
   return (
+    <GoogleOAuthProvider clientId="54864273445-4qjkk55jpvec1so8ubseb7r75q95kakk.apps.googleusercontent.com">
     <div className="app-container">
       <Router>
         <Routes>
@@ -53,6 +56,20 @@ function App() {
                 <SignUp />
               </Onboarding>
             }
+          />
+          <Route
+            path="/modal"
+            element={
+              <InfoModal 
+              isOpen={true}
+              closeModal={false}
+              title="Welcome to Piggie Stack"
+              />
+            }
+          />
+          <Route
+            path="/oauth/callback/:type"
+            element={<AuthCallback />}
           />
           <Route
             path="/signin"
@@ -182,6 +199,7 @@ function App() {
       </Router>
       <Toaster />
     </div>
+    </GoogleOAuthProvider>
   );
 }
 

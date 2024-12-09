@@ -6,11 +6,11 @@ import {
   UnauthorizedException,
 } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service";
-import { AuthorizeDto, ResendOtpDto, SendOtpDto, SignUpDto } from "./auth.dto";
+import { AuthorizeDto, OAuthUserType, ResendOtpDto, SendOtpDto, SignUpDto, UserType } from "./auth.dto";
 import { UserService } from "../user/user.service";
 import { ConfigService } from "@nestjs/config";
 import axios from "axios";
-import { Prisma, PrismaClient, Session, User } from "@prisma/client";
+import { Prisma, PrismaClient, Session, User, OAuthUser } from "@prisma/client";
 import { AUTH_ERROR_CODE } from "./constants/error-codes";
 import { AUTH_ERROR_MESSAGE } from "./constants/error-messages";
 import { createError } from "@/utility/helpers";
@@ -25,7 +25,8 @@ export class AuthService {
     private readonly configService: ConfigService,
     private userService: UserService,
     private sessionsService: SessionService,
-    private readonly jwtService: JwtService
+    private readonly jwtService: JwtService,
+    private readonly prisma: PrismaService
   ) {}
 
   async signUp(signUpDto: SignUpDto): Promise<User> {
@@ -68,10 +69,8 @@ export class AuthService {
     return otp;
   }
 
-  private async authorize(
-    user: Prisma.UserGetPayload<{
-      include: { userDetails: true };
-    }>,
+  async authorize(
+    user: UserType | OAuthUserType,
     ip: string,
     client?: PrismaService
   ) {
@@ -84,6 +83,27 @@ export class AuthService {
     };
   }
 
+  async userExists(email: string) {
+    return await this.prisma.withTransaction(async (client: PrismaService) => {
+      try {
+        const existingOAuthUser = await client.oAuthUser.findUnique({
+          where: { 
+            email: email
+          }
+        });
+
+        const existingUser = await client.user.findUnique({
+          where: {
+            email: email
+          }
+        });
+        return existingOAuthUser !== null || existingUser !== null;
+      } catch (e) {
+        console.log(e)
+      }
+  })
+}
+
   async sendOTP({
     phoneNumber,
     otp,
@@ -92,7 +112,6 @@ export class AuthService {
     otp: number;
   }): Promise<any> {
     try {
-      console.log("hello");
       console.log(this.configService.get("OTP_SEND_URL"));
 
       const response = await axios.post(
@@ -246,7 +265,6 @@ export class AuthService {
       }
     );
   }
-
   async resendOtp(resendOtpDto: ResendOtpDto) {
     return await this.prismaService.withTransaction(
       async (client: PrismaService) => {
@@ -255,7 +273,7 @@ export class AuthService {
       }
     );
   }
-
+  // todo - add login type (auth/oauth) to the payload
   private generateUserPayload(
     user: Prisma.UserGetPayload<{
       include: { userDetails: true };

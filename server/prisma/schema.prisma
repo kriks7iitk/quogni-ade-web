@@ -26,6 +26,33 @@ model User {
   userOtp         UserOtp?      // One-to-one relation
 }
 
+enum OAuthUserType {
+  google
+  linkedin
+}
+
+model OAuthUser {
+  id                 Int                @id @default(autoincrement())
+  type               OAuthUserType
+  email              String             @unique
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+  oAuthUserDetails   OAuthUserDetails?  // One-to-one relation
+  sessions           Session[]          // One-to-many relation
+}
+
+// username to be generated and added
+model OAuthUserDetails {
+  id            Int        @id @default(autoincrement())
+  username      String     
+  fullname      String 
+  dateOfBirth   String
+  sector        String
+  occupation    String
+  oAuthUserId   Int        @unique
+  oAuthUser     OAuthUser  @relation(fields: [oAuthUserId], references: [id], onDelete: Cascade)
+}
+
 model UserDetails {
   id          Int       @id @default(autoincrement())
   sessions    Session[] // One-to-many relation
@@ -47,6 +74,7 @@ model Session {
   updatedAt     DateTime  @default(now())
   ip            String
   user          UserDetails      @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  oAuthUser     OAuthUser @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model UserOtp {
