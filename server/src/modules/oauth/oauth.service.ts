@@ -63,56 +63,10 @@ import { Prisma } from "@prisma/client";
             return response.data;
       }
 
-      async authorize(
-        id: number
-      ) {
-          const user = await this.prisma.oAuthUser.findUnique({
-            where: {
-              id: id
-            },
-            include: {
-              oAuthUserDetails: true
-            }
-          });
-
-          if (!user) {
-            // appropriate error
-          }
-
-          const accessToken = this.jwtService.sign(
-            this.authService.generateUserPayload(user, user.oAuthUserDetails.fullname), {
-              secret: "THISISNOTTHESECRET"
-            }
-          )
-
-          return {accessToken};
-      }
-
-      async userExists(email: string) {
-        return await this.prisma.withTransaction(async (client: PrismaService) => {
-          try {
-            const existingOAuthUser = await client.oAuthUser.findUnique({
-              where: { 
-                email: email
-              }
-            });
-
-            const existingUser = await client.user.findUnique({
-              where: {
-                email: email
-              }
-            });
-            return existingOAuthUser !== null || existingUser !== null;
-          } catch (e) {
-            console.log(e)
-          }
-      })
-    }
-
     async createOAuthUser(oAuthSignUpDto: OAuthSignUpDto, oAuthUserDetails) {
       return await this.prisma.withTransaction(async (client: PrismaService) => {
           try {
-            if (this.userExists(oAuthSignUpDto.email)) {
+            if (this.authService.userExists(oAuthSignUpDto.email)) {
               // show error
             }
             const formattedDateOfBirth = new Date("1990-05-25").toISOString();

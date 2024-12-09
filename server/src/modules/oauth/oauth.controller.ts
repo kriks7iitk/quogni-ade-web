@@ -2,11 +2,13 @@ import { Controller, Post, Body, Headers } from "@nestjs/common";
 import { OAuthService } from "./oauth.service";
 import { TokenRequestDto, UpdateUserRequestDto  } from "./oauth.dto";
 import { OAuthUserDetails } from "@prisma/client";
+import { AuthService } from "../auth/auth.service";
 
 @Controller("oauth")
 export class OAuthController {
   constructor(
     private readonly oAuthService: OAuthService,
+    private readonly authService: AuthService
   ) {}
   @Post("register")
   async Register(@Body() tokenRequestDto: TokenRequestDto) {
@@ -22,7 +24,7 @@ export class OAuthController {
             email: googleUserData.email}, 
             googleUserDetails
           );
-          const googleToken = this.oAuthService.authorize(googleUser.id);
+          const googleToken = this.authService.authorize(googleUser, "");
           return googleToken;
       
         case 'linkedin':
