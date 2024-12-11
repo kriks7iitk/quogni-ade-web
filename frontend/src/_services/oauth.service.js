@@ -18,7 +18,7 @@ const sendCode = (body) => {
 };
 
 const sendOAuthUserDetails = (body) => {
-  const authToken = getFromSessionStorage('token');
+  const authToken = getFromSessionStorage('ps-auth-token');
 
   const requestPayload = {
     method: 'POST',
