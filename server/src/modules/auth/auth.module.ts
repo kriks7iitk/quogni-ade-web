@@ -10,5 +10,6 @@ import { SessionModule } from "../session/sessions.module";
   imports: [UserModule, HttpModule, SessionModule],
   controllers: [AuthController],
   providers: [AuthService, JwtService],
+  exports: [AuthService],
 })
 export class AuthModule {}

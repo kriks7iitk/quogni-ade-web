@@ -5,7 +5,7 @@ import {
 } from "@nestjs/common";
 import { PrismaService } from "@/modules/prisma/prisma.service";
 import { UserDetails } from "./interfaces/user-details.interface";
-import { Prisma } from "@prisma/client";
+import { AuthType, Prisma } from "@prisma/client";
 import { USER_MOD_ERROR_MESSAGE } from "./dto/constants/error-message";
 import { USER_MOD_ERROR_CODES } from "./dto/constants/error-codes";
 
@@ -49,6 +49,7 @@ export class UserService {
                 occupation: userDetails?.occupation || "",
                 sector: userDetails?.sector || "",
                 fullname: userDetails.fullName || "",
+                authType: AuthType.LOCAL,
               },
             },
           },
