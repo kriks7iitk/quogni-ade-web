@@ -9,9 +9,17 @@ import { AuthType, Prisma } from "@prisma/client";
 import { USER_MOD_ERROR_MESSAGE } from "./dto/constants/error-message";
 import { USER_MOD_ERROR_CODES } from "./dto/constants/error-codes";
 
+import { JwtService } from "@nestjs/jwt";
+import { UpdateUserDto } from "./dto/update-user.dto";
+import { ConfigService } from "@nestjs/config";
+
 @Injectable()
 export class UserService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private readonly jwtService: JwtService,
+    private readonly configService: ConfigService
+  ) {}
 
   async findUserByPhoneNumber(phoneNumber: string) {
     return this.prisma.user.findUnique({
@@ -43,9 +51,7 @@ export class UserService {
             userDetails: {
               create: {
                 username: userDetails.username || "",
-                dateOfBirth: userDetails.dateOfBirth
-                  ? new Date(userDetails.dateOfBirth)
-                  : new Date(),
+                dateOfBirth: "",
                 occupation: userDetails?.occupation || "",
                 sector: userDetails?.sector || "",
                 fullname: userDetails.fullName || "",
@@ -71,5 +77,32 @@ export class UserService {
         throw new InternalServerErrorException();
       }
     }, client);
+  }
+
+  async updateUserDetails(updateUserRequestDto : UpdateUserDto, token: string) {
+    const decoded = this.jwtService.verify(token,{ secret: this.configService.get<string>("JWT_SECRET")}); 
+    const userId = decoded?.sub;
+
+    const updatedUser = await this.prisma.oAuthUser.update({
+      where: { id: userId },
+      data: {
+        userDetails: {
+          update: {
+            where: { id: userId},
+            data: {
+            authType: updateUserRequestDto.authType,
+            username: updateUserRequestDto.username,
+            dateOfBirth: updateUserRequestDto.dateOfBirth,
+            sector: JSON.stringify(updateUserRequestDto.sector),
+            occupation: JSON.stringify(updateUserRequestDto.occupation),
+            }
+          }        
+        }
+      },
+      include: {
+        userDetails: true
+      }
+    });
+    return updatedUser;
   }
 }

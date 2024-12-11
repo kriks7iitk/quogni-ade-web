@@ -89,8 +89,6 @@ const InfoModal = ({ isOpen, closeModal }) => {
 
         try {
           sendOAuthUserDetails(formData).then((response) => {
-            console.log(response);
-            console.log("data updated succesfully");
           });  
         } catch (e) {
             console.error(e);

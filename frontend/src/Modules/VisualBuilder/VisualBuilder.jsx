@@ -75,9 +75,6 @@ export default function VisualBuilder() {
   const handleDragStart = (event) => {
     const { active } = event;
     setActiveItem(active);
-    console.log('drag start');
-
-    console.log(active);
   };
 
   const handleTrayElementDragEnd = ({ over }) => {
@@ -103,8 +100,6 @@ export default function VisualBuilder() {
       toast.error('Please select stock for run back testing');
       return;
     }
-    console.log('name is');
-    console.log(name);
 
     dispatch(updateLoadingState(true));
     dispatch(updateTitleState('Strategy performance'));

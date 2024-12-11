@@ -5,7 +5,6 @@ import axios from "axios";
 import {
   OAuthSignUpDto,
   TokenRequestDto,
-  UpdateUserRequestDto,
 } from "./oauth.dto";
 import { PrismaService } from "../prisma/prisma.service";
 import { JwtService } from "@nestjs/jwt";
@@ -18,10 +17,16 @@ import {
   UserDetails,
 } from "@prisma/client";
 import { CreateOAuthUserObject } from "../auth/interfaces/auth-interface";
+import { createError } from "@/utility/helpers";
+import { AUTH_ERROR_CODE } from "../auth/constants/error-codes";
+import { AUTH_ERROR_MESSAGE } from "../auth/constants/error-messages";
+import { UserService } from "../user/user.service";
+import { UpdateUserDto } from "../user/dto/update-user.dto";
 @Injectable()
 export class OAuthService {
   constructor(
     private readonly authService: AuthService,
+    private readonly userService: UserService,
     private prisma: PrismaService
   ) {}
 
@@ -46,12 +51,11 @@ export class OAuthService {
           const googleUserDetails: Partial<UserDetails> = {
             fullname: googleUserData.name,
           };
-
           const googleUser = await this.createOAuthUser(
             { type: tokenRequestDto.type, email: googleUserData.email },
             googleUserDetails,
             client
-          );
+          );                  
           const googleToken = this.authService.authorize({
             user: googleUser,
             ip: "",
@@ -139,9 +143,16 @@ export class OAuthService {
     client?: PrismaService
   ): Promise<OAuthUser> {
     return await this.prisma.withTransaction(async (client: PrismaService) => {
-      try {
-        if (this.authService.userExists(oAuthSignUpDto.email)) {
-          // show error
+        if (await this.authService.userExists(oAuthSignUpDto.email) == true) {
+          throw new BadRequestException({
+            message: {
+              ...createError(
+                AUTH_ERROR_CODE,
+                AUTH_ERROR_MESSAGE,
+                "USER_EXISTS"
+              ),
+            },
+          });
         }
         return await client.oAuthUser.create({
           data: {
@@ -150,7 +161,7 @@ export class OAuthService {
             userDetails: {
               create: {
                 fullname: oAuthUserDetails.fullname || "",
-                authType: AuthType.OAUTH,
+                authType: AuthType.OAUTH || "OAUTH",
                 username: "",
                 dateOfBirth: null,
                 sector: null,
@@ -159,9 +170,10 @@ export class OAuthService {
             },
           },
         });
-      } catch (e) {
-        console.log(e);
-      }
-    }, client);
+    }, client)
+  }
+
+  async updateOAuthUser(updateUserRequest: UpdateUserDto, authToken: string) {
+    return this.userService.updateUserDetails(updateUserRequest, authToken);
   }
 }

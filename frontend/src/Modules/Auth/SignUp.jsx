@@ -217,8 +217,6 @@ function SignUp() {
           borderColor="none"
           bgColor={'var(--ps-pink)'}
           onClick={() => {
-            console.log('Sign up is called');
-
             handleSignUp();
           }}
         >

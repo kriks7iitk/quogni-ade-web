@@ -28,7 +28,6 @@ export const fetchSignal = createAsyncThunk(
       stock,
       strategyName,
     );
-    console.log('helo helo name is ');
     console.log(strategyName);
 
     return response.data;
@@ -76,7 +75,6 @@ const rightDrawerSlice = createSlice({
       state.title = action.payload;
     },
     updateRightDrawerJourneyState: (state, action) => {
-      console.log('changing level');
       console.log(action);
 
       state.level = action.payload;

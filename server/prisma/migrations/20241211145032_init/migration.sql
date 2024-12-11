@@ -1,5 +1,5 @@
 -- CreateEnum
-CREATE TYPE "OAuthUserType" AS ENUM ('GOOGLE', 'LINKEDIN');
+CREATE TYPE "OAuthUserProvider" AS ENUM ('GOOGLE', 'LINKEDIN');
 
 -- CreateEnum
 CREATE TYPE "AuthType" AS ENUM ('LOCAL', 'OAUTH');
@@ -30,7 +30,7 @@ CREATE TABLE "UserOtp" (
 -- CreateTable
 CREATE TABLE "OAuthUser" (
     "id" SERIAL NOT NULL,
-    "type" "OAuthUserType" NOT NULL,
+    "type" "OAuthUserProvider" NOT NULL,
     "email" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -44,10 +44,10 @@ CREATE TABLE "UserDetails" (
     "authType" "AuthType" NOT NULL,
     "username" TEXT NOT NULL,
     "fullname" TEXT NOT NULL,
-    "dateOfBirth" TIMESTAMP(3) NOT NULL,
+    "dateOfBirth" TIMESTAMP(3),
     "isOnboarded" BOOLEAN NOT NULL DEFAULT false,
-    "sector" TEXT NOT NULL,
-    "occupation" TEXT NOT NULL,
+    "sector" TEXT,
+    "occupation" TEXT,
     "userId" INTEGER,
     "oAuthUserId" INTEGER,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,

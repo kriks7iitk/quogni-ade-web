@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import CustomSkeleton from '../../Loaders/CustomSkeleton/CustomSkeleton';
 import { oAuthService } from '../../../_services';
 import { addToSessionStorage } from '../../../Utility/utility';
+import toast from 'react-hot-toast';
 
 const AuthCallback = () => {
   const location = useLocation();
@@ -15,22 +16,26 @@ const AuthCallback = () => {
   const [error, setError] = useState(null); 
 
   const sendToBackend = async () => {
-    try {
       const body = {
         code: code,
-        type: type
+        type: type.toUpperCase()
       };
     oAuthService.sendCode(body).then((response) => {
         const jwtToken = response.accessToken;
-        addToSessionStorage('token', jwtToken);
+        addToSessionStorage('ps-auth-token', jwtToken);
         navigate('/modal');
       }
-    );
+    ).catch(({ error }) => {
+      console.log(error);
+      toast.error(error?.message);
+      if (error?.code == 'auth109') {
+        setTimeout(() => {
+        navigate('/signin')
+        }, 2000)
+      }
+    });
 
     setLoading(false);
-    } catch (error) {
-      setLoading(false);
-    }
   };
   
   useEffect(async () => {

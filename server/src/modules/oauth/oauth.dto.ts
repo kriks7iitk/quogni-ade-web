@@ -3,9 +3,9 @@ import { IsString, IsNotEmpty } from "class-validator";
 
 export class TokenRequestDto {
   @IsString()
-  @IsNotEmpty({ message: "code cannot is required" })
+  @IsNotEmpty({ message: "code is required" })
   code: string;
-
+  
   @IsString()
   @IsNotEmpty({ message: "type cannot is required" })
   type: OAuthUserProvider;
@@ -29,11 +29,4 @@ export class OAuthSignUpDto {
   @IsString()
   @IsNotEmpty({ message: "Email is required" })
   email: string;
-}
-
-export class UpdateUserRequestDto {
-  username: string;
-  dateOfBirth: string;
-  occupation: string;
-  sector: string;
 }

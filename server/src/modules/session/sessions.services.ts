@@ -61,7 +61,6 @@ export class SessionService {
     return await this.prisma.withTransaction(async (client: PrismaService) => {
       const session = await this.get(id, client);
       const currentDate = new Date();
-      console.log("running validate session");
       if (!session) return false;
       if (session.expiringTime < currentDate) {
         await this.terminate(session, client);
