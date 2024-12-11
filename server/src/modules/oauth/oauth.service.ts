@@ -25,6 +25,16 @@ export class OAuthService {
     private prisma: PrismaService
   ) {}
 
+  async get(id: number, client?: PrismaService): Promise<OAuthUser> {
+    return await this.prisma.withTransaction(async (client: PrismaService) => {
+      return await client.oAuthUser.findUnique({
+        where: {
+          id,
+        },
+      });
+    }, client);
+  }
+
   async createOAthUserFromRequest(tokenRequestDto: TokenRequestDto) {
     return await this.prisma.withTransaction(async (client: PrismaService) => {
       switch (tokenRequestDto.type) {

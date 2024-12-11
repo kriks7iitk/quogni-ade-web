@@ -10,6 +10,7 @@ import { AuthModule } from "../auth/auth.module";
 @Module({
   imports: [JwtModule.register({}), HttpModule, AuthModule],
   controllers: [OAuthController],
+  exports: [OAuthService],
   providers: [OAuthService, UserService],
 })
 export class OAuthModule {}

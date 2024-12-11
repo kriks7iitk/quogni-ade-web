@@ -5,13 +5,16 @@ import { ExtractJwt, Strategy } from "passport-jwt";
 import { UserPayload } from "../interfaces/auth-interface";
 import { UserService } from "@/modules/user/user.service";
 import { SessionService } from "@/modules/session/sessions.services";
+import { AuthType, OAuthUser, User } from "@prisma/client";
+import { OAuthService } from "@/modules/oauth/oauth.service";
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
     private usersService: UserService,
     private configService: ConfigService,
-    private sessionService: SessionService
+    private sessionService: SessionService,
+    private oAuthService: OAuthService
   ) {
     super({
       jwtFromRequest: (request) => {
@@ -26,7 +29,12 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 
   async validate(req: Request, payload: UserPayload) {
     const isGetUserSession = !!req["isGetUserSession"];
-    const user = await this.usersService.findUserById(payload.sub);
+    let user: User | OAuthUser;
+    if (payload.authType == AuthType.LOCAL) {
+      user = await this.usersService.findUserById(payload.sub);
+    } else {
+      user = await this.oAuthService.get(payload.sub);
+    }
     if (!user)
       throw new BadRequestException({
         message: {
