@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "UserDetails" ALTER COLUMN "dateOfBirth" DROP NOT NULL,
+ALTER COLUMN "sector" DROP NOT NULL,
+ALTER COLUMN "occupation" DROP NOT NULL;

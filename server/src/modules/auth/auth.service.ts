@@ -6,15 +6,27 @@ import {
   UnauthorizedException,
 } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service";
-import { AuthorizeDto, OAuthUserType, ResendOtpDto, SendOtpDto, SignUpDto, UserType } from "./auth.dto";
+import { AuthorizeDto, ResendOtpDto, SendOtpDto, SignUpDto } from "./auth.dto";
 import { UserService } from "../user/user.service";
 import { ConfigService } from "@nestjs/config";
 import axios from "axios";
-import { Prisma, PrismaClient, Session, User, OAuthUser } from "@prisma/client";
+import {
+  Prisma,
+  PrismaClient,
+  Session,
+  User,
+  OAuthUser,
+  AuthType,
+} from "@prisma/client";
 import { AUTH_ERROR_CODE } from "./constants/error-codes";
 import { AUTH_ERROR_MESSAGE } from "./constants/error-messages";
 import { createError } from "@/utility/helpers";
-import { UserPayload } from "./interfaces/auth-interface";
+import {
+  AuthorizeObject,
+  OAuthUserType,
+  UserPayload,
+  UserType,
+} from "./interfaces/auth-interface";
 import { JwtService } from "@nestjs/jwt";
 import { SessionService } from "../session/sessions.services";
 
@@ -70,14 +82,16 @@ export class AuthService {
   }
 
   async authorize(
-    user: UserType | OAuthUserType,
-    ip: string,
+    { user, ip, authType }: AuthorizeObject,
     client?: PrismaService
   ) {
-    const session = await this.sessionsService.create({ ip, user }, client);
+    const session = await this.sessionsService.create(
+      { ip, userId: user.id, authType },
+      client
+    );
     return {
       accessToken: this.jwtService.sign(
-        this.generateUserPayload(user, session),
+        this.generateUserPayload(user, authType, session),
         { secret: this.configService.get<string>("JWT_SECRET") }
       ),
     };
@@ -87,22 +101,22 @@ export class AuthService {
     return await this.prisma.withTransaction(async (client: PrismaService) => {
       try {
         const existingOAuthUser = await client.oAuthUser.findUnique({
-          where: { 
-            email: email
-          }
+          where: {
+            email: email,
+          },
         });
 
         const existingUser = await client.user.findUnique({
           where: {
-            email: email
-          }
+            email: email,
+          },
         });
         return existingOAuthUser !== null || existingUser !== null;
       } catch (e) {
-        console.log(e)
+        console.log(e);
       }
-  })
-}
+    });
+  }
 
   async sendOTP({
     phoneNumber,
@@ -164,7 +178,10 @@ export class AuthService {
             },
           });
         await this.verifyOTP({ userId, otp }, client);
-        return await this.authorize(user, ip, client);
+        return await this.authorize(
+          { user, ip, authType: AuthType.LOCAL },
+          client
+        );
       }
     );
   }
@@ -275,14 +292,14 @@ export class AuthService {
   }
   // todo - add login type (auth/oauth) to the payload
   private generateUserPayload(
-    user: Prisma.UserGetPayload<{
-      include: { userDetails: true };
-    }>,
+    user: UserType | OAuthUserType,
+    authType: AuthType,
     session: Session
   ): UserPayload {
     return {
       sub: user.id,
-      username: user.userDetails.username,
+      user,
+      authType,
       sessionId: session.id,
     };
   }

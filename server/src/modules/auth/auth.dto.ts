@@ -65,10 +65,3 @@ export class ResendOtpDto {
   phoneNumber: string;
 }
 
-export type UserType = Prisma.UserGetPayload<{
-  include: { userDetails: true };
-}>;
-
-export type OAuthUserType = Prisma.OAuthUserGetPayload<{
-  include: { oAuthUerDetails: true };
-}>;
