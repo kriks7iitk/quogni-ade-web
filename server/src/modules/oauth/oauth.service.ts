@@ -10,17 +10,68 @@ import {
 import { PrismaService } from "../prisma/prisma.service";
 import { JwtService } from "@nestjs/jwt";
 import { AuthService } from "../auth/auth.service";
-import { AuthType, OAuthUserProvider, Prisma } from "@prisma/client";
+import {
+  AuthType,
+  OAuthUser,
+  OAuthUserProvider,
+  Prisma,
+  UserDetails,
+} from "@prisma/client";
 import { CreateOAuthUserObject } from "../auth/interfaces/auth-interface";
 @Injectable()
 export class OAuthService {
   constructor(
-    private readonly jwtService: JwtService,
     private readonly authService: AuthService,
     private prisma: PrismaService
   ) {}
 
-  async createOAthUserFromRequest(tokenRequestDto: TokenRequestDto) {}
+  async createOAthUserFromRequest(tokenRequestDto: TokenRequestDto) {
+    return await this.prisma.withTransaction(async (client: PrismaService) => {
+      switch (tokenRequestDto.type) {
+        // more modularity
+        case OAuthUserProvider.GOOGLE:
+          const googleUserData = await this.getGoogleUserInfo(
+            tokenRequestDto.code
+          );
+          const googleUserDetails: Partial<UserDetails> = {
+            fullname: googleUserData.name,
+          };
+
+          const googleUser = await this.createOAuthUser(
+            { type: tokenRequestDto.type, email: googleUserData.email },
+            googleUserDetails,
+            client
+          );
+          const googleToken = this.authService.authorize({
+            user: googleUser,
+            ip: "",
+            authType: AuthType.OAUTH,
+          });
+          return googleToken;
+
+        case OAuthUserProvider.LINKEDIN:
+          const accessToken = await this.getToken(tokenRequestDto);
+          const linkedinUserData = await this.getLinkedinUserInfo(accessToken);
+          const linkedinUserDetails: Partial<UserDetails> = {
+            fullname: linkedinUserData.name,
+          };
+          const linkedinUser = await this.createOAuthUser(
+            { type: tokenRequestDto.type, email: linkedinUserData.email },
+            linkedinUserDetails,
+            client
+          );
+          const linkedinToken = this.authService.authorize({
+            user: linkedinUser,
+            ip: "",
+            authType: AuthType.OAUTH,
+          });
+          return linkedinToken;
+
+        default:
+          throw new Error("Unsupported OAuth type");
+      }
+    });
+  }
   async getToken(tokenRequestDto: TokenRequestDto) {
     switch (tokenRequestDto.type) {
       case OAuthUserProvider.LINKEDIN:
@@ -63,7 +114,6 @@ export class OAuthService {
   }
   async getLinkedinUserInfo(access_token: string) {
     const userUrl = "https://api.linkedin.com/v2/userinfo";
-
     const response = await axios.get(userUrl, {
       headers: {
         Authorization: `Bearer ${access_token}`,
@@ -73,10 +123,11 @@ export class OAuthService {
     return response.data;
   }
 
-  async createOAuthUser(
+  private async createOAuthUser(
     oAuthSignUpDto: CreateOAuthUserObject,
-    oAuthUserDetails
-  ) {
+    oAuthUserDetails: Partial<UserDetails>,
+    client?: PrismaService
+  ): Promise<OAuthUser> {
     return await this.prisma.withTransaction(async (client: PrismaService) => {
       try {
         if (this.authService.userExists(oAuthSignUpDto.email)) {
@@ -88,7 +139,7 @@ export class OAuthService {
             email: oAuthSignUpDto.email,
             userDetails: {
               create: {
-                fullname: oAuthUserDetails.fullName || "",
+                fullname: oAuthUserDetails.fullname || "",
                 authType: AuthType.OAUTH,
                 username: "",
                 dateOfBirth: null,
@@ -101,34 +152,6 @@ export class OAuthService {
       } catch (e) {
         console.log(e);
       }
-    });
-  }
-
-  async updateUserDetails(
-    updateUserRequestDto: UpdateUserRequestDto,
-    token: string
-  ) {
-    const decoded = this.jwtService.verify(token, {
-      secret: "THISISNOTTHESECRET",
-    });
-    const userId = decoded?.sub;
-    // const updatedUser = await this.prisma.oAuthUser.update({
-    //   where: { id: userId },
-    //   data: {
-    //     oAuthUserDetails: {
-    //       update: {
-    //         username: updateUserRequestDto.username,
-    //         dateOfBirth: updateUserRequestDto.dateOfBirth,
-    //         sector: JSON.stringify(updateUserRequestDto.sector),
-    //         occupation: JSON.stringify(updateUserRequestDto.occupation),
-    //       }
-    //     }
-    //   },
-    //   include: {
-    //     oAuthUserDetails: true
-    //   }
-    // });
-
-    return;
+    }, client);
   }
 }

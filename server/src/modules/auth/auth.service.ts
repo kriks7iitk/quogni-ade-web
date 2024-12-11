@@ -292,7 +292,7 @@ export class AuthService {
   }
   // todo - add login type (auth/oauth) to the payload
   private generateUserPayload(
-    user: UserType | OAuthUserType,
+    user: User | OAuthUser,
     authType: AuthType,
     session: Session
   ): UserPayload {

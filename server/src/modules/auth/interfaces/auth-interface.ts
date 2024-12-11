@@ -1,9 +1,15 @@
-import { AuthType, OAuthUserProvider, Prisma, User } from "@prisma/client";
+import {
+  AuthType,
+  OAuthUser,
+  OAuthUserProvider,
+  Prisma,
+  User,
+} from "@prisma/client";
 
 export interface UserPayload {
   sub: number;
   sessionId: number;
-  user: UserType | OAuthUserType;
+  user: OAuthUser | User;
   authType: AuthType;
 }
 
@@ -21,7 +27,7 @@ export type OAuthUserType = Prisma.OAuthUserGetPayload<{
 }>;
 
 export interface AuthorizeObject {
-  user: UserType | OAuthUserType;
+  user: User | OAuthUser;
   ip: string;
   authType: AuthType;
 }
