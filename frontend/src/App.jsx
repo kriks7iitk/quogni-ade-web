@@ -42,9 +42,10 @@ function App() {
   useEffect(() => {
     authorize();
   }, []);
-
+  
+  console.log(import.meta.env)
   return (
-    <GoogleOAuthProvider clientId="54864273445-4qjkk55jpvec1so8ubseb7r75q95kakk.apps.googleusercontent.com">
+    <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
     <div className="app-container">
       <Router>
         <Routes>
