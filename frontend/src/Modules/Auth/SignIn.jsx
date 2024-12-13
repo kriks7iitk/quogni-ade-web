@@ -13,7 +13,9 @@ import { OCCUPATIONS } from './constants/auth.constant';
 import { convertOccupationData } from './utils/utilityFunction';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-
+import { oAuthService } from '../../_services';
+import GoogleOAuthButton from './OAuth/GoogleOAuth';
+import LinkedInOAuthButton from './OAuth/LinkedInOAuth';
 function SignIn() {
   const [signIn, setSignIn] = useState({});
   const navigate = useNavigate();
@@ -132,22 +134,8 @@ function SignIn() {
         </div>
 
         <div className="oauth-buttons-container ">
-          <SolidButton
-            leftIcon="google"
-            iconFill="#ffffff"
-            hoverIconFill="#ffffff"
-            customClass="auth-btn"
-          >
-            Login with Google
-          </SolidButton>
-          <SolidButton
-            leftIcon="linkedin"
-            iconFill="#ffffff"
-            hoverIconFill="#ffffff"
-            customClass="auth-btn"
-          >
-            Login with LinkedIn
-          </SolidButton>
+              <GoogleOAuthButton />
+              <LinkedInOAuthButton />
         </div>
         <div className="confirm-button">
           <SolidButton

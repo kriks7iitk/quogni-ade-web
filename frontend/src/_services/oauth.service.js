@@ -4,13 +4,13 @@ export { sendCode, sendOAuthUserDetails };
 import { SERVER_HOST } from '.';
 import { getFromSessionStorage } from '../Utility/utility';
 
-const sendCode = (body) => {
+const sendCode = (body, login = false) => {
   const requestPayload = {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(body)
+    body: JSON.stringify({ ...body, login})
   };
   return fetch(`${SERVER_HOST}/oauth/register`, requestPayload).then(
     handleResponse,

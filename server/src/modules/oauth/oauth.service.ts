@@ -16,7 +16,7 @@ import {
   Prisma,
   UserDetails,
 } from "@prisma/client";
-import { CreateOAuthUserObject } from "../auth/interfaces/auth-interface";
+import { AuthorizeObject, CreateOAuthUserObject } from "../auth/interfaces/auth-interface";
 import { createError } from "@/utility/helpers";
 import { AUTH_ERROR_CODE } from "../auth/constants/error-codes";
 import { AUTH_ERROR_MESSAGE } from "../auth/constants/error-messages";
@@ -41,22 +41,26 @@ export class OAuthService {
   }
 
   async createOAthUserFromRequest(tokenRequestDto: TokenRequestDto) {
+    const { type, code, login } = tokenRequestDto;
+    if (login) {
+      return this.signInOAuthUserFromRequest(tokenRequestDto);
+    }
     return await this.prisma.withTransaction(async (client: PrismaService) => {
-      switch (tokenRequestDto.type) {
+      switch (type) {
         // more modularity
         case OAuthUserProvider.GOOGLE:
           const googleUserData = await this.getGoogleUserInfo(
-            tokenRequestDto.code
+            code
           );
           const googleUserDetails: Partial<UserDetails> = {
             fullname: googleUserData.name,
           };
           const googleUser = await this.createOAuthUser(
-            { type: tokenRequestDto.type, email: googleUserData.email },
+            { type: type, email: googleUserData.email },
             googleUserDetails,
             client
           );                  
-          const googleToken = this.authService.authorize({
+          const googleToken = await this.authService.authorize({
             user: googleUser,
             ip: "",
             authType: AuthType.OAUTH,
@@ -70,11 +74,11 @@ export class OAuthService {
             fullname: linkedinUserData.name,
           };
           const linkedinUser = await this.createOAuthUser(
-            { type: tokenRequestDto.type, email: linkedinUserData.email },
+            { type: type, email: linkedinUserData.email },
             linkedinUserDetails,
             client
           );
-          const linkedinToken = this.authService.authorize({
+          const linkedinToken = await this.authService.authorize({
             user: linkedinUser,
             ip: "",
             authType: AuthType.OAUTH,
@@ -86,6 +90,62 @@ export class OAuthService {
       }
     });
   }
+
+  async signInOAuthUserFromRequest(tokenRequestDto: TokenRequestDto) {
+    return await this.prisma.withTransaction(async (client: PrismaService) => {
+      switch (tokenRequestDto.type) {
+        // more modularity
+        case OAuthUserProvider.GOOGLE:
+          const googleUserData = await this.getGoogleUserInfo(
+            tokenRequestDto.code
+          );
+
+          const googleUser = await this.prisma.oAuthUser.findUnique({
+            where: 
+            { email: googleUserData.email}
+          });
+
+          if (!googleUser) 
+            throw new BadRequestException({
+              message: {
+                ...createError(
+                  AUTH_ERROR_CODE,
+                  AUTH_ERROR_MESSAGE,
+                  "USER_DOES_NOT_EXIST"
+                ),
+              },
+            });
+
+          const googleToken = await this.authService.authorize({
+              user: googleUser,
+              ip: "",
+              authType: AuthType.OAUTH,
+          });
+
+          return {accessToken: googleToken.accessToken, login: true};
+
+        case OAuthUserProvider.LINKEDIN:
+          const accessToken = await this.getToken(tokenRequestDto);
+          const linkedinUserData = await this.getLinkedinUserInfo(accessToken);
+
+          const linkedinUser = await this.prisma.oAuthUser.findUnique({
+            where: 
+            { email: linkedinUserData.email}
+          });
+
+          const linkedinToken = await this.authService.authorize({
+            user: linkedinUser,
+            ip: "",
+            authType: AuthType.OAUTH,
+          });
+          return {accessToken: linkedinToken.accessToken, login: true};
+
+        default:
+          throw new Error("Unsupported OAuth type");
+      }
+    });
+  }
+
   async getToken(tokenRequestDto: TokenRequestDto) {
     switch (tokenRequestDto.type) {
       case OAuthUserProvider.LINKEDIN:
