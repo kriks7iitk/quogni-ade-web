@@ -16,6 +16,9 @@ import { Link } from 'react-router-dom';
 import { oAuthService } from '../../_services';
 import GoogleOAuthButton from './OAuth/GoogleOAuth';
 import LinkedInOAuthButton from './OAuth/LinkedInOAuth';
+import GoogleOAuthLoginButton from './OAuth/GoogleOAuthLogin';
+import LinkedInOAuthLoginButton from './OAuth/LinkedInOAuthLogin';
+
 function SignIn() {
   const [signIn, setSignIn] = useState({});
   const navigate = useNavigate();
@@ -134,8 +137,8 @@ function SignIn() {
         </div>
 
         <div className="oauth-buttons-container ">
-              <GoogleOAuthButton />
-              <LinkedInOAuthButton />
+              <GoogleOAuthLoginButton />
+              <LinkedInOAuthLoginButton />
         </div>
         <div className="confirm-button">
           <SolidButton
