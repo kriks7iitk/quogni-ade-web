@@ -63,13 +63,6 @@ function App() {
             }
           />
           <Route
-            path="/dashboard"
-            element={
-              <Dashboard>
-              </Dashboard>
-            }
-          />
-          <Route
             path="/otp-verify"
             element={
               <Onboarding>
