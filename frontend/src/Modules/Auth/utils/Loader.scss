@@ -3,15 +3,15 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh; /* Full height */
+    height: 100vh; 
     background-color: #f9f9f9;
   }
   
   .loader {
     width: 50px;
     height: 50px;
-    border: 6px solid #f3f3f3; /* Light gray */
-    border-top: 6px solid #3498db; /* Blue */
+    border: 6px solid lightgray; 
+    border-top: 6px solid var(--ps-pink); 
     border-radius: 50%;
     animation: spin 1s linear infinite;
   }
