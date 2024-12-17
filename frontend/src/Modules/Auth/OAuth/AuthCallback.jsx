@@ -10,23 +10,23 @@ const AuthCallback = () => {
   const navigate = useNavigate();
   const queryParams = new URLSearchParams(location.search);
   const code = queryParams.get('code');
-  const { type } = useParams(); 
+  const { type } = useParams();
   const mode = queryParams.get('mode');
   useEffect(() => {
     const sendToBackend = async () => {
       try {
         const isLogin = async () => {
           if (mode === 'login') {
-            return true
+            return true;
           } else {
             return false;
           }
-        }
+        };
 
         const body = {
           code: code,
           type: type.toUpperCase(),
-          login: await isLogin(mode)
+          login: await isLogin(mode),
         };
 
         const response = await oAuthService.sendCode(body);

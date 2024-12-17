@@ -12,6 +12,7 @@ import { USER_MOD_ERROR_CODES } from "./dto/constants/error-codes";
 import { JwtService } from "@nestjs/jwt";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import { ConfigService } from "@nestjs/config";
+import { SignUpDto } from "../auth/auth.dto";
 
 @Injectable()
 export class UserService {
@@ -44,6 +45,8 @@ export class UserService {
   ) {
     return await this.prisma.withTransaction(async (client: PrismaService) => {
       try {
+        console.log("yo oyy oy");
+
         return await client.user.create({
           data: {
             phoneNumber: phoneNumber,
@@ -51,7 +54,7 @@ export class UserService {
             userDetails: {
               create: {
                 username: userDetails.username || "",
-                dateOfBirth: "",
+                dateOfBirth: new Date(userDetails?.dateOfBirth),
                 occupation: userDetails?.occupation || "",
                 sector: userDetails?.sector || "",
                 fullname: userDetails.fullName || "",
@@ -61,6 +64,8 @@ export class UserService {
           },
         });
       } catch (e) {
+        console.log("error is ", e);
+
         if (e instanceof Prisma.PrismaClientKnownRequestError) {
           console.log(e);
 
@@ -79,8 +84,10 @@ export class UserService {
     }, client);
   }
 
-  async updateUserDetails(updateUserRequestDto : UpdateUserDto, token: string) {
-    const decoded = this.jwtService.verify(token,{ secret: this.configService.get<string>("JWT_SECRET")}); 
+  async updateUserDetails(updateUserRequestDto: UpdateUserDto, token: string) {
+    const decoded = this.jwtService.verify(token, {
+      secret: this.configService.get<string>("JWT_SECRET"),
+    });
     const userId = decoded?.sub;
 
     const updatedUser = await this.prisma.oAuthUser.update({
@@ -88,20 +95,20 @@ export class UserService {
       data: {
         userDetails: {
           update: {
-            where: { id: userId},
+            where: { id: userId },
             data: {
-            authType: updateUserRequestDto.authType,
-            username: updateUserRequestDto.username,
-            dateOfBirth: updateUserRequestDto.dateOfBirth,
-            sector: JSON.stringify(updateUserRequestDto.sector),
-            occupation: JSON.stringify(updateUserRequestDto.occupation),
-            }
-          }        
-        }
+              authType: updateUserRequestDto.authType,
+              username: updateUserRequestDto.username,
+              dateOfBirth: updateUserRequestDto.dateOfBirth,
+              sector: JSON.stringify(updateUserRequestDto.sector),
+              occupation: JSON.stringify(updateUserRequestDto.occupation),
+            },
+          },
+        },
       },
       include: {
-        userDetails: true
-      }
+        userDetails: true,
+      },
     });
     return updatedUser;
   }

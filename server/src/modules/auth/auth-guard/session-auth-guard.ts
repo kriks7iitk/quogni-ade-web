@@ -21,7 +21,15 @@ export class SessionAuthGuard extends AuthGuard("jwt") {
       try {
         user = await super.canActivate(context);
       } catch (err) {
-        throw new BadRequestException();
+        throw new BadRequestException({
+          message: {
+            ...createError(
+              AUTH_ERROR_CODE,
+              AUTH_ERROR_MESSAGE,
+              "INVALID_PAYLOAD"
+            ),
+          },
+        });
       }
       return user;
     }

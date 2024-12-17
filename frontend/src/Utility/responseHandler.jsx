@@ -8,6 +8,7 @@ export function handleResponse(response) {
 
     if (!response.ok) {
       const error = (data && data.message) || response.statusText;
+
       if (!isAuthRoutes) {
         if (response.status === 401) {
           if (error?.code == 'auth106') {
@@ -23,6 +24,15 @@ export function handleResponse(response) {
           }
         } else if (response.status === 403) {
           toast.error('forbidden resource');
+        } else {
+          console.log('error is ', error);
+
+          if (error?.code == 'auth110') {
+            const encodedMessage = encodeURIComponent(
+              error?.message || 'An error occurred',
+            );
+            window.location.href = `/signin?toastMessage=${encodedMessage}`;
+          }
         }
       }
 

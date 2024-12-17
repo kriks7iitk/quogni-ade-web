@@ -56,7 +56,7 @@ model UserDetails {
   authType    AuthType
   username    String    @unique
   fullname    String  
-  dateOfBirth String?
+  dateOfBirth DateTime?
   isOnboarded Boolean   @default(false) 
   sector      String?
   occupation  String?

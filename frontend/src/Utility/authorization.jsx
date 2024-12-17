@@ -5,7 +5,6 @@ export function authorize() {
   const isAuthRoute = isAuthRoutes();
   authenticationService.validateSession().then((data) => {
     authenticationService.updateCurrentSession({ user: data });
-
     if (isAuthRoute) window.location.href = '/dashboard';
   });
 }
