@@ -13,6 +13,8 @@ export class TokenRequestDto {
   @IsString()
   @IsNotEmpty({ message: "redirect uri is required" })
   redirect_uri: string;
+
+  login: boolean
 }
 
 export class OAuthUserDetails {

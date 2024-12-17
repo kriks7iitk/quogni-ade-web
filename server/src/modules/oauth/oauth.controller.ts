@@ -13,6 +13,11 @@ export class OAuthController {
     return this.oAuthService.createOAthUserFromRequest(tokenRequestDto);
   }
 
+  @Post("signin")
+  async signin(@Body() tokenRequestDto: TokenRequestDto) {
+    return this.oAuthService.signInOAuthUserFromRequest(tokenRequestDto);
+  }
+
   @Post("update-user")
   async updateUser(
     @Body() updateUserRequestDto: UpdateUserDto,

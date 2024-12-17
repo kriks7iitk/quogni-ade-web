@@ -7,5 +7,6 @@ export const AUTH_ERROR_MESSAGE = {
   SESSION_NOT_EXIST: "Session does not exist",
   OTP_NOT_EXIST: "OTP does not exist please resend the otp",
   USER_EXISTS: "You're already signed up please login",
+  USER_DOES_NOT_EXIST: "User does not exist you need to signup first",
   INVALID_PAYLOAD: "Session is not valid",
 };

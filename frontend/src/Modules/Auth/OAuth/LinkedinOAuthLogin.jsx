@@ -2,9 +2,9 @@ import React from 'react';
 import SolidButton from '../../../_components/Buttons/SolidButton';
 
 const clientId = '862eqspemtvr0p';  
-const redirectUri = 'http://localhost:8082/oauth/callback/linkedin&mode=signup'; 
+const redirectUri = 'http://localhost:8082/oauth/callback/linkedin&mode=login'; 
 
-const LinkedInOAuthButton = () => {
+const LinkedInOAuthLoginButton = () => {
   const authUrl = `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=openid%20email%20profile`;
 
   const handleLogin = () => {
@@ -26,4 +26,4 @@ const LinkedInOAuthButton = () => {
   );
 };
 
-export default LinkedInOAuthButton;
+export default LinkedInOAuthLoginButton;

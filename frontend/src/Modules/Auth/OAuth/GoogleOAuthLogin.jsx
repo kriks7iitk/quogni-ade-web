@@ -2,10 +2,10 @@ import React from "react";
 import { useGoogleLogin } from '@react-oauth/google';
 import SolidButton from "../../../_components/Buttons/SolidButton";
 import { useNavigate } from "react-router-dom";
-const GoogleOAuthButton = () => {
+const GoogleOAuthLoginButton = () => {
     const navigate = useNavigate();
     const googleLogin = useGoogleLogin({
-        onSuccess: (codeResponse) => navigate(`/oauth/callback/google?code=${codeResponse.access_token}&mode=signup`),
+        onSuccess: (codeResponse) => navigate(`/oauth/callback/google?code=${codeResponse.access_token}&mode=login`),
         onError: (error) => console.log('Login Failed:', error),
         scope: 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email',
     });
@@ -23,4 +23,4 @@ const GoogleOAuthButton = () => {
             </>
     );
 };
-export default GoogleOAuthButton;
+export default GoogleOAuthLoginButton;
