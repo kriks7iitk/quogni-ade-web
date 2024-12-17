@@ -10,11 +10,23 @@ import { AuthorizeDto, ResendOtpDto, SendOtpDto, SignUpDto } from "./auth.dto";
 import { UserService } from "../user/user.service";
 import { ConfigService } from "@nestjs/config";
 import axios from "axios";
-import { Prisma, PrismaClient, Session, User } from "@prisma/client";
+import {
+  Prisma,
+  PrismaClient,
+  Session,
+  User,
+  OAuthUser,
+  AuthType,
+} from "@prisma/client";
 import { AUTH_ERROR_CODE } from "./constants/error-codes";
 import { AUTH_ERROR_MESSAGE } from "./constants/error-messages";
 import { createError } from "@/utility/helpers";
-import { UserPayload } from "./interfaces/auth-interface";
+import {
+  AuthorizeObject,
+  OAuthUserType,
+  UserPayload,
+  UserType,
+} from "./interfaces/auth-interface";
 import { JwtService } from "@nestjs/jwt";
 import { SessionService } from "../session/sessions.services";
 
@@ -25,12 +37,15 @@ export class AuthService {
     private readonly configService: ConfigService,
     private userService: UserService,
     private sessionsService: SessionService,
-    private readonly jwtService: JwtService
+    private readonly jwtService: JwtService,
+    private readonly prisma: PrismaService
   ) {}
 
   async signUp(signUpDto: SignUpDto): Promise<User> {
     return await this.prismaService.withTransaction(
       async (client: PrismaService) => {
+        console.log("hello hello");
+
         const user = await this.userService.createUser(
           { phoneNumber: signUpDto.phoneNumber, email: signUpDto.email },
           {
@@ -42,6 +57,8 @@ export class AuthService {
           },
           client
         );
+        console.log("yo yo");
+        
         const otp = await this.createOtp(client, user.id);
         await this.sendOTP({ phoneNumber: signUpDto.phoneNumber, otp });
         return user;
@@ -68,20 +85,41 @@ export class AuthService {
     return otp;
   }
 
-  private async authorize(
-    user: Prisma.UserGetPayload<{
-      include: { userDetails: true };
-    }>,
-    ip: string,
+  async authorize(
+    { user, ip, authType }: AuthorizeObject,
     client?: PrismaService
   ) {
-    const session = await this.sessionsService.create({ ip, user }, client);
+    const session = await this.sessionsService.create(
+      { ip, userId: user.id, authType },
+      client
+    );
     return {
       accessToken: this.jwtService.sign(
-        this.generateUserPayload(user, session),
+        this.generateUserPayload(user, authType, session),
         { secret: this.configService.get<string>("JWT_SECRET") }
       ),
     };
+  }
+
+  async userExists(email: string) {
+    return await this.prisma.withTransaction(async (client: PrismaService) => {
+      try {
+        const existingOAuthUser = await client.oAuthUser.findUnique({
+          where: {
+            email: email,
+          },
+        });
+
+        const existingUser = await client.user.findUnique({
+          where: {
+            email: email,
+          },
+        });
+        return existingOAuthUser !== null || existingUser !== null;
+      } catch (e) {
+        console.log(e);
+      }
+    });
   }
 
   async sendOTP({
@@ -92,7 +130,6 @@ export class AuthService {
     otp: number;
   }): Promise<any> {
     try {
-      console.log("hello");
       console.log(this.configService.get("OTP_SEND_URL"));
 
       const response = await axios.post(
@@ -145,7 +182,10 @@ export class AuthService {
             },
           });
         await this.verifyOTP({ userId, otp }, client);
-        return await this.authorize(user, ip, client);
+        return await this.authorize(
+          { user, ip, authType: AuthType.LOCAL },
+          client
+        );
       }
     );
   }
@@ -246,7 +286,6 @@ export class AuthService {
       }
     );
   }
-
   async resendOtp(resendOtpDto: ResendOtpDto) {
     return await this.prismaService.withTransaction(
       async (client: PrismaService) => {
@@ -255,16 +294,16 @@ export class AuthService {
       }
     );
   }
-
+  // todo - add login type (auth/oauth) to the payload
   private generateUserPayload(
-    user: Prisma.UserGetPayload<{
-      include: { userDetails: true };
-    }>,
+    user: User | OAuthUser,
+    authType: AuthType,
     session: Session
   ): UserPayload {
     return {
       sub: user.id,
-      username: user.userDetails.username,
+      user,
+      authType,
       sessionId: session.id,
     };
   }

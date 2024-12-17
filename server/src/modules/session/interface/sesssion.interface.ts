@@ -1,6 +1,7 @@
-import { User } from "@prisma/client";
+import { AuthType } from "@prisma/client";
 
 export type SessionCreate = {
   ip: string;
-  user: User;
+  userId: number;
+  authType: AuthType;
 };

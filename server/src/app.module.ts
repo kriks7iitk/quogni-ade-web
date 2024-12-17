@@ -3,6 +3,7 @@ import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { AuthModule } from "@/modules/auth/auth.module";
+import { OAuthModule } from "@/modules/oauth/oauth.module";
 import { JwtModule } from "@nestjs/jwt";
 import { UserModule } from "./modules/user/user.module";
 import { PrismaModule } from "@/modules/prisma/prisma.module";
@@ -63,6 +64,7 @@ import { JwtStrategy } from "./modules/auth/jwt-strategy/jwt-strategy";
     }),
     PrismaModule,
     AuthModule,
+    OAuthModule,
     UserModule,
     PassportModule.register({ defaultStrategy: "jwt" }),
     SessionModule,

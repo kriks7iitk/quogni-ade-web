@@ -1,5 +1,5 @@
 import { Injectable, UnauthorizedException } from "@nestjs/common";
-import { Session, User } from "@prisma/client";
+import { Session, AuthType } from "@prisma/client";
 import { PrismaService } from "../prisma/prisma.service";
 import { SessionCreate } from "./interface/sesssion.interface";
 import { ConfigService } from "@nestjs/config";
@@ -19,33 +19,27 @@ export class SessionService {
     client?: PrismaService
   ): Promise<Session> {
     return await this.prisma.withTransaction(async (client: PrismaService) => {
-      return await client.session.upsert({
-        where: {
-          userId: createObject?.user.id,
-        },
-        update: {
+      return await client.session.create({
+        data: {
           ip: createObject?.ip,
           expiringTime: this.getExpirationTime(),
+          userId: createObject?.userId,
+          authType: createObject?.authType ?? AuthType.LOCAL,
         },
-        create: {
-          ip: createObject?.ip,
-          expiringTime: this.getExpirationTime(),
-          userId: createObject?.user.id,
-        },
+        // data: {
+        //   ip: createObject?.ip,
+        //   expiringTime: this.getExpirationTime(),
+        //   userId: createObject?.userId,
+        // },
       });
     }, client);
   }
 
   async get(id: number, client?: PrismaService): Promise<Session> {
-    console.log("session id is ", id);
-
     return await this.prisma.withTransaction(async (client: PrismaService) => {
       return await client.session.findUnique({
         where: {
           id,
-        },
-        include: {
-          user: true,
         },
       });
     }, client);
@@ -67,7 +61,6 @@ export class SessionService {
     return await this.prisma.withTransaction(async (client: PrismaService) => {
       const session = await this.get(id, client);
       const currentDate = new Date();
-      console.log("running validate session");
       if (!session) return false;
       if (session.expiringTime < currentDate) {
         await this.terminate(session, client);

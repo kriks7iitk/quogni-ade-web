@@ -7,12 +7,15 @@ import {
   ResendOtpDto,
 } from "@/modules/auth/auth.dto";
 import { User } from "@prisma/client";
+
 @Controller("auth")
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post("signup")
   async signUp(@Body() signUpDto: SignUpDto) {
+    console.log("this si working");
+    
     const user = await this.authService.signUp(signUpDto);
     return user;
   }

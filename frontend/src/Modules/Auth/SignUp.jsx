@@ -12,6 +12,8 @@ import SolidButton from '../../_components/Buttons/SolidButton';
 import { OCCUPATIONS } from './constants/auth.constant';
 import { convertOccupationData } from './utils/utilityFunction';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import GoogleOAuthButton from './OAuth/GoogleOAuth';
+import LinkedInOAuthButton from './OAuth/LinkedInOAuth';
 import { Link } from 'react-router-dom';
 
 function SignUp() {
@@ -197,22 +199,8 @@ function SignUp() {
       </div>
 
       <div className="oauth-buttons-container ">
-        <SolidButton
-          leftIcon="google"
-          iconFill="#ffffff"
-          hoverIconFill="#ffffff"
-          customClass="auth-btn"
-        >
-          Login with Google
-        </SolidButton>
-        <SolidButton
-          leftIcon="linkedin"
-          iconFill="#ffffff"
-          hoverIconFill="#ffffff"
-          customClass="auth-btn"
-        >
-          Login with LinkedIn
-        </SolidButton>
+        <GoogleOAuthButton />
+        <LinkedInOAuthButton />
       </div>
       <div className="confirm-button">
         <div className="term-container">
@@ -229,8 +217,6 @@ function SignUp() {
           borderColor="none"
           bgColor={'var(--ps-pink)'}
           onClick={() => {
-            console.log('Sign up is called');
-
             handleSignUp();
           }}
         >
@@ -238,7 +224,7 @@ function SignUp() {
         </SolidButton>
       </div>
       <div className="redirection-text">
-        Already have a account? <Link to="/signin">Sign In</Link>
+        Already have a account? <Link style={{textDecoration: "underline"}} to="/signin">Sign In</Link>
       </div>
     </div>
   );

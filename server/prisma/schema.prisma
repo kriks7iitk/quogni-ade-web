@@ -13,8 +13,6 @@ datasource db {
   url      = env("PG_DB_URL")
 }
 
-
-
 model User {
   id              Int           @id @default(autoincrement())
   phoneNumber     String        @unique
@@ -22,33 +20,9 @@ model User {
   email           String        @unique
   createdAt       DateTime      @default(now())
   updatedAt       DateTime      @updatedAt
-  userDetails     UserDetails?  // One-to-one relation
-  userOtp         UserOtp?      // One-to-one relation
+  userDetails     UserDetails[]  
+  userOtp         UserOtp?      
 }
-
-model UserDetails {
-  id          Int       @id @default(autoincrement())
-  sessions    Session[] // One-to-many relation
-  username    String    @unique
-  fullname    String
-  dateOfBirth DateTime
-  isOnboarded Boolean   @default(false) 
-  sector      String
-  occupation  String
-  userId      Int       @unique
-  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
-model Session {
-  id            Int       @id @default(autoincrement())
-  userId        Int       @unique
-  expiringTime  DateTime  
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @default(now())
-  ip            String
-  user          UserDetails      @relation(fields: [userId], references: [userId], onDelete: Cascade)
-}
-
 model UserOtp {
   id          Int       @id @default(autoincrement())
   otp         Int
@@ -57,5 +31,53 @@ model UserOtp {
   userId      Int       @unique
   user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
+
+enum OAuthUserProvider {
+  GOOGLE
+  LINKEDIN
+}
+
+model OAuthUser {
+  id                 Int                @id @default(autoincrement())
+  type               OAuthUserProvider
+  email              String             @unique
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+  userDetails        UserDetails[]
+}
+
+enum AuthType {
+  LOCAL
+  OAUTH
+}
+
+model UserDetails {
+  id          Int       @id @default(autoincrement())
+  authType    AuthType
+  username    String    @unique
+  fullname    String  
+  dateOfBirth DateTime?
+  isOnboarded Boolean   @default(false) 
+  sector      String?
+  occupation  String?
+  userId      Int?
+  oAuthUserId Int? 
+  user        User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  oAuthUser   OAuthUser?      @relation(fields: [oAuthUserId], references: [id], onDelete: Cascade)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @default(now())
+}
+
+model Session {
+  id            Int       @id @default(autoincrement())
+  expiringTime  DateTime  
+  userId        Int
+  ip            String
+  authType      AuthType
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @default(now())
+}
+
+
 
 

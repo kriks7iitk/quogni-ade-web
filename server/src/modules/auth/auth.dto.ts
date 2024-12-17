@@ -1,3 +1,4 @@
+import { Prisma } from "@prisma/client";
 import {
   IsString,
   IsNotEmpty,
@@ -6,23 +7,25 @@ import {
   Length,
   IsNumber,
   IsEmail,
+  IsOptional,
 } from "class-validator";
 
 export class SignUpDto {
   @IsString()
-  @IsNotEmpty({ message: "Username is required" })
-  username: string;
+  @IsOptional()
+  username?: string;
 
   @IsPhoneNumber(null, { message: "Phone number is invalid" })
-  @IsNotEmpty({ message: "Phone number is required" })
-  phoneNumber: string;
+  @IsOptional()
+  phoneNumber?: string;
 
   @IsDateString({}, { message: "Date of birth must be a valid date" })
-  @IsNotEmpty({ message: "Date of birth is required" })
-  dateOfBirth: Date;
+  @IsOptional()
+  dateOfBirth?: Date;
 
   @IsString()
-  sector: string;
+  @IsOptional()
+  sector?: string;
 
   @IsString()
   fullName: string;
@@ -31,7 +34,8 @@ export class SignUpDto {
   email: string;
 
   @IsString()
-  occupation: string;
+  @IsOptional()
+  occupation?: string;
 }
 
 export class SendOtpDto {
