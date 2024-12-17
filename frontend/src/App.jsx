@@ -1,0 +1,202 @@
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useNavigate,
+  Navigate,
+} from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import SignUp from './Modules/Auth/SignUp';
+import VisualBuilder from './Modules/VisualBuilder/VisualBuilder';
+import { MainLayoutWithMenuBar } from './MainLayout';
+import Ruler from './Modules/Experiment/Ruler';
+import { Toaster } from 'react-hot-toast';
+import { Provider } from 'react-redux';
+import store from './_stores/store';
+import './app.theme.scss';
+import { driver } from 'driver.js';
+import 'driver.js/dist/driver.css';
+import { step1 } from './Utility/DriverSteps';
+import Dashboard from './Modules/Routes/Dashboard/Dashboard';
+import Portfolio from './Modules/Routes/Portfolio/Portfolio';
+import Library from './Modules/Routes/Library/Library';
+import MarketPlace from './Modules/Routes/MarketPlace/MarketPlace';
+import Explore from './Modules/Routes/Explore/Explore';
+import Community from './Modules/Routes/Community/Community';
+import Indicator from './Modules/VisualBuilder/BuilderRoutes/IndicatorComponent/Indicator';
+import Backtest from './Modules/VisualBuilder/BuilderRoutes/BacktestComponent/Backtest';
+import Performance from './Modules/VisualBuilder/BuilderRoutes/PerformanceComponent/Performance';
+import StrategySettings from './Modules/VisualBuilder/BuilderRoutes/StrategySettingsComponent/StrategySettings';
+import Filter from './Modules/VisualBuilder/BuilderRoutes/FilterComponent/Filter';
+import LineChart from './Modules/VisualBuilder/BuilderRoutes/LineChartComponent/LineChart';
+import Onboarding from './Modules/Auth/Onboarding';
+import SignIn from './Modules/Auth/SignIn';
+import OtpVerify from './Modules/Auth/OtpVerify';
+import PrivateRoute from './Modules/Routes/PrivateRoute';
+import { authorize } from './Utility/authorization';
+import AuthCallback from './Modules/Auth/OAuth/AuthCallback';
+import { GoogleOAuthProvider } from '@react-oauth/google';
+import InfoModal from './Modules/Auth/InfoModal';
+function App() {
+  const [isNavBarExpanded, setIsNavBarExpanded] = useState(false);
+  useEffect(() => {
+    authorize();
+  }, []);
+
+  return (
+    <GoogleOAuthProvider clientId="54864273445-4qjkk55jpvec1so8ubseb7r75q95kakk.apps.googleusercontent.com">
+      <div className="app-container">
+        <Router>
+          <Routes>
+            <Route path="/" element={<Navigate to="/dashboard" />} />
+            <Route
+              path="/signup"
+              element={
+                <Onboarding>
+                  <SignUp />
+                </Onboarding>
+              }
+            />
+            <Route
+              path="/modal"
+              element={
+                <InfoModal
+                  isOpen={true}
+                  closeModal={false}
+                  title="Welcome to Piggie Stack"
+                />
+              }
+            />
+            <Route path="/oauth/callback/:type" element={<AuthCallback />} />
+            <Route
+              path="/signin"
+              element={
+                <Onboarding>
+                  <SignIn />
+                </Onboarding>
+              }
+            />
+            <Route
+              path="/otp-verify"
+              element={
+                <Onboarding>
+                  <OtpVerify />
+                </Onboarding>
+              }
+            />
+            <Route
+              path="/signup"
+              element={
+                <Onboarding>
+                  <SignUp />
+                </Onboarding>
+              }
+            />
+            <Route
+              path="/builder"
+              element={
+                <MainLayoutWithMenuBar
+                  isNavBarExpanded={isNavBarExpanded}
+                  setIsNavBarExpanded={setIsNavBarExpanded}
+                >
+                  <Provider store={store}>
+                    <VisualBuilder />
+                  </Provider>
+                </MainLayoutWithMenuBar>
+              }
+            >
+              <Route path="indicators" element={<Indicator />} />
+              <Route path="line-chart" element={<LineChart />} />
+              <Route path="filter" element={<Filter />} />
+              <Route path="back-test" element={<Backtest />} />
+              <Route path="performance" element={<Performance />} />
+              <Route path="settings" element={<StrategySettings />} />
+            </Route>
+            <Route
+              path="/dashboard"
+              element={
+                <PrivateRoute>
+                  <MainLayoutWithMenuBar
+                    isNavBarExpanded={isNavBarExpanded}
+                    setIsNavBarExpanded={setIsNavBarExpanded}
+                  >
+                    <Dashboard />
+                  </MainLayoutWithMenuBar>
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/portfolio"
+              element={
+                <MainLayoutWithMenuBar
+                  isNavBarExpanded={isNavBarExpanded}
+                  setIsNavBarExpanded={setIsNavBarExpanded}
+                >
+                  <Portfolio />
+                </MainLayoutWithMenuBar>
+              }
+            />
+            <Route
+              path="/library"
+              element={
+                <MainLayoutWithMenuBar
+                  isNavBarExpanded={isNavBarExpanded}
+                  setIsNavBarExpanded={setIsNavBarExpanded}
+                >
+                  <Library />
+                </MainLayoutWithMenuBar>
+              }
+            />
+            <Route
+              path="/test_route"
+              element={
+                <MainLayoutWithMenuBar
+                  isNavBarExpanded={isNavBarExpanded}
+                  setIsNavBarExpanded={setIsNavBarExpanded}
+                >
+                  <Library />
+                </MainLayoutWithMenuBar>
+              }
+            />
+            <Route
+              path="/market-place"
+              element={
+                <MainLayoutWithMenuBar
+                  isNavBarExpanded={isNavBarExpanded}
+                  setIsNavBarExpanded={setIsNavBarExpanded}
+                >
+                  <MarketPlace />
+                </MainLayoutWithMenuBar>
+              }
+            />
+            <Route
+              path="/community"
+              element={
+                <MainLayoutWithMenuBar
+                  isNavBarExpanded={isNavBarExpanded}
+                  setIsNavBarExpanded={setIsNavBarExpanded}
+                >
+                  <Community />
+                </MainLayoutWithMenuBar>
+              }
+            />
+            <Route
+              path="/explore"
+              element={
+                <MainLayoutWithMenuBar
+                  isNavBarExpanded={isNavBarExpanded}
+                  setIsNavBarExpanded={setIsNavBarExpanded}
+                >
+                  <Explore />
+                </MainLayoutWithMenuBar>
+              }
+            />
+          </Routes>
+        </Router>
+        <Toaster />
+      </div>
+    </GoogleOAuthProvider>
+  );
+}
+
+export default App;

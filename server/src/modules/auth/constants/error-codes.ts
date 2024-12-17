@@ -1,0 +1,12 @@
+export const AUTH_ERROR_CODE = {
+  USER_PHONE_NOT_EXIST: "auth101",
+  INCORRECT_OTP: "auth102",
+  PHONE_NOT_VERIFIED: "auth103",
+  OTP_EXPIRED: "auth104",
+  SESSION_EXPIRED: "auth105",
+  SESSION_NOT_EXIST: "auth106",
+  USER_DELETED: "auth107",
+  OTP_NOT_EXIST: "auth108",
+  USER_EXISTS: "auth109",
+  INVALID_PAYLOAD: "auth110",
+};

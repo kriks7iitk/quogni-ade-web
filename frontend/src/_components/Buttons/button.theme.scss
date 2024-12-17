@@ -1,0 +1,39 @@
+.ps-btn {
+    border-radius: 6px;
+    padding: 3px 10px 3px 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    min-width: 80px;
+    border: 1px solid var(--slate-200);
+    font-weight: 500;
+    gap: 10px;
+
+
+
+    &.s {
+        height: 30px;
+        font-size: var(--ps-txt-xs) !important;
+    } 
+
+    &.xs{
+        height: 25px;
+        font-size: var(--ps-txt-xxs) !important;
+    } 
+
+    &.m{
+        height: 35px;
+        font-size: var(--ps-txt-s) !important;
+    } 
+
+    &.l{
+        height: 40px;
+        font-size: var(--ps-txt-m) !important;
+    } 
+    &.xl{
+        height: 45px;
+        font-size: var(--ps-txt-l) !important;
+    } 
+
+}

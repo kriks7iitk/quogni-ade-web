@@ -1,0 +1,99 @@
+.input-field {
+    display: flex;
+    flex-direction: row;
+    border-radius: 8px;
+    transition: border-color 0.3s ease;
+    &:focus-within {
+      border-color:var(--ps-green-bright); 
+      box-shadow: 0 0 5px var(--ps-green-bright);
+    }
+  
+    .input-icon {
+      background-color: white;
+      display: flex;
+      align-items: center;
+      border-top-left-radius: 8px;
+      border-bottom-left-radius: 8px;
+      padding: 0 10px;
+      min-width: 25px;
+    }
+  
+    input {
+      height: 40px;
+      padding: 10px 10px 10px 0px;
+      border-top-right-radius: 8px;
+      border-bottom-right-radius: 8px;
+      border: none;
+      flex: 1; 
+      font-size: var(--ps-txt-s);
+      outline: none; 
+      box-shadow: none;
+
+    }
+  }
+
+.custom-select {
+    &__control {
+        padding: 5px;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        flex-wrap: nowrap;
+        -webkit-flex-wrap:none;
+        display: flex;
+        align-items: center;
+
+        &.is-focused {
+            border-color:var(--ps-green-bright); 
+            box-shadow: 0 0 5px var(--ps-green-bright);
+        }
+    }
+
+    &__option {
+        &:hover {
+        background-color: #f0f0f0;
+        }
+    }
+
+    &__input-container {
+    }
+    &__value-container{
+        display: flex;
+        align-items: center;
+       
+        -webkit-flex-wrap:none;
+    }
+    &__single-value{
+        align-items: center;
+    }
+    &__option{
+        -webkit-flex-wrap:none;
+        &.is-focused {
+            background-color: var(--ps-green-bright);
+            opacity: 0.5;
+        }
+
+        &.is-selected {
+            background-color: var(--ps-dark-blue) !important;
+            opacity: .8;
+            color: var(--ps-white-1);
+        }
+        
+    }
+}
+
+.custom-otp-input {
+    border-radius: 6px;
+    border-bottom: 2px solid var(--ps-dark-blue);
+    background: none;
+    font-size: 16px;
+    text-align: center;
+    transition: border 0.3s ease, box-shadow 0.3s ease;
+
+    &:focus {
+        // border: none;
+        border-bottom: 2px solid var(--ps-green-bright) !important;
+        // box-shadow: 0 0 5px var(--ps-green) !important;
+        outline: none;
+      }
+  }
+  
+  

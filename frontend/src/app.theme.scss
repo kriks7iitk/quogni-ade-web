@@ -1,0 +1,10 @@
+@import './_colors/colors.scss';
+
+
+.centred-container{
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    height: 100vh;
+    background-color: var(--ps-dark-blue);
+}

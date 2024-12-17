@@ -1,0 +1,443 @@
+/* prevent any uneccessary scrolling */
+html, body {
+    height: 100%; 
+    margin: 0; 
+    padding: 0; 
+    overflow: hidden;
+    box-sizing: border-box; 
+}
+
+.onboarding-page {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    width: 100%;
+    background-color: var(--ps-white-2);
+
+    .intro-page{
+        display: flex;
+        height: 100%;
+        position: relative;
+        flex-grow: 3;
+        justify-content: center;
+        align-items: center;
+        background-color: var(--ps-dark-blue);
+        border-top-right-radius: 50% 30%;
+        border-bottom-right-radius: 50% 30%;
+
+        @media (max-width: 768px) {
+            /* Smaller screens: change the center */
+            border-top-right-radius: 40% 50%;
+            border-bottom-right-radius: 40% 50%;
+        }
+
+        @media (min-width: 1200px) {
+            /* Larger screens: adjust the center differently */
+            border-top-right-radius: 20% 60%;
+            border-bottom-right-radius: 20% 60%;
+        }
+        .logo-img {
+            position: absolute;
+            top: 50%; 
+            right: 0; 
+            transform: translateY(-50%); 
+            transform: translate(20%, -50%); 
+            width: auto;  
+            height: 10%; 
+        }
+    }
+
+    .modal-page {
+        display: flex;
+        height: 100%;
+        flex-grow: 1;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+        background-color: var(--ps-white-2);
+        padding: 50px;
+    }
+}
+
+.sign-up-page{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    width: 75%;
+    padding: 5% 10% 10% 10%;
+    gap: 10px;
+    margin-bottom: 30px;
+    .input-container{
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+    }
+
+    .logo-title{
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        gap: 15px;
+        font-family: 'Montserrat';
+    }
+
+    .intro-line {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .intro-line-2{
+        font-size: 16px;
+
+        // span {
+        //     font-size: 30px;
+        // }
+    }
+
+
+    .sign-up-form{
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+}
+
+
+.or-divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 10px 5px 10px 5px;
+
+    &::before,
+    &::after {
+      content: '';
+      flex: 1;
+      border-bottom: 1px solid #ccc;
+      margin: 0 10px; // Space around the text
+    }
+  
+    span {
+      white-space: nowrap;
+      font-size: 14px;    
+      color: #666;        
+    }
+  }
+
+
+
+
+.oauth-buttons-container {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+
+    .auth-btn{
+        flex-grow: 1;
+    }
+}
+
+.confirm-button {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+
+    .term-container {
+        display: flex;
+        flex-direction: row;
+        font-size: var(--ps-txt-s);
+        gap: 10px;
+    }
+    .btn-class{
+        margin-top: 20px;
+        width: 100%;
+    }
+}
+
+
+.redirection-text {
+    font-size: var(--ps-txt-s);
+    color: var(--ps-dark-blue);
+}
+
+
+#tsparticles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    padding: 0;
+    margin: 0;
+    z-index: 0; /* if you use -1 you have to set to `"window"` the interactivity.detectsOn property */
+}
+
+
+.checking{
+    width: 60%;
+    height: 60%;
+}
+
+
+.otp-verify-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    height: 50%;
+    width: 75%;
+    padding: 5% 10% 10% 10%;
+    gap: 10px;
+
+    .logo-title{
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        
+    }
+
+    .otp-input-container{
+        display: flex;
+        margin-top: 20px;  
+        flex-direction: column;     
+        justify-content: center; 
+        align-items: center;
+    }
+
+    .resend-otp{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        justify-content: flex-start;
+        padding: 20px;
+        font-size: var(--ps-txt-xs);
+    }
+}
+
+.input-container{
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    
+
+    .error-label{
+        font-size: var(--ps-txt-xxs);
+        color: var(--ps-error);
+        font-weight: 500;
+    }
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
+
+  .modal-body {
+    font-size: 16px;
+    color: #333;
+    line-height: 1.5;
+    word-wrap: break-word;
+    display: flex;
+    flex-direction: column;
+    gap: 20px; 
+  }
+
+
+  .modal-content {
+    background-color: #ffffff;
+    width: 80%;
+    max-width: 600px;
+    border-radius: 12px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    box-sizing: border-box;
+    animation: modalFadeIn 0.3s ease-out;
+  }
+  
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #f0f0f0;
+  }
+  
+  .modal-header h2 {
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--ps-pink);
+  }
+  
+  .modal-close {
+    font-size: 24px;
+    background: none;
+    border: none;
+    color: #333;
+    cursor: pointer;
+  }
+  
+  .modal-close:hover {
+    color: var(--ps-pink);
+  }
+
+  .modal-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+  
+
+  .tab:hover {
+    background: var(--ps-pink); 
+    color: #fff;
+  }
+  
+
+  .tab.active {
+    background: var(--ps-pink);
+    color: #fff;
+    opacity: 1; 
+    pointer-events: auto;
+  }
+
+  .interest-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .tab-name {
+    background-color: #f0f0f0;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+    transition: background-color 0.3s, color 0.3s;
+  }
+
+  .tab-name:hover {
+    background: var(--ps-pink);
+    color: #fff;
+  }
+  
+  .tab-name.active {
+    background: var(--ps-pink);
+    color: #fff;
+  }
+
+  .btn:disabled {
+    background: #ccc;        /* Light grey color for disabled state */
+    color: #888;             /* Grey text */
+    cursor: not-allowed;     /* Prevent the mouse pointer from being a pointer */
+    opacity: 0.6;            /* Make the button look faded */
+  }
+
+  .interest {
+    background: #f5f5f5;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 20px;
+    font-size: 14px;
+    cursor: pointer;
+    color: #555;
+  }
+  
+  .interest:hover {
+    background: #d1c4e9;
+  }
+  
+  .modal-footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  .btn {
+    background: var(--ps-dark-blue);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  
+  .btn.back {
+    background: #e0e0e0;
+    color: #333;
+  }
+  
+  .btn:hover {
+    opacity: 0.9;
+  }
+
+  .tab-container {
+    overflow: hidden;
+    flex-grow: 1;
+  }
+  
+  .arrow {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: var(--ps-dark-blue);
+    cursor: pointer;
+    padding: 10px;
+    transition: transform 0.2s ease-in-out;
+    z-index: 1;
+    margin-bottom: 200px;
+  }
+  .arrow:hover {
+    transform: scale(1.2);
+  }
+  
+  .arrow-left {
+    position: absolute;
+    left: 10px;
+  }
+  
+  .arrow-right {
+    position: absolute;
+    right: 10px;
+  }
+
+  .interest.selected {
+    background-color: var(--ps-dark-blue); 
+    color: var(--ps-pink);
+  }
+
+  .tab-container {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .tab-wrapper {
+    display: flex;
+    transition: transform 0.3s ease;
+    
+  }
+  
+  @keyframes modalFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  
