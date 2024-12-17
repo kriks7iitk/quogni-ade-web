@@ -44,6 +44,8 @@ export class AuthService {
   async signUp(signUpDto: SignUpDto): Promise<User> {
     return await this.prismaService.withTransaction(
       async (client: PrismaService) => {
+        console.log("hello hello");
+
         const user = await this.userService.createUser(
           { phoneNumber: signUpDto.phoneNumber, email: signUpDto.email },
           {
@@ -55,6 +57,8 @@ export class AuthService {
           },
           client
         );
+        console.log("yo yo");
+        
         const otp = await this.createOtp(client, user.id);
         await this.sendOTP({ phoneNumber: signUpDto.phoneNumber, otp });
         return user;

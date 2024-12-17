@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import CustomSkeleton from '../../Loaders/CustomSkeleton/CustomSkeleton';
 import { oAuthService } from '../../../_services';
 import { addToSessionStorage } from '../../../Utility/utility';
@@ -10,34 +10,36 @@ const AuthCallback = () => {
   const navigate = useNavigate();
   const queryParams = new URLSearchParams(location.search);
   const code = queryParams.get('code');
-  const type = location.pathname.split('/')[3];  
+  const { type } = useParams();
 
-  const [loading, setLoading] = useState(true); 
-  const [error, setError] = useState(null); 
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const sendToBackend = async () => {
-      const body = {
-        code: code,
-        type: type.toUpperCase()
-      };
-    oAuthService.sendCode(body).then((response) => {
+  const sendToBackend = () => {
+    const body = {
+      code: code,
+      type: type.toUpperCase(),
+    };
+    oAuthService
+      .sendCode(body)
+      .then((response) => {
         const jwtToken = response.accessToken;
         addToSessionStorage('ps-auth-token', jwtToken);
-        navigate('/modal');
-      }
-    ).catch(({ error }) => {
-      console.log(error);
-      toast.error(error?.message);
-      if (error?.code == 'auth109') {
-        setTimeout(() => {
-        navigate('/signin')
-        }, 2000)
-      }
-    });
+        navigate('/dashboard');
+      })
+      .catch(({ error }) => {
+        console.log(error);
+        toast.error(error?.message);
+        if (error?.code == 'auth109') {
+          setTimeout(() => {
+            navigate('/signin');
+          }, 2000);
+        }
+      });
 
     setLoading(false);
   };
-  
+
   useEffect(async () => {
     if (code && type) {
       sendToBackend();
@@ -47,7 +49,7 @@ const AuthCallback = () => {
   return (
     <div className="callback-container">
       {loading ? (
-          <CustomSkeleton />
+        <CustomSkeleton />
       ) : error ? (
         <div className="error-message">{error}</div>
       ) : (

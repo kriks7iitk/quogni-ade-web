@@ -3,7 +3,7 @@ import Modal from 'react-modal';
 import { sendOAuthUserDetails } from '../../_services/oauth.service';
 import './auth.theme.scss';
 
-Modal.setAppElement('#root');
+
 
 const InfoModal = ({ isOpen, closeModal }) => {
     const [activeTab, setActiveTab] = useState(0);

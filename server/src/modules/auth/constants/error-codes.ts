@@ -7,5 +7,6 @@ export const AUTH_ERROR_CODE = {
   SESSION_NOT_EXIST: "auth106",
   USER_DELETED: "auth107",
   OTP_NOT_EXIST: "auth108",
-  USER_EXISTS: "auth109"
+  USER_EXISTS: "auth109",
+  INVALID_PAYLOAD: "auth110",
 };
