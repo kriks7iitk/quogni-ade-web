@@ -1,9 +1,17 @@
-import { Controller, Post, Body, Headers } from "@nestjs/common";
+import {
+  Controller,
+  Post,
+  Body,
+  Headers,
+  UseGuards,
+  Put,
+} from "@nestjs/common";
+import { User } from "../auth/decorators/user-decorator";
+import { UserData } from "../auth/interfaces/auth-interface";
+import { UpdateUserDto } from "../user/user.dto";
 import { OAuthService } from "./oauth.service";
 import { TokenRequestDto } from "./oauth.dto";
-import { AuthService } from "../auth/auth.service";
-import { AuthType, OAuthUserProvider, UserDetails } from "@prisma/client";
-import { UpdateUserDto } from "../user/dto/update-user.dto";
+import { JwtAuthGuard } from "../auth/auth-guard/auth-guard";
 
 @Controller("oauth")
 export class OAuthController {
@@ -18,16 +26,15 @@ export class OAuthController {
     return this.oAuthService.signInOAuthUserFromRequest(tokenRequestDto);
   }
 
-  @Post("update-user")
-  async updateUser(
-    @Body() updateUserRequestDto: UpdateUserDto,
-    @Headers("authorization") token: string
+  @Put("update")
+  @UseGuards(JwtAuthGuard)
+  async update(
+    @User() userData: UserData,
+    @Body() updateUserDto: UpdateUserDto
   ) {
-    const authToken = token.split(" ")[1].replace(/['"]+/g, "");
-    const details = await this.oAuthService.updateOAuthUser(
-      updateUserRequestDto,
-      authToken
+    return await this.oAuthService.updateUserDetail(
+      updateUserDto,
+      userData.user.id
     );
-    return details;
   }
 }

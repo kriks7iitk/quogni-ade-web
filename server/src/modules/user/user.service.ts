@@ -5,22 +5,17 @@ import {
 } from "@nestjs/common";
 import { PrismaService } from "@/modules/prisma/prisma.service";
 import { UserDetails } from "./interfaces/user-details.interface";
-import { AuthType, Prisma } from "@prisma/client";
-import { USER_MOD_ERROR_MESSAGE } from "./dto/constants/error-message";
-import { USER_MOD_ERROR_CODES } from "./dto/constants/error-codes";
+import { Prisma } from "@prisma/client";
+import { USER_MOD_ERROR_MESSAGE } from "./constants/error-message";
+import { USER_MOD_ERROR_CODES } from "./constants/error-codes";
 
 import { JwtService } from "@nestjs/jwt";
-import { UpdateUserDto } from "./dto/update-user.dto";
+import { UpdateUserDto } from "./user.dto";
 import { ConfigService } from "@nestjs/config";
-import { SignUpDto } from "../auth/auth.dto";
 
 @Injectable()
 export class UserService {
-  constructor(
-    private prisma: PrismaService,
-    private readonly jwtService: JwtService,
-    private readonly configService: ConfigService
-  ) {}
+  constructor(private prisma: PrismaService) {}
 
   async findUserByPhoneNumber(phoneNumber: string) {
     return this.prisma.user.findUnique({
@@ -45,8 +40,6 @@ export class UserService {
   ) {
     return await this.prisma.withTransaction(async (client: PrismaService) => {
       try {
-        console.log("yo oyy oy");
-
         return await client.user.create({
           data: {
             phoneNumber: phoneNumber,
@@ -58,7 +51,6 @@ export class UserService {
                 occupation: userDetails?.occupation || "",
                 sector: userDetails?.sector || "",
                 fullname: userDetails.fullName || "",
-                authType: AuthType.LOCAL,
               },
             },
           },
@@ -84,32 +76,37 @@ export class UserService {
     }, client);
   }
 
-  async updateUserDetails(updateUserRequestDto: UpdateUserDto, token: string) {
-    const decoded = this.jwtService.verify(token, {
-      secret: this.configService.get<string>("JWT_SECRET"),
-    });
-    const userId = decoded?.sub;
+  async updateUserDetails(updateUserRequestDto: UpdateUserDto, userId: number) {
+    const updateData: Record<string, any> = {};
+    delete updateUserRequestDto.isOnboarded;
+    const isOnboarded = updateUserRequestDto?.isOnboarded;
+    for (const [key, value] of Object.entries(updateUserRequestDto)) {
+      if (value !== null && value !== undefined) {
+        updateData[key] =
+          key == "sector" || key == "occupation"
+            ? JSON.stringify(value)
+            : value;
+      }
+    }
+    if (updateData?.dateOfBirth) {
+      const parsedDate = new Date(updateData.dateOfBirth);
+      updateData.dateOfBirth = parsedDate;
+    }
 
-    const updatedUser = await this.prisma.oAuthUser.update({
-      where: { id: userId },
-      data: {
-        userDetails: {
-          update: {
-            where: { id: userId },
-            data: {
-              authType: updateUserRequestDto.authType,
-              username: updateUserRequestDto.username,
-              dateOfBirth: updateUserRequestDto.dateOfBirth,
-              sector: JSON.stringify(updateUserRequestDto.sector),
-              occupation: JSON.stringify(updateUserRequestDto.occupation),
+    await this.prisma.withTransaction(async (client: PrismaService) => {
+      await client.user.update({
+        where: { id: userId },
+        data: {
+          isOnboarded,
+          userDetails: {
+            update: {
+              where: { id: userId },
+              data: updateData,
             },
           },
         },
-      },
-      include: {
-        userDetails: true,
-      },
+      });
     });
-    return updatedUser;
+    return;
   }
 }

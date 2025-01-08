@@ -5,11 +5,13 @@ import Particles, { initParticlesEngine } from '@tsparticles/react';
 import { loadSlim } from '@tsparticles/slim'; // if you are going to use `loadSlim`, install the "@tsparticles/slim" package too.
 // import { loadBasic } from "@tsparticles/basic"; // if you are going to use `loadBasic`, install the "@tsparticles/basic" package too.
 
-export default function ParticlesAnimation() {
+export default function ParticlesAnimation({ backgroundMask }) {
   const [init, setInit] = useState(false);
 
   // this should be run only once per application lifetime
   useEffect(() => {
+    console.log('this is rendered again and again');
+
     initParticlesEngine(async (engine) => {
       // you can initiate the tsParticles instance (engine) here, adding custom shapes or presets
       // this loads the tsparticles package bundle, it's the easiest method for getting everything ready
@@ -37,8 +39,8 @@ export default function ParticlesAnimation() {
             autoPlay: true,
             backgroundMask: {
               composite: 'destination-out',
-              cover: { color: { value: '#e295dc' }, opacity: 1 },
-              enable: false,
+              cover: { color: { value: backgroundMask }, opacity: 1 },
+              enable: !!backgroundMask,
             },
             clear: true,
             defaultThemes: {},

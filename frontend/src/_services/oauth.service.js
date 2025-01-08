@@ -1,37 +1,32 @@
 import { handleResponse } from '../Utility/responseHandler';
-
-export { sendCode, sendOAuthUserDetails };
 import { SERVER_HOST } from '.';
-import { getFromSessionStorage } from '../Utility/utility';
+import { generateHeader } from '../Utility/authorization';
 
-const sendCode = (body) => {
+export const oAuthService = {
+  sendCode,
+  updateUserDetails,
+};
+
+function sendCode(body) {
   const requestPayload = {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(body)
+    body: JSON.stringify(body),
   };
   return fetch(`${SERVER_HOST}/oauth/register`, requestPayload).then(
     handleResponse,
   );
-};
+}
 
-const sendOAuthUserDetails = (body) => {
-  const authToken = getFromSessionStorage('ps-auth-token');
-
+function updateUserDetails(body) {
   const requestPayload = {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${authToken}`, 
-    },
-    body: JSON.stringify(body)
+    method: 'PUT',
+    headers: generateHeader(),
+    body: JSON.stringify(body),
   };
-  return fetch(`${SERVER_HOST}/oauth/update-user`, requestPayload).then(
+  return fetch(`${SERVER_HOST}/oauth/update`, requestPayload).then(
     handleResponse,
   );
 }
-
-
-

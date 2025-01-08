@@ -7,6 +7,7 @@ CREATE TYPE "AuthType" AS ENUM ('LOCAL', 'OAUTH');
 -- CreateTable
 CREATE TABLE "User" (
     "id" SERIAL NOT NULL,
+    "isOnboarded" BOOLEAN NOT NULL DEFAULT false,
     "phoneNumber" TEXT NOT NULL,
     "isPhoneVerified" BOOLEAN NOT NULL DEFAULT false,
     "email" TEXT NOT NULL,
@@ -30,6 +31,7 @@ CREATE TABLE "UserOtp" (
 -- CreateTable
 CREATE TABLE "OAuthUser" (
     "id" SERIAL NOT NULL,
+    "isOnboarded" BOOLEAN NOT NULL DEFAULT false,
     "type" "OAuthUserProvider" NOT NULL,
     "email" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -41,15 +43,14 @@ CREATE TABLE "OAuthUser" (
 -- CreateTable
 CREATE TABLE "UserDetails" (
     "id" SERIAL NOT NULL,
-    "authType" "AuthType" NOT NULL,
     "username" TEXT NOT NULL,
     "fullname" TEXT NOT NULL,
     "dateOfBirth" TIMESTAMP(3),
-    "isOnboarded" BOOLEAN NOT NULL DEFAULT false,
     "sector" TEXT,
     "occupation" TEXT,
     "userId" INTEGER,
     "oAuthUserId" INTEGER,
+    "preferredSectors" TEXT[],
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
@@ -83,6 +84,12 @@ CREATE UNIQUE INDEX "OAuthUser_email_key" ON "OAuthUser"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "UserDetails_username_key" ON "UserDetails"("username");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "UserDetails_userId_key" ON "UserDetails"("userId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "UserDetails_oAuthUserId_key" ON "UserDetails"("oAuthUserId");
 
 -- AddForeignKey
 ALTER TABLE "UserOtp" ADD CONSTRAINT "UserOtp_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;

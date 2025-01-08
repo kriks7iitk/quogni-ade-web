@@ -17,7 +17,7 @@ export default function Onboarding({ children }) {
         
       </div> */}
       <div className="intro-page">
-        <div style={{ display: 'flex' }}>
+        <div className="onboarding-modal-page">
           <ParticlesAnimation />
           <img src={logo} alt="Logo" className="logo-img" />
         </div>

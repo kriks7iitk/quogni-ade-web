@@ -36,7 +36,7 @@ const ThemeButton = ({
           className="mr-2"
           name={leftIcon}
           width={iconWidth}
-          fill={iconFill}
+          fill={disabled ? 'var(--slate-300)' : iconFill}
         />
       )}
       {children}

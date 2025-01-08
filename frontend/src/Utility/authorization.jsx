@@ -4,8 +4,19 @@ import { isAuthRoutes } from './routes';
 export function authorize() {
   const isAuthRoute = isAuthRoutes();
   authenticationService.validateSession().then((data) => {
-    authenticationService.updateCurrentSession({ user: data });
-    if (isAuthRoute) window.location.href = '/dashboard';
+    authenticationService.updateCurrentSession({
+      user: data?.user,
+      session: data?.session,
+    });
+    const user = data?.user;
+
+    if (!user?.isOnboarded && window.location.pathname !== '/onboarding') {
+      window.location.href = '/onboarding';
+    }
+    if (isAuthRoute) {
+      window.location.href = '/dashboard';
+    }
+    
   });
 }
 

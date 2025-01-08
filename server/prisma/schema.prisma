@@ -14,22 +14,24 @@ datasource db {
 }
 
 model User {
-  id              Int           @id @default(autoincrement())
-  phoneNumber     String        @unique
-  isPhoneVerified Boolean       @default(false) 
-  email           String        @unique
-  createdAt       DateTime      @default(now())
-  updatedAt       DateTime      @updatedAt
-  userDetails     UserDetails[]  
-  userOtp         UserOtp?      
+  id              Int          @id @default(autoincrement())
+  isOnboarded     Boolean      @default(false)
+  phoneNumber     String       @unique
+  isPhoneVerified Boolean      @default(false)
+  email           String       @unique
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+  userDetails     UserDetails? 
+  userOtp         UserOtp?
 }
+
 model UserOtp {
-  id          Int       @id @default(autoincrement())
-  otp         Int
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @default(now())
-  userId      Int       @unique
-  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id        Int      @id @default(autoincrement())
+  otp       Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  userId    Int      @unique
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 enum OAuthUserProvider {
@@ -38,12 +40,13 @@ enum OAuthUserProvider {
 }
 
 model OAuthUser {
-  id                 Int                @id @default(autoincrement())
-  type               OAuthUserProvider
-  email              String             @unique
-  createdAt          DateTime           @default(now())
-  updatedAt          DateTime           @updatedAt
-  userDetails        UserDetails[]
+  id          Int               @id @default(autoincrement())
+  isOnboarded Boolean           @default(false)
+  type        OAuthUserProvider
+  email       String            @unique
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+  userDetails  UserDetails?     
 }
 
 enum AuthType {
@@ -52,32 +55,27 @@ enum AuthType {
 }
 
 model UserDetails {
-  id          Int       @id @default(autoincrement())
-  authType    AuthType
-  username    String    @unique
-  fullname    String  
-  dateOfBirth DateTime?
-  isOnboarded Boolean   @default(false) 
-  sector      String?
-  occupation  String?
-  userId      Int?
-  oAuthUserId Int? 
-  user        User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  oAuthUser   OAuthUser?      @relation(fields: [oAuthUserId], references: [id], onDelete: Cascade)
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @default(now())
+  id               Int         @id @default(autoincrement())
+  username         String      @unique
+  fullname         String
+  dateOfBirth      DateTime?
+  sector           String?
+  occupation       String?
+  userId           Int?         @unique
+  oAuthUserId      Int?         @unique
+  preferredSectors String[]
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @default(now())
+  user             User?       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  oAuthUser        OAuthUser?  @relation(fields: [oAuthUserId], references: [id], onDelete: Cascade)
 }
 
 model Session {
-  id            Int       @id @default(autoincrement())
-  expiringTime  DateTime  
-  userId        Int
-  ip            String
-  authType      AuthType
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @default(now())
+  id           Int      @id @default(autoincrement())
+  expiringTime DateTime
+  userId       Int
+  ip           String
+  authType     AuthType
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @default(now())
 }
-
-
-
-

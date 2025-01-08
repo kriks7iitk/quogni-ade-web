@@ -3,6 +3,7 @@ import BackIcon from './BackIcon';
 import User from './User';
 import UserName from './UserName';
 import Email from './Email';
+import NextIcon from './NextIcon';
 // import '../../../_colors/colors.scss';
 
 export default function SolidThemeIcon({ name, ...props }) {
@@ -15,6 +16,8 @@ export default function SolidThemeIcon({ name, ...props }) {
       break;
     case 'user':
       return <User {...props} />;
+    case 'next':
+      return <NextIcon {...props} />;
     case 'user-name':
       return <UserName {...props} />;
     default:

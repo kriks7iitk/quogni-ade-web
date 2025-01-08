@@ -44,6 +44,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     if (isGetUserSession) {
       await this.sessionService.validateSession(payload.sessionId);
     }
-    return { user, sessionId: payload?.sessionId };
+    return { user, sessionId: payload?.sessionId, authType: payload.authType };
   }
 }

@@ -32,14 +32,7 @@ const AuthCallback = () => {
         const response = await oAuthService.sendCode(body);
         const jwtToken = response.accessToken;
         addToSessionStorage('ps-auth-token', jwtToken);
-        console.log(jwtToken);
-        console.log(response.login);
-
-        if (!response.login) {
-          navigate('/modal');
-        } else {
-          navigate('/dashboard');
-        }
+        window.location.href = '/dashboard';
       } catch ({ error }) {
         console.log(error);
         toast.error(error?.message);
