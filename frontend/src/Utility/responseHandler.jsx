@@ -8,8 +8,7 @@ export function handleResponse(response) {
 
     if (!response.ok) {
       const error = (data && data.message) || response.statusText;
-
-      if (!isAuthRoutes) {
+      if (!isAuthRoutes()) {
         if (response.status === 401) {
           if (error?.code == 'auth106') {
             const encodedMessage = encodeURIComponent(

@@ -16,6 +16,16 @@ export interface UserPayload {
 export interface UserData {
   user: User;
   sessionId: number;
+  authType: AuthType;
+}
+
+export interface UserDetail {
+  username?: string;
+  fullname?: string;
+  dateOfBirth?: Date;
+  sector?: String;
+  preferredSectors?: String[];
+  occupation?: String;
 }
 
 export type UserType = Prisma.UserGetPayload<{

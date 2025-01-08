@@ -28,8 +28,16 @@ const SolidButton = ({
       className={`ps-btn ${size} ${customClass ? `${customClass}` : ''}`}
       type="button"
       style={{
-        color: color ? `${color}` : 'var(--ps-dark-blue)',
-        backgroundColor: bgColor ? `${bgColor}` : 'var(--ps-white-1)',
+        color: disabled
+          ? 'var(--slate-400)'
+          : color
+            ? `${color}`
+            : 'var(--ps-dark-blue)',
+        backgroundColor: disabled
+          ? 'var(--slate-200)'
+          : bgColor
+            ? `${bgColor}`
+            : 'var(--ps-white-1)',
         borderColor: `${borderColor}`,
       }}
       onMouseEnter={() => setIsHovered(true)}

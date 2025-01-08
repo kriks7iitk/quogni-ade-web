@@ -1,25 +1,31 @@
 import React from 'react';
 
-export default function BackIcon({
-  fill = '#000000',
-  viewBox = '0 0 1024 1024',
-  width = '20',
-}) {
+export default function BackIcon({ fill = '#000000', viewBox = '0 0 24 24', width = '20' }) {
   return (
     <svg
-      viewBox={viewBox}
-      fill="none"
+      fill={fill}
+      height={width}
       width={width}
       xmlns="http://www.w3.org/2000/svg"
+      viewBox={viewBox}
     >
-      <path
-        fill={fill}
-        d="M224 480h640a32 32 0 1 1 0 64H224a32 32 0 0 1 0-64z"
-      ></path>
-      <path
-        fill={fill}
-        d="m237.248 512 265.408 265.344a32 32 0 0 1-45.312 45.312l-288-288a32 32 0 0 1 0-45.312l288-288a32 32 0 1 1 45.312 45.312L237.248 512z"
-      ></path>
+      <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+      <g
+        id="SVGRepo_tracerCarrier"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      ></g>
+      <g id="SVGRepo_iconCarrier">
+        {' '}
+        <g id="back">
+          {' '}
+          <g>
+            {' '}
+            <polygon points="17.2,23.7 18.6,22.3 8.3,12 18.6,1.7 17.2,0.3 5.5,12 "></polygon>{' '}
+          </g>{' '}
+        </g>{' '}
+      </g>
     </svg>
   );
 }
+

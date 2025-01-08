@@ -1,5 +1,5 @@
 import { Injectable, UnauthorizedException } from "@nestjs/common";
-import { Session, AuthType } from "@prisma/client";
+import { Session, AuthType, User, OAuthUser } from "@prisma/client";
 import { PrismaService } from "../prisma/prisma.service";
 import { SessionCreate } from "./interface/sesssion.interface";
 import { ConfigService } from "@nestjs/config";
@@ -33,6 +33,38 @@ export class SessionService {
         // },
       });
     }, client);
+  }
+
+  async getSessionData(id: number) {
+    return await this.prisma.withTransaction(async (client: PrismaService) => {
+      const session = await this.get(id, client);
+      let user: User | OAuthUser;
+      const { authType } = session;
+      if (authType === AuthType.LOCAL) {
+        user = await client.user.findUnique({
+          where: { id: session.userId },
+          include: {
+            userDetails: true,
+          },
+        });
+      } else {
+        user = await client.oAuthUser.findUnique({
+          where: {
+            id: session.userId,
+          },
+          include: {
+            userDetails: true,
+          },
+        });
+      }
+      console.log("this is user");
+      console.log(user);
+
+      return {
+        session,
+        user,
+      };
+    });
   }
 
   async get(id: number, client?: PrismaService): Promise<Session> {

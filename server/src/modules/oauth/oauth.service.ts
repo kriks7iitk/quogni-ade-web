@@ -2,10 +2,7 @@
 // return token stored in user dta
 import { BadRequestException, Injectable } from "@nestjs/common";
 import axios from "axios";
-import {
-  OAuthSignUpDto,
-  TokenRequestDto,
-} from "./oauth.dto";
+import { OAuthSignUpDto, TokenRequestDto } from "./oauth.dto";
 import { PrismaService } from "../prisma/prisma.service";
 import { JwtService } from "@nestjs/jwt";
 import { AuthService } from "../auth/auth.service";
@@ -16,17 +13,15 @@ import {
   Prisma,
   UserDetails,
 } from "@prisma/client";
-import { AuthorizeObject, CreateOAuthUserObject } from "../auth/interfaces/auth-interface";
+import { CreateOAuthUserObject } from "../auth/interfaces/auth-interface";
 import { createError } from "@/utility/helpers";
 import { AUTH_ERROR_CODE } from "../auth/constants/error-codes";
 import { AUTH_ERROR_MESSAGE } from "../auth/constants/error-messages";
-import { UserService } from "../user/user.service";
-import { UpdateUserDto } from "../user/dto/update-user.dto";
+import { UpdateUserDto } from "../user/user.dto";
 @Injectable()
 export class OAuthService {
   constructor(
     private readonly authService: AuthService,
-    private readonly userService: UserService,
     private prisma: PrismaService
   ) {}
 
@@ -49,9 +44,7 @@ export class OAuthService {
       switch (type) {
         // more modularity
         case OAuthUserProvider.GOOGLE:
-          const googleUserData = await this.getGoogleUserInfo(
-            code
-          );
+          const googleUserData = await this.getGoogleUserInfo(code);
           const googleUserDetails: Partial<UserDetails> = {
             fullname: googleUserData.name,
           };
@@ -59,7 +52,7 @@ export class OAuthService {
             { type: type, email: googleUserData.email },
             googleUserDetails,
             client
-          );                  
+          );
           const googleToken = await this.authService.authorize({
             user: googleUser,
             ip: "",
@@ -101,11 +94,10 @@ export class OAuthService {
           );
 
           const googleUser = await this.prisma.oAuthUser.findUnique({
-            where: 
-            { email: googleUserData.email}
+            where: { email: googleUserData.email },
           });
 
-          if (!googleUser) 
+          if (!googleUser)
             throw new BadRequestException({
               message: {
                 ...createError(
@@ -117,20 +109,19 @@ export class OAuthService {
             });
 
           const googleToken = await this.authService.authorize({
-              user: googleUser,
-              ip: "",
-              authType: AuthType.OAUTH,
+            user: googleUser,
+            ip: "",
+            authType: AuthType.OAUTH,
           });
 
-          return {accessToken: googleToken.accessToken, login: true};
+          return { accessToken: googleToken.accessToken, login: true };
 
         case OAuthUserProvider.LINKEDIN:
           const accessToken = await this.getToken(tokenRequestDto);
           const linkedinUserData = await this.getLinkedinUserInfo(accessToken);
 
           const linkedinUser = await this.prisma.oAuthUser.findUnique({
-            where: 
-            { email: linkedinUserData.email}
+            where: { email: linkedinUserData.email },
           });
 
           const linkedinToken = await this.authService.authorize({
@@ -138,7 +129,7 @@ export class OAuthService {
             ip: "",
             authType: AuthType.OAUTH,
           });
-          return {accessToken: linkedinToken.accessToken, login: true};
+          return { accessToken: linkedinToken.accessToken, login: true };
 
         default:
           throw new Error("Unsupported OAuth type");
@@ -197,43 +188,84 @@ export class OAuthService {
     return response.data;
   }
 
+  async updateUserDetail(updateUserDto: UpdateUserDto, userId: number) {
+    const updateData: Record<string, any> = {};
+    const isOnboarded = updateUserDto?.isOnboarded;
+    delete updateUserDto.isOnboarded;
+    for (const [key, value] of Object.entries(updateUserDto)) {
+      if (value !== null && value !== undefined) {
+        updateData[key] =
+          key === "sector" || key === "occupation"
+            ? JSON.stringify(value)
+            : value;
+      }
+    }
+
+    if (updateData?.dateOfBirth) {
+      updateData.dateOfBirth = new Date(updateData.dateOfBirth);
+    }
+
+    await this.prisma.withTransaction(async (client: PrismaService) => {
+      await client.oAuthUser.update({
+        where: { id: userId },
+        data: {
+          isOnboarded,
+          userDetails: {
+            update: {
+              where: { id: userId },
+              data: updateData,
+            },
+          },
+        },
+      });
+    });
+    return;
+  }
+
   private async createOAuthUser(
     oAuthSignUpDto: CreateOAuthUserObject,
     oAuthUserDetails: Partial<UserDetails>,
     client?: PrismaService
   ): Promise<OAuthUser> {
     return await this.prisma.withTransaction(async (client: PrismaService) => {
-        if (await this.authService.userExists(oAuthSignUpDto.email) == true) {
-          throw new BadRequestException({
-            message: {
-              ...createError(
-                AUTH_ERROR_CODE,
-                AUTH_ERROR_MESSAGE,
-                "USER_EXISTS"
-              ),
-            },
-          });
-        }
-        return await client.oAuthUser.create({
-          data: {
-            type: oAuthSignUpDto.type,
-            email: oAuthSignUpDto.email,
-            userDetails: {
-              create: {
-                fullname: oAuthUserDetails.fullname || "",
-                authType: AuthType.OAUTH || "OAUTH",
-                username: "",
-                dateOfBirth: null,
-                sector: null,
-                occupation: null,
-              },
-            },
+      if ((await this.authService.userExists(oAuthSignUpDto.email)) == true) {
+        throw new BadRequestException({
+          message: {
+            ...createError(AUTH_ERROR_CODE, AUTH_ERROR_MESSAGE, "USER_EXISTS"),
           },
         });
-    }, client)
+      }
+      const baseUsername = oAuthUserDetails.fullname
+        ? oAuthUserDetails.fullname.replace(/\s+/g, "").toLowerCase()
+        : "user";
+
+      const randomAlphaString = this.generateRandomAlphaString();
+      const generatedUsername = `${baseUsername}-${randomAlphaString}`;
+
+      return await client.oAuthUser.create({
+        data: {
+          type: oAuthSignUpDto.type,
+          email: oAuthSignUpDto.email,
+          userDetails: {
+            create: {
+              fullname: oAuthUserDetails.fullname || "",
+              username: generatedUsername,
+              dateOfBirth: null,
+              sector: null,
+              occupation: null,
+            },
+          },
+        },
+      });
+    }, client);
   }
 
-  async updateOAuthUser(updateUserRequest: UpdateUserDto, authToken: string) {
-    return this.userService.updateUserDetails(updateUserRequest, authToken);
+  private generateRandomAlphaString(): string {
+    const timestamp = Date.now().toString(); // Get the current timestamp
+    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"; // Alphabet characters
+    const randomString = Array.from(timestamp)
+      .map((digit) => characters[parseInt(digit, 10) % characters.length])
+      .join("");
+    return randomString;
   }
 }
