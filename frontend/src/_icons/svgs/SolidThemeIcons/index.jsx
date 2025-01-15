@@ -4,6 +4,10 @@ import User from './User';
 import UserName from './UserName';
 import Email from './Email';
 import NextIcon from './NextIcon';
+import Search from './Search';
+import PositiveUp from './PositiveUp';
+import NegativeDown from './NegativeDown';
+import NeutralDash from './NeutralDash';
 // import '../../../_colors/colors.scss';
 
 export default function SolidThemeIcon({ name, ...props }) {
@@ -20,6 +24,14 @@ export default function SolidThemeIcon({ name, ...props }) {
       return <NextIcon {...props} />;
     case 'user-name':
       return <UserName {...props} />;
+    case 'search':
+      return <Search {...props} />;
+    case 'positive-up':
+      return <PositiveUp {...props} />;
+    case 'negative-down':
+      return <NegativeDown {...props} />;
+    case 'neutral-dash':
+      return <NeutralDash {...props} />;
     default:
       break;
   }

@@ -28,3 +28,23 @@ export function getFromSessionStorage(key) {
     console.error('Error getting from sessionStorage:', error);
   }
 }
+
+export function toUpperCase(str) {
+  if (typeof str !== 'string') {
+    return '';
+  }
+  return str.toUpperCase();
+}
+export function getInitials(name) {
+  console.log('name is');
+  console.log(name);
+
+  if (!name) return '';
+  const words = name.trim().split(' ');
+  const initials = words
+    .slice(0, 2)
+    .map((word) => word.charAt(0).toUpperCase())
+    .join('');
+
+  return initials;
+}

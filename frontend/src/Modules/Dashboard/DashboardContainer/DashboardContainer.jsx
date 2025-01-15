@@ -5,9 +5,9 @@ import FeedContainer from '../FeedContainer/FeedContainer';
 
 export default function DashboardContainer() {
     return (
-        <div className='dashboard-container'>
-            <LeftSidebar></LeftSidebar>
-            <FeedContainer></FeedContainer>
-        </div>
+      <div className="dashboard-container">
+        {/* <LeftSidebar></LeftSidebar> */}
+        <FeedContainer></FeedContainer>
+      </div>
     );
 }
