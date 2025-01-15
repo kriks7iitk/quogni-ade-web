@@ -31,7 +31,7 @@ const InfoModal = ({ isOpen, closeModal }) => {
   const [currentSession, setCurrentSession] = useState(
     authenticationService.currentSessionValue,
   );
-  const user = currentSession?.user;
+  const [user, setUser] = useState(currentSession?.user);
   const [userData, setUserData] = useState({
     username: null,
     dateOfBirth: null,
@@ -47,8 +47,9 @@ const InfoModal = ({ isOpen, closeModal }) => {
     const subscription = authenticationService.currentSession.subscribe(
       (sessionCurrent) => {
         setCurrentSession(sessionCurrent);
+        setUser(sessionCurrent?.user);
         setUserData({
-          username: user?.userDetails?.username,
+          username: sessionCurrent?.user?.userDetails?.username,
           dateOfBirth: null,
         });
       },
@@ -267,12 +268,7 @@ const InfoModal = ({ isOpen, closeModal }) => {
     updateUser(body)
       .then(() => {
         toast.success('User onboarded');
-        navigate('/dashboard', {
-          state: {
-            phoneNumber: data?.phoneNumber,
-            userId: data?.id,
-          },
-        });
+        navigate('/dashboard');
       })
       .catch((error) => {
         console.log('error is ', error);
