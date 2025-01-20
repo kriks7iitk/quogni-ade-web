@@ -1,13 +1,14 @@
 .ai-board-dashboard{
     display: flex;
     flex-direction: column;
-    width: 35%;
+    width: 50%;
     flex-grow: 1;
 
     .main-panel{
         width: 100%;
-        overflow-y: auto;
-
+        flex-grow: 1;
+        transition: max-height 0.2s ease-in-out;
+        max-height: calc(100% - 150px);
     }
 }
 
@@ -17,9 +18,11 @@
 
 .agent-input-container{
     min-height: 150px;
-    padding: 0px 10px 40px 10px;
-    max-height: 300px;
-    height: 17%;
+    padding: 0px 10px 0px 10px;
+    // max-height: 300px;
+    // min-height: 150px;
+    // max-height: 300px;
+    // height: auto; /* Let the height adjust dynamically */
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
@@ -27,7 +30,7 @@
     .agent-selection-container {
         display: flex;
         flex-direction: column;
-        height: 100%;
+        height: calc(100% - 20px);
         padding: 5px;
         background-color: var(--ps-white-1);
         border-radius: 20px;
@@ -35,18 +38,19 @@
 
         .input-container-main{
             margin-bottom: 5px;
-            
             flex-grow: 1;
             display: flex;
             flex-direction: row;
     
             .input-container{
              flex-grow: 1;
+             height: 100%;
             
              textarea {
                 width: 100%;
                 font-size: var(--ps-txt-xs);
                 resize: none;
+                flex-grow: 1;
                 flex-wrap: wrap;
                 padding: 10px;
                 background-color: transparent; /* Fix the invalid value */
