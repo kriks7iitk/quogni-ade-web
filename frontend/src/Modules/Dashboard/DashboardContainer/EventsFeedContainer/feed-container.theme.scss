@@ -1,6 +1,6 @@
 .feed-container {
     height: 100%;
-    width: 40%;
+    width: 100%;
     background-color: var(--ps-white-1);
 }
 .feed-container-search {
@@ -20,7 +20,7 @@
     height: 40px;
 }
 .feed-event-list {
-    padding-top: 20px;
+    padding-top: 5px;
     height: 100%;
     box-shadow: 0px 4px 6px rgba(82, 90, 146, 0.3);
     overflow-y: auto;
@@ -117,12 +117,15 @@
     height: auto;
     flex-direction: row;
     padding: 5px;
+    gap: 10px;
     
     
 
     .header-sec {
-        width: 10%;
-        font-size: var(--ps-txt-xs);
+        width: 7.5%;
+        font-size: var(--ps-txt-xxs);
+        font-weight: bold;
+        color: var(--slate-500);
         border-right: 1px solid var(--slate-200);
         align-items: center;
         display: flex;

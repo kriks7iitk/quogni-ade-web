@@ -1,13 +1,43 @@
-import React from 'react';
+import React, { useContext, createContext, useState } from 'react';
 import './dashboard-container.theme.scss';
-import LeftSidebar from '../LeftSidebar/LeftSidebar';
-import FeedContainer from '../FeedContainer/FeedContainer';
+import EventsFeedContainer from './EventsFeedContainer/EventsFeedContainer';
+import AIBoard from './AIBoard/AIBoard';
+import LeftPanel from './LeftPanel/LeftPanel';
+import RightPanel from './RightPanel/RightPanel';
+
+export const DashboardContext = createContext();
+
+export const useDashboard = () => {
+  return useContext(DashboardContext);
+};
+
+const DashboardProvider = ({ children }) => {
+  const [aiMode, setAiMode] = useState(false);
+  const [eventsData, setEventsData] = useState([]);
+
+  return (
+    <DashboardContext.Provider value={{ aiMode, setAiMode, eventsData }}>
+      {children}
+    </DashboardContext.Provider>
+  );
+};
+
+export function DashboardContainerUI() {
+  const { aiMode, setAiMode } = useDashboard();
+
+  return (
+    <div className="dashboard-container">
+      <LeftPanel />
+      <AIBoard />
+      <RightPanel />
+    </div>
+  );
+}
 
 export default function DashboardContainer() {
-    return (
-      <div className="dashboard-container">
-        {/* <LeftSidebar></LeftSidebar> */}
-        <FeedContainer></FeedContainer>
-      </div>
-    );
+  return (
+    <DashboardProvider>
+      <DashboardContainerUI />
+    </DashboardProvider>
+  );
 }

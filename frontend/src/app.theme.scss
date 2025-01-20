@@ -8,3 +8,11 @@
     height: 100vh;
     background-color: var(--ps-dark-blue);
 }
+
+
+.container-card {
+    width: 100%;
+    border-radius: 5px;
+    border: 1px solid var(--slate-200);
+    background-color: var(--ps-white-1);
+}

@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
-import '../../feed-container.theme.scss';
-import TagButton from '../../../../../_components/Buttons/TagButton';
-import SolidThemeIcon from '../../../../../_icons/svgs/SolidThemeIcons';
-import StockButton from '../../../../../_components/Buttons/StockButton';
+import './feed-container.theme.scss';
+import TagButton from '../../../../_components/Buttons/TagButton';
+import SolidThemeIcon from '../../../../_icons/svgs/SolidThemeIcons';
+import StockButton from '../../../../_components/Buttons/StockButton';
 
 export default function EventInsightContainer({
   title,
