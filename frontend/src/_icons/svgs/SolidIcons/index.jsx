@@ -16,6 +16,7 @@ import LineChart from './LineChart';
 import Temp from './Temp';
 import Google from './Google';
 import LinkedIn from './LinkedIn';
+import BookMark from './BookMark';
 
 const Icon = ({ name, ...props }) => {
   switch (name) {
@@ -53,6 +54,10 @@ const Icon = ({ name, ...props }) => {
       return <LinkedIn {...props} />;
     case 'test_route':
       return <Temp {...props} />;
+    case 'bookmark-square':
+      return <BookMark {...props} />
+    case 'filters':
+      return <Filter {...props} />
     default:
       return null;
   }
