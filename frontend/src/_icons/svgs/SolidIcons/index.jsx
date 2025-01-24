@@ -11,7 +11,7 @@ import Wrench from './Wrench';
 import Setting from './Settings';
 import BackTest from './BackTest';
 import Performance from './Performace';
-import Filter from './Filter';
+import Screener from './Screener';
 import LineChart from './LineChart';
 import Temp from './Temp';
 import Google from './Google';
@@ -55,9 +55,9 @@ const Icon = ({ name, ...props }) => {
     case 'test_route':
       return <Temp {...props} />;
     case 'bookmark-square':
-      return <BookMark {...props} />
-    case 'filters':
-      return <Filter {...props} />
+      return <BookMark {...props} />;
+    case 'screener':
+      return <Screener {...props} />;
     default:
       return null;
   }

@@ -173,6 +173,7 @@ const InfoModal = ({ isOpen, closeModal }) => {
                     onChange={(value) => {
                       setOccupationUser(value);
                     }}
+                    placeholder="Occupation"
                     value={occupationUser}
                   />
                 </div>

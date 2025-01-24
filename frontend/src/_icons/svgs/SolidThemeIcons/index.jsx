@@ -10,6 +10,7 @@ import NegativeDown from './NegativeDown';
 import NeutralDash from './NeutralDash';
 import Minimize from './Minimize';
 import Maximize from './Maximize';
+import Delete from './Delete';
 // import '../../../_colors/colors.scss';
 
 export default function SolidThemeIcon({ name, ...props }) {
@@ -38,6 +39,8 @@ export default function SolidThemeIcon({ name, ...props }) {
       return <Minimize {...props} />;
     case 'maximize':
       return <Maximize {...props} />;
+    case 'delete':
+      return <Delete {...props} />;
     default:
       break;
   }
