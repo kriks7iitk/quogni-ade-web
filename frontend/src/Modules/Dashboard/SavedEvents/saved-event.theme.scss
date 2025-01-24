@@ -42,9 +42,13 @@
     .saved-event-list{
         display: flex;
         flex-direction: column;
+        padding: 5px;
+        gap: 10px;
+       
 
         .saved-event-dates-container{
-
+            padding: 10px;
+            border-bottom: 1px solid var(--slate-200);
 
             .saved-event-dates{
                 font-size: var(--ps-txt-xs);
@@ -52,7 +56,10 @@
             }
 
             .list-container{
+                display: flex;
+                flex-direction: column;
                 padding-left: 30px;
+                gap: 20px;
             }
         }
     }
@@ -67,11 +74,28 @@
     .event-detail{
         display: flex;
         flex-direction: row;
+        justify-content: center;
+
+        .event-source{
+            font-size: var(--ps-txt-xs);
+            font-weight: 500;
+            justify-content: center;
+            display: flex;
+            align-items: center;
+        }
+        .predicted-sentiment{
+            display: flex;
+            align-items: center;
+        }
+        .delete{
+            margin-left: auto;
+        }
     }
 
     .securities-list{
         display: flex;
         flex-direction: row ;
+        gap: 10px;
 
     }
 }

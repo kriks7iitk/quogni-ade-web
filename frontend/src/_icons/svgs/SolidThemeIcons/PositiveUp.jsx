@@ -1,10 +1,6 @@
 import React from 'react';
 
-export default function PositiveUp({
-  viewBox = '0 0 16 16',
-  fill = '#088F8F',
-  width = '20',
-}) {
+export default function PositiveUp({ viewBox = '0 0 20 20', fill = '#088F8F', width = '20' }) {
   return (
     <svg
       viewBox={viewBox}

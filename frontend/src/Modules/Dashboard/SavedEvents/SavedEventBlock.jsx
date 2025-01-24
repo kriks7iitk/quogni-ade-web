@@ -2,6 +2,7 @@ import React from 'react';
 import SolidThemeIcon from '../../../_icons/svgs/SolidThemeIcons';
 import StockButton from '../../../_components/Buttons/StockButton';
 import ThemeButton from '../../../_components/Buttons/ThemeButton';
+import { camelCaseToNormal } from '../../../Utility/utility';
 
 export default function SavedEventBlock({
   stockList = [],
@@ -16,7 +17,7 @@ export default function SavedEventBlock({
       negative: 'negative-down',
       neutral: 'neutral-dash',
     };
-    return <SolidThemeIcon name={iconMap[type]} />;
+    return <SolidThemeIcon name={iconMap[type]} width="15" />;
   };
   const eventSentiment = (sentimentType) => {
     return (
@@ -26,7 +27,7 @@ export default function SavedEventBlock({
   return (
     <div className="saved-event-block">
       <div className="event-detail">
-        <div className="event-source">{source}</div>
+        <div className="event-source">{camelCaseToNormal(source)}</div>
         <div className="predicted-sentiment">
           {eventSentiment(expectedSentiment)}
         </div>
