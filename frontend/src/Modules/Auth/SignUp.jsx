@@ -192,6 +192,7 @@ function SignUp() {
           onChange={(value) => {
             setOccupation(value);
           }}
+          placeholder="Occupation"
         />
       </div>
       <div class="or-divider">
@@ -224,7 +225,10 @@ function SignUp() {
         </SolidButton>
       </div>
       <div className="redirection-text">
-        Already have a account? <Link style={{textDecoration: "underline"}} to="/signin">Sign In</Link>
+        Already have a account?{' '}
+        <Link style={{ textDecoration: 'underline' }} to="/signin">
+          Sign In
+        </Link>
       </div>
     </div>
   );

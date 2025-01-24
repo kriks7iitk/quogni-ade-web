@@ -1,7 +1,7 @@
 import React from 'react';
-import '../../feed-container.theme.scss';
+import './feed-container.theme.scss';
 import EventInsightContainer from './EventInsightContainer';
-import newsData from '../../../newsData.json';
+import newsData from '../../newsData.json';
 
 export default function EventList() {
   return (

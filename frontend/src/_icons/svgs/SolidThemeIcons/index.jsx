@@ -8,6 +8,11 @@ import Search from './Search';
 import PositiveUp from './PositiveUp';
 import NegativeDown from './NegativeDown';
 import NeutralDash from './NeutralDash';
+import Minimize from './Minimize';
+import Maximize from './Maximize';
+import Delete from './Delete';
+import Copy from './Copy';
+import History from './History';
 // import '../../../_colors/colors.scss';
 
 export default function SolidThemeIcon({ name, ...props }) {
@@ -32,6 +37,16 @@ export default function SolidThemeIcon({ name, ...props }) {
       return <NegativeDown {...props} />;
     case 'neutral-dash':
       return <NeutralDash {...props} />;
+    case 'minimize':
+      return <Minimize {...props} />;
+    case 'maximize':
+      return <Maximize {...props} />;
+    case 'delete':
+      return <Delete {...props} />;
+    case 'copy':
+      return <Copy {...props} />
+    case 'history':
+      return <History {...props} />
     default:
       break;
   }

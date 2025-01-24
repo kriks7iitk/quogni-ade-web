@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Select from 'react-select';
 import './form.theme.scss';
 
-export default function SingleSelect({
+export default function MultiSelect({
   height = 40,
   isClearable,
   isSearchable,
@@ -31,7 +31,8 @@ export default function SingleSelect({
   return (
     <>
       <Select
-        className="custom-select"
+        isMulti
+        className="basic-multi-select"
         classNamePrefix="custom-select"
         styles={{
           control: (base, state) => ({

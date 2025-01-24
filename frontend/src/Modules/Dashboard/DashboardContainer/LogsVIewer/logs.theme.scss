@@ -1,0 +1,59 @@
+.log-viewer{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 5px;
+    overflow-y: auto;
+}
+
+.log{
+    display: flex;
+    flex-direction: column;
+
+    .log-detail{
+        display: flex;
+        flex-direction: row;
+        align-items: flex-end;
+
+        .agent{
+            display: flex;
+            flex-direction: row;
+            gap: 5px;
+
+            span{
+                font-size: var(--ps-txt-s);
+                font-weight: 500;
+            }
+        }
+
+
+        .time{
+            font-size: var(--ps-txt-xxs);
+            flex-grow: 1;
+            padding-left: 5px;
+            font-style: italic;
+            font-weight: 400;
+        }
+    }
+    .query{
+
+        display: flex;
+        flex-direction: column;
+        margin: 5px 10px 5px 20px;
+        padding: 8px;
+        background-color: var(--slate-200);
+        
+        font-size: var(--ps-txt-xxs);
+    }
+
+    .meta{
+        background-color: var(--slate-200);
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+
+.copy-btn{
+    padding: 0 !important;
+}
