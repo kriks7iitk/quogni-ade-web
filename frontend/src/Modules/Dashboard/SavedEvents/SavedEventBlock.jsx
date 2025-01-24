@@ -28,10 +28,8 @@ export default function SavedEventBlock({
     <div className="saved-event-block">
       <div className="event-detail">
         <div className="event-source">{camelCaseToNormal(source)}</div>
-        <div className="predicted-sentiment">
-          {eventSentiment(expectedSentiment)}
-        </div>
-        <div className="market-movement">{marketMovement}</div>
+       
+       
         <div className="delete">
           <ThemeButton leftIcon="delete" />
         </div>
@@ -39,9 +37,16 @@ export default function SavedEventBlock({
       <div className="securities-list">
         {stockList.map((stock) => {
           return (
-            <StockButton symbol={stock} percentageChange="2" direction="up" />
+            <StockButton symbol={stock} percentageChange="2" direction="up" size='xs'/>
           );
         })}
+      </div>
+      <div className='sentiment-section'>
+        <div className="predicted-sentiment">
+          <span className='ttl'>Sentiment: </span>
+            {eventSentiment(expectedSentiment)}
+        </div>
+        <div className="market-movement">{marketMovement}</div>
       </div>
     </div>
   );

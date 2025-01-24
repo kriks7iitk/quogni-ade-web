@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import ResizableContainer from '../../../../_components/Containers/ResizableContainer';
 import './left-panel.theme.scss'
-import LogViewer from './Logs/LogsViewer';
+// import LogViewer from './Logs/LogsViewer';
 
 export default function AgentsLogsContainer() {
   const logs = [
@@ -39,7 +39,7 @@ export default function AgentsLogsContainer() {
 
   return (
     <ResizableContainer customClass="agents-logs-container" title="Agents logs">
-      <LogViewer logs={logs} />
+      {/* <LogViewer logs={logs} /> */}
     </ResizableContainer>
   );
 }

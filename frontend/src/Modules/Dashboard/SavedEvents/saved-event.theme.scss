@@ -83,10 +83,7 @@
             display: flex;
             align-items: center;
         }
-        .predicted-sentiment{
-            display: flex;
-            align-items: center;
-        }
+       
         .delete{
             margin-left: auto;
         }
@@ -96,6 +93,33 @@
         display: flex;
         flex-direction: row ;
         gap: 10px;
+        padding-right: 40px;
 
+    }
+
+    .sentiment-section{
+        display: flex;
+        flex-direction: row;
+        padding-right: 40px;
+
+        .predicted-sentiment{
+            display: flex;
+            align-items: center;
+
+            .ttl{
+                font-size: var(--ps-txt-xxs);
+                font-weight: bold;
+                color: var(--slate-500);
+                margin-right: 5px;
+            }
+
+            
+        }
+        .market-movement{
+            font-size: var(--ps-txt-xxs);
+            font-weight: bold;
+            color: var(--slate-500);
+            margin-left: auto;
+        }
     }
 }
