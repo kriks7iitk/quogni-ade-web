@@ -6,6 +6,11 @@ export default function SubNavigation() {
   const { activeTab, setActiveTab } = useLeftPanelContext();
   const menuList = [
     {
+      name: 'Threads',
+      link: 'history',
+      iconName: 'history',
+    },
+    {
       name: 'Marked events',
       link: 'saved-events',
       iconName: 'bookmark-square',
@@ -15,6 +20,7 @@ export default function SubNavigation() {
       link: 'saved-screens',
       iconName: 'screener',
     },
+    
   ];
   console.log('active tab is');
   console.log(activeTab);

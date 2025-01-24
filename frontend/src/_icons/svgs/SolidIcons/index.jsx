@@ -17,11 +17,21 @@ import Temp from './Temp';
 import Google from './Google';
 import LinkedIn from './LinkedIn';
 import BookMark from './BookMark';
+import AnalystAgent from './AnalystAgent';
+import DataInsightAgent from './DataInsightAgent';
+import EventAgent from './EventAgent';
+import History from '../SolidThemeIcons/History';
 
 const Icon = ({ name, ...props }) => {
   switch (name) {
     case 'dashboard':
       return <Dashboard {...props} />;
+    case 'analyst-agent':
+      return <AnalystAgent {...props} />;
+    case 'data-insight-agent':
+      return <DataInsightAgent {...props} />;
+    case 'event-agent':
+      return <EventAgent {...props} />;
     case 'piggie-white':
       return <PiggieStackWhite {...props} />;
     case 'portfolio':
@@ -58,6 +68,8 @@ const Icon = ({ name, ...props }) => {
       return <BookMark {...props} />;
     case 'screener':
       return <Screener {...props} />;
+    case 'history':
+      return <History {...props} />
     default:
       return null;
   }

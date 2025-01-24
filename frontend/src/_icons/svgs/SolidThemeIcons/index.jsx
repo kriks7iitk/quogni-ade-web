@@ -11,6 +11,8 @@ import NeutralDash from './NeutralDash';
 import Minimize from './Minimize';
 import Maximize from './Maximize';
 import Delete from './Delete';
+import Copy from './Copy';
+import History from './History';
 // import '../../../_colors/colors.scss';
 
 export default function SolidThemeIcon({ name, ...props }) {
@@ -41,6 +43,10 @@ export default function SolidThemeIcon({ name, ...props }) {
       return <Maximize {...props} />;
     case 'delete':
       return <Delete {...props} />;
+    case 'copy':
+      return <Copy {...props} />
+    case 'history':
+      return <History {...props} />
     default:
       break;
   }

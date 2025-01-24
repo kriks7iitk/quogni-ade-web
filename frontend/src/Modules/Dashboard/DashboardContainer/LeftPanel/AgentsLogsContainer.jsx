@@ -1,45 +1,46 @@
 import React, { useState } from 'react';
 import ResizableContainer from '../../../../_components/Containers/ResizableContainer';
 import './left-panel.theme.scss'
+import LogViewer from '../LogsVIewer/LogViewer';
 // import LogViewer from './Logs/LogsViewer';
 
 export default function AgentsLogsContainer() {
   const logs = [
     {
       timestamp: 1634777951000,
-      type: 'Diffx Explorer',
-      message: 'Executed query on cloak_performance',
-      ipAddress: '127.0.0.1:64050',
+      agent: 'data-insight-agent',
+      metadata: {},
+      query:'Give me revenue of reliance for last two years'
     },
     {
       timestamp: 1634777832000,
-      type: 'Jakub Hampel',
-      message: 'Altered Diffx Explorer permissions',
-      ipAddress: '127.0.0.1:53760',
+      agent: 'event-agent',
+      metadata: {},
+      query:'Tell me how this event can effect the revenue of the company'
     },
     {
       timestamp: 1634777808000,
-      type: 'Jakub Hampel',
-      message: 'Logged in',
-      ipAddress: '127.0.0.1:53760',
+      agent: 'analyst-agent',
+      metadata: {},
+      query:'Give me stock whoich revenue has doubled from last two year'
     },
     {
       timestamp: 1634774117000,
-      type: 'Jakub Hampel',
-      message: 'Executed query on cloak_performance',
-      ipAddress: '127.0.0.1:58952',
+      agent: 'analyst-agent',
+      metadata: {},
+      query:'Give me stock whoich is investing in rnd for last two year'
     },
     {
       timestamp: 1603290671000,
-      type: 'Jakub Hampel',
-      message: 'Logged in',
-      ipAddress: '127.0.0.1:61648',
+      agent: 'event-agent',
+      metadata: {},
+      query:'How this event will effect automobile industry'
     },
   ];
 
   return (
     <ResizableContainer customClass="agents-logs-container" title="Agents logs">
-      {/* <LogViewer logs={logs} /> */}
+    <LogViewer logs={logs}/>
     </ResizableContainer>
   );
 }
