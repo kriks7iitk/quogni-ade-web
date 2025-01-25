@@ -17,7 +17,7 @@ export default function AIBoard() {
         }}
         className="main-panel"
       >
-        {aiMode ? <ResultBoard /> : <EventsFeedContainer />}
+        {true ? <ResultBoard /> : <EventsFeedContainer />}
       </div>
       <AgentsInput />
     </div>
