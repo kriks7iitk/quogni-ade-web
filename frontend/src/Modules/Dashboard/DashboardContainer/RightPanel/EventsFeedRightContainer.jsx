@@ -4,15 +4,18 @@ import { useDashboard } from '../DashboardContainer';
 import EventsFeedContainer from '../EventsFeedContainer/EventsFeedContainer';
 
 export default function EventsFeedRightContainer() {
-  const { aiMode } = useDashboard();
+  const { aiMode, toggleEventsRightContainer, maximizeEventsRightContainer } =
+    useDashboard();
 
   return (
     <ResizableContainer
       customClass="event-feeds-right"
       title="Events feeds"
       maximizeHeightInPercentage="50"
+      isMaximized={maximizeEventsRightContainer}
+      toggleMaximize={toggleEventsRightContainer}
     >
-      {true && <EventsFeedContainer />}
+      {aiMode && <EventsFeedContainer />}
     </ResizableContainer>
   );
 }

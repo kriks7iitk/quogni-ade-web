@@ -13,7 +13,7 @@ import Maximize from './Maximize';
 import Delete from './Delete';
 import Copy from './Copy';
 import History from './History';
-// import '../../../_colors/colors.scss';
+import Enter from './Enter';
 
 export default function SolidThemeIcon({ name, ...props }) {
   switch (name) {
@@ -31,6 +31,8 @@ export default function SolidThemeIcon({ name, ...props }) {
       return <UserName {...props} />;
     case 'search':
       return <Search {...props} />;
+    case 'enter':
+      return <Enter {...props} />;
     case 'positive-up':
       return <PositiveUp {...props} />;
     case 'negative-down':
@@ -44,9 +46,9 @@ export default function SolidThemeIcon({ name, ...props }) {
     case 'delete':
       return <Delete {...props} />;
     case 'copy':
-      return <Copy {...props} />
+      return <Copy {...props} />;
     case 'history':
-      return <History {...props} />
+      return <History {...props} />;
     default:
       break;
   }
