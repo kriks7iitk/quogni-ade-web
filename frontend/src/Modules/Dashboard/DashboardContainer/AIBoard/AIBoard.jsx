@@ -7,7 +7,7 @@ import EventsFeedContainer from '../EventsFeedContainer/EventsFeedContainer';
 
 export default function AIBoard() {
   const { aiMode } = useDashboard();
-  const styleObject = aiMode ? { padding: '0 5%' } : { padding: '0 10%' };
+  const styleObject = aiMode ? { padding: '0 2%' } : { padding: '0 10%' };
 
   return (
     <div className="ai-board-dashboard">

@@ -16,7 +16,9 @@ export default function AgentsInput() {
   const [message, setMessage] = useState('');
 
   const toggleEventOnCondition = () => {
-    if (messagesAi.length === 0) toggleEventsRightContainer();
+    if (messagesAi.length === 0) {
+    }
+    toggleEventsRightContainer();
   };
 
   const sendMessage = () => {
@@ -72,7 +74,7 @@ export default function AgentsInput() {
               }}
               onBlur={() => {
                 toggleEventOnCondition();
-                setAiMode(false);
+                if (message.length === 0) setAiMode(false);
               }}
               onChange={(e) => {
                 setMessage(e.target.value);
