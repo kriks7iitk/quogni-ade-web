@@ -10,7 +10,6 @@ export default function SubNavigationButton({
   isSelected,
   disable,
 }) {
-  console.log(isSelected);
 
   return (
     <div>

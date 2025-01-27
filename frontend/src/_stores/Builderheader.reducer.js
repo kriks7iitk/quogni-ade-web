@@ -17,7 +17,6 @@ const chartSlice = createSlice({
 
     setSelectedOption: (state, action) => {
       state.selectedOption = action.payload;
-      console.log('selectedOption', state.selectedOption);
     },
   },
 });

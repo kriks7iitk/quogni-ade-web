@@ -17,9 +17,6 @@ export default function Chart({ chartData, height }) {
   const stockData = useSelector(
     (state) => state.rightDrawerData.data?.stockData,
   );
-  console.log('stock data is');
-
-  console.log(indexData);
 
   const loading = useSelector((state) => state.rightDrawerData.loading);
   const dataChart = stockData
@@ -47,8 +44,6 @@ export default function Chart({ chartData, height }) {
       })
     : [];
 
-  // console.log('line data is');
-  // console.log(lineData);
 
   const chartSeries = [
     {

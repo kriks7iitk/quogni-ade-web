@@ -57,8 +57,6 @@ export class SessionService {
           },
         });
       }
-      console.log("this is user");
-      console.log(user);
 
       return {
         session,

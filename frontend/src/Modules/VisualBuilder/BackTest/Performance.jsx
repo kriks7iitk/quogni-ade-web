@@ -13,9 +13,6 @@ export default function Performance() {
   const { performance: performance2, singals } = performanceSignal;
   const dispatch = useDispatch();
 
-  console.log('singal is ');
-  console.log(performanceSignal);
-
   const signal = singals.map((item) => {
     return {
       date: new Date(item.Date),

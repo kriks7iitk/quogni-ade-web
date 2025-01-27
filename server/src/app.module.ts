@@ -73,7 +73,6 @@ import { JwtStrategy } from "./modules/auth/jwt-strategy/jwt-strategy";
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => {
         const secret = configService.get("JWT_SECRET") || "yourSecretKey";
-        console.log("JWT_SECRET:", secret);
         return {
           secret: secret,
           secretOrPrivateKey: secret,

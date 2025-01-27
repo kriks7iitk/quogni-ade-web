@@ -22,8 +22,6 @@ export default function SubNavigation() {
     },
     
   ];
-  console.log('active tab is');
-  console.log(activeTab);
 
   return (
     <div className="sub-navigation-menu">

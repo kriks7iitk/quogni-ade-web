@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import ResizableContainer from '../../../../_components/Containers/ResizableContainer';
 import './left-panel.theme.scss'
 import LogViewer from '../LogsVIewer/LogViewer';
+import { useDashboard } from '../DashboardContainer';
 // import LogViewer from './Logs/LogsViewer';
 
 export default function AgentsLogsContainer() {
+  const { maximizeAgentLogs, toggleAgentsContainer } = useDashboard();
   const logs = [
     {
       timestamp: 1634777951000,
@@ -39,8 +41,13 @@ export default function AgentsLogsContainer() {
   ];
 
   return (
-    <ResizableContainer customClass="agents-logs-container" title="Agents logs">
-    <LogViewer logs={logs}/>
+    <ResizableContainer
+      customClass="agents-logs-container"
+      title="Agents logs"
+      isMaximized={maximizeAgentLogs}
+      toggleMaximize={toggleAgentsContainer}
+    >
+      <LogViewer logs={logs} />
     </ResizableContainer>
   );
 }

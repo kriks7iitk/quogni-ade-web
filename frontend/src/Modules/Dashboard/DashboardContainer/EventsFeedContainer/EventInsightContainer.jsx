@@ -13,8 +13,6 @@ export default function EventInsightContainer({
   stocks = [],
 }) {
   useEffect(() => {
-    console.log('hello how are you');
-    console.log(sentiment);
   }, [sentiment]);
 
   const sentimentSymbol = (type) => {

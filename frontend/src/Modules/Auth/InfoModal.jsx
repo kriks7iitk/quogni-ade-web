@@ -84,7 +84,6 @@ const InfoModal = ({ isOpen, closeModal }) => {
     const size = menuArray.length;
     setCurrentState((prevIndex) => {
       const nextIndex = (prevIndex + 1) % size;
-      console.log('Next menu is ', menuArray[nextIndex]);
 
       return nextIndex;
     });
@@ -194,8 +193,6 @@ const InfoModal = ({ isOpen, closeModal }) => {
                   }
                   color="var(--ps-green-bright)"
                   onClick={() => {
-                    console.log('prefered sector is ');
-                    console.log(preferredSector);
 
                     if (!preferredSector?.[_])
                       setPreferredSector({ ...preferredSector, [_]: 1 });
@@ -272,7 +269,7 @@ const InfoModal = ({ isOpen, closeModal }) => {
         navigate('/dashboard');
       })
       .catch((error) => {
-        console.log('error is ', error);
+        console.error('error is ', error);
       });
   };
 

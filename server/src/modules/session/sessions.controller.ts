@@ -11,8 +11,6 @@ export class SessionsController {
   @Get("validate")
   @UseGuards(SessionAuthGuard)
   async validateSession(@User() user: UserData) {
-    console.log("user is ");
-    console.log(user);
 
     const sessionData = await this.sessionService.getSessionData(
       user.sessionId

@@ -157,7 +157,6 @@ export class OAuthService {
           });
           return response.data.access_token;
         } catch (err) {
-          // error handling TBD
           console.log(err);
         }
       default:

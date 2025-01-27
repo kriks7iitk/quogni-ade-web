@@ -44,7 +44,6 @@ export class AuthService {
   async signUp(signUpDto: SignUpDto): Promise<User> {
     return await this.prismaService.withTransaction(
       async (client: PrismaService) => {
-        console.log("hello hello");
 
         const user = await this.userService.createUser(
           { phoneNumber: signUpDto.phoneNumber, email: signUpDto.email },
@@ -57,7 +56,6 @@ export class AuthService {
           },
           client
         );
-        console.log("yo yo");
         
         const otp = await this.createOtp(client, user.id);
         await this.sendOTP({ phoneNumber: signUpDto.phoneNumber, otp });
@@ -117,7 +115,7 @@ export class AuthService {
         });
         return existingOAuthUser !== null || existingUser !== null;
       } catch (e) {
-        console.log(e);
+        console.error(e);
       }
     });
   }
@@ -130,7 +128,6 @@ export class AuthService {
     otp: number;
   }): Promise<any> {
     try {
-      console.log(this.configService.get("OTP_SEND_URL"));
 
       const response = await axios.post(
         this.configService.get("OTP_SEND_URL"),
