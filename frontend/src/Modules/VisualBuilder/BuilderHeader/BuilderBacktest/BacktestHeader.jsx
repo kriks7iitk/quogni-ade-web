@@ -68,7 +68,7 @@ const BackTestHeader = () => {
             name="benchmark"
             placeholder="Select the filter"
             options={
-              stockList ? stockList.map((item, index) => item.symbol) : []
+              stockList ? stockList.map((item) => item.symbol) : []
             }
           />
         )}

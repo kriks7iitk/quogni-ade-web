@@ -6,7 +6,7 @@ export default function LogViewer({logs=[]}) {
   return (
     <div className='log-viewer'>{
         logs.map((log, index) => {
-            return <Log log={log}/>
+            return <Log key={index} log={log}/>
         })
     }
     </div>

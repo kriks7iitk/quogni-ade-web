@@ -43,10 +43,11 @@ export const NavBar = ({ isExpanded, setIsExpanded }) => {
         {['dashboard', 'portfolio', 'market-place', 'library','test_route'].map(
           (text, index) => (
             <ListItem
+
               sx={{
                 marginBottom: '10px',
               }}
-              key={text}
+              key={index}
               disablePadding
             >
               <ListItemButton
@@ -127,7 +128,7 @@ export const NavBar = ({ isExpanded, setIsExpanded }) => {
             sx={{
               marginBottom: '20px',
             }}
-            key={text}
+            key={index}
             disablePadding
           >
             <ListItemButton

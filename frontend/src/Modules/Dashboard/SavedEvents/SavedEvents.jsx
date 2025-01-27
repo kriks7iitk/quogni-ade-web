@@ -33,6 +33,7 @@ export default function SavedEvents() {
                 {dateEvent?.map((events, index) => {
                   return (
                     <SavedEventBlock
+                      key={index}
                       source={events?.source}
                       stockList={events?.stocks}
                       expectedSentiment={events?.sentiment}

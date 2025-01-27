@@ -185,6 +185,7 @@ const InfoModal = ({ isOpen, closeModal }) => {
             <div className="info-sector-selection">
               {tabs.map((_, index) => (
                 <TagButton
+                key={index}
                   tag={_}
                   bgColor={
                     preferredSector[_]

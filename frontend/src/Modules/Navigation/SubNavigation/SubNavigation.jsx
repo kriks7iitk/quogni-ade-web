@@ -28,6 +28,7 @@ export default function SubNavigation() {
       {menuList.map((menu, index) => {
         return (
           <SubNavigationButton
+          key={index}
             iconName={menu?.iconName}
             onClick={() => {
               setActiveTab(menu?.link);

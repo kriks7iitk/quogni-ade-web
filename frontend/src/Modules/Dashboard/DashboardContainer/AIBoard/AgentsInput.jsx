@@ -24,6 +24,7 @@ export default function AgentsInput() {
 
   const sendMessage = () => {
     const messageObject = {
+      type:'prompt',
       user: message,
       time: new Date().toISOString(),
     };
@@ -31,6 +32,7 @@ export default function AgentsInput() {
 
       return [...prevState, messageObject];
     });
+    //api calll - Subham api call
     setMessage('')
   };
 
@@ -95,9 +97,10 @@ export default function AgentsInput() {
           </div>
         </div>
         <div className="agent-selection-section">
-          {currentAgents.map((agent) => {
+          {currentAgents.map((agent, index) => {
             return (
               <SolidButton
+                key={index}
                 leftIcon={agent?.iconName}
                 iconWidth={15}
                 customClass="icon-class"

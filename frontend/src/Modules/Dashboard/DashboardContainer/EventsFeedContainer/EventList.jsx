@@ -6,7 +6,7 @@ import newsData from '../../newsData.json';
 export default function EventList() {
   return (
     <div className="feed-event-list">
-      {newsData.map((event) => {
+      {newsData.map((event, index) => {
         try {
           const formattedString = event?.industries?.replace(/'/g, '"');
           const stringStockList = event?.stocks?.replace(/'/g, '"');
@@ -32,6 +32,7 @@ export default function EventList() {
           const finalFormattedDate = `${formattedDate}, ${formattedTime} UTC`;
           return (
             <EventInsightContainer
+              key={index}
               industries={industriesArray}
               title={event?.title}
               source={event?.source}

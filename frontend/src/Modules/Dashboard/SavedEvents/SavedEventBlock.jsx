@@ -35,9 +35,9 @@ export default function SavedEventBlock({
         </div>
       </div>
       <div className="securities-list">
-        {stockList.map((stock) => {
+        {stockList.map((stock, index) => {
           return (
-            <StockButton symbol={stock} percentageChange="2" direction="up" size='xs'/>
+            <StockButton key={index} symbol={stock} percentageChange="2" direction="up" size='xs'/>
           );
         })}
       </div>

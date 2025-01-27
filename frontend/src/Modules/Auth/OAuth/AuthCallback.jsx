@@ -34,7 +34,6 @@ const AuthCallback = () => {
         addToSessionStorage('ps-auth-token', jwtToken);
         window.location.href = '/dashboard';
       } catch ({ error }) {
-        console.log(error);
         toast.error(error?.message);
         if (error?.code === 'auth109') {
           setTimeout(() => {

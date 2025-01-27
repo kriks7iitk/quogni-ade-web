@@ -7,8 +7,8 @@ export default function ResultBoard() {
   const { messagesAi } = useDashboard();
   return (
     <div className="result-board">
-      {messagesAi.map((message) => {
-        return <UserPrompt message={message?.user} />;
+      {messagesAi.map((message, index) => {
+        return <UserPrompt key={index} message={message?.user} />;
       })}
     </div>
   );

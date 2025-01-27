@@ -32,7 +32,7 @@ export default function BackTestTray() {
               return strategiesList ? (
                 strategiesList.map((item, index) => (
                   <div
-                    key={item.id}
+                    key={index}
                     id="expanded-tray"
                     className="strategy-full-item"
                   >

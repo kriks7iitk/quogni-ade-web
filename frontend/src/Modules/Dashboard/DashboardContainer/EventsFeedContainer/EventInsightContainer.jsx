@@ -37,9 +37,9 @@ export default function EventInsightContainer({
     <div className="feed-event-container">
       <div className="header-section">
         <div className="sector-list">
-          {industries?.map((ind) => (
+          {industries?.map((ind, index) => (
             <TagButton
-              key={ind.id || ind} // Replace with a unique property
+              key={index} // Replace with a unique property
               tag={ind}
               size="xs"
               color={'var(--ps-dark-blue)'}
@@ -53,8 +53,9 @@ export default function EventInsightContainer({
       <div className="securities-section">
         <div className="header-sec">Affected</div>
         <div className="securities-tag">
-          {stocks?.map((ind) => (
+          {stocks?.map((ind, index) => (
             <StockButton
+              key={index}
               symbol={ind}
               direction={sentiment === 'negative' ? 'down' : 'up'}
               showChangeSymbol={false}

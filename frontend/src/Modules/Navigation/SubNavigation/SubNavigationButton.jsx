@@ -19,7 +19,7 @@ export default function SubNavigationButton({
         customClass="sub-navigation-button"
         size="xs"
         onClick={onClick}
-        iconFill={isSelected ? 'var(--ps-dark-blue)' : 'var(--ps-green-bright)'}
+        iconFill={isSelected ? 'var(--ps-dark-blue)' : 'var(--slate-300)'}
       />
     </div>
   );

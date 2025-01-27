@@ -37,9 +37,9 @@ const InspectorHeader = ({
       {/* Render Tabs Navigation */}
       <div className="tabs-list flex space-x-4 ml-4">
         {tabs && tabs.length > 0 ? (
-          tabs.map((tab) => (
+          tabs.map((tab, index) => (
             <button
-              key={tab}
+              key={index}
               className={`tabs-trigger px-4 py-2 rounded-md ${
                 activeTab === tab ? 'bg-[#000050] text-white' : 'bg-gray-200 text-gray-700'
               }`}
