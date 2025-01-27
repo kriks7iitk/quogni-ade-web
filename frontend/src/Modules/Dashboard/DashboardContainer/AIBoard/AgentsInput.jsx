@@ -17,8 +17,9 @@ export default function AgentsInput() {
 
   const toggleEventOnCondition = () => {
     if (messagesAi.length === 0) {
+      toggleEventsRightContainer();
     }
-    toggleEventsRightContainer();
+    
   };
 
   const sendMessage = () => {
@@ -27,10 +28,10 @@ export default function AgentsInput() {
       time: new Date().toISOString(),
     };
     setMessagesAi((prevState) => {
-      console.log('This is logging');
 
       return [...prevState, messageObject];
     });
+    setMessage('')
   };
 
   const handleKeyDown = (event) => {
@@ -40,7 +41,6 @@ export default function AgentsInput() {
         return;
       } else {
         event.preventDefault();
-        console.log('Enter key pressed, sending message...');
         sendMessage();
       }
     }
@@ -67,6 +67,7 @@ export default function AgentsInput() {
         <div className="input-container-main">
           <div className="input-container">
             <textarea
+            value={message}
               onKeyDown={handleKeyDown}
               onFocus={() => {
                 toggleEventOnCondition();
@@ -74,7 +75,10 @@ export default function AgentsInput() {
               }}
               onBlur={() => {
                 toggleEventOnCondition();
-                if (message.length === 0) setAiMode(false);
+                if (messagesAi.length === 0) {
+                  
+                  setAiMode(false);
+                }
               }}
               onChange={(e) => {
                 setMessage(e.target.value);

@@ -80,12 +80,6 @@ const CandlestickChart = ({ data, width, ratio=window.devicePixelRatio || 1, hei
            <Annotate
            with={StrategyTriggerMarker}
            when={(d) => {
-             console.log(
-               "Checking date:",
-               d.date,
-               "Trigger Date:",
-               strategyTriggerDate
-             );
              return d.date.getTime() === strategyTriggerDate.getTime();
            }}
            usingProps={{

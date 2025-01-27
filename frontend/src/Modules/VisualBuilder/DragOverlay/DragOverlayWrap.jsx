@@ -9,8 +9,6 @@ export default function DragOverlayWrap({ draggedItem }) {
   const [node, setNode] = useState(null);
 
   useEffect(() => {
-    console.log('showing drag overlay');
-    console.log(draggedItem);
     const isTrayElementBtn = draggedItem?.data?.current?.isTrayElement;
     const isBackTestTrayItem = draggedItem?.data?.current?.isBackTestTrayItem;
 
@@ -22,10 +20,8 @@ export default function DragOverlayWrap({ draggedItem }) {
         ></TrayElementButtonOverlay>,
       );
     }
-    console.log('hellloo');
 
     if (isBackTestTrayItem) {
-      console.log('this is runnig');
 
       setNode(<StrategyItemOverlay name={draggedItem?.data?.current?.name} />);
     }

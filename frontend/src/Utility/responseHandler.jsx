@@ -24,7 +24,6 @@ export function handleResponse(response) {
         } else if (response.status === 403) {
           toast.error('forbidden resource');
         } else {
-          console.log('error is ', error);
 
           if (error?.code == 'auth110') {
             const encodedMessage = encodeURIComponent(

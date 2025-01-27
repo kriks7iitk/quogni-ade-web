@@ -32,8 +32,6 @@ export default function ComponentRenderer({ componentDef, overId , setStrategyDe
                         y:yPosition
                     }}},
                   }
-                  console.log("new def is");
-                  console.log(newDef);
                   
                 return newDef;
             })
@@ -42,13 +40,11 @@ export default function ComponentRenderer({ componentDef, overId , setStrategyDe
 
     useEffect(() => {
         if (transform && lastDeltaY!==transform.y) {
-            console.log(overId);
             
             setLastDeltaY(transform.y)
             
         }
         if(!transform){
-            console.log("finalziing ");
             setYPosition(lastDeltaY + yPosition);
             setLastDeltaY(0)
         }

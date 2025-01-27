@@ -28,7 +28,6 @@ export const fetchSignal = createAsyncThunk(
       stock,
       strategyName,
     );
-    console.log(strategyName);
 
     return response.data;
   },
@@ -75,8 +74,6 @@ const rightDrawerSlice = createSlice({
       state.title = action.payload;
     },
     updateRightDrawerJourneyState: (state, action) => {
-      console.log(action);
-
       state.level = action.payload;
     },
     updateSelectedStock: (state, action) => {
@@ -131,8 +128,6 @@ const rightDrawerSlice = createSlice({
         state.loading = true;
       })
       .addCase(fetchStockName.fulfilled, (state, action) => {
-        console.log('stocks are ');
-        console.log(action);
 
         state.data = {
           ...state.data,
@@ -141,7 +136,6 @@ const rightDrawerSlice = createSlice({
         state.loading = false;
       })
       .addCase(fetchStockName.rejected, (state) => {
-        console.log('getting failed');
 
         state.loading = false;
       })

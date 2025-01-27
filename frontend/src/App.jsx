@@ -47,7 +47,6 @@ function App() {
   const [appLoadingState, setAppLoadingState] = useState(true);
 
   useEffect(() => {
-    console.log('hello how are you');
     const performAuthorization = async () => {
       try {
         await authorize();

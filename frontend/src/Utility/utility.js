@@ -36,8 +36,6 @@ export function toUpperCase(str) {
   return str.toUpperCase();
 }
 export function getInitials(name) {
-  console.log('name is');
-  console.log(name);
 
   if (!name) return '';
   const words = name.trim().split(' ');

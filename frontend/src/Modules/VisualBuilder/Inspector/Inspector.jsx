@@ -91,7 +91,6 @@ export default function Inspector() {
       setIsCollapsed(true);
       setExpandSideTray(false);
       setTabs([]);
-      console.log('subRoute === back-test');
     }
     if (subRoute === 'back-test') {
       setIsCollapsed(false);
@@ -106,17 +105,14 @@ export default function Inspector() {
     if (subRoute !== 'back-test') {
       setExpandSideTray(false);
       setInspectorHeight(COLLAPSED_HEIGHT);
-      console.log('Inspector Height', inspectorHeight);
     }
     // Function to update the parent's height dynamically
     const updateParentHeight = () => {
       if (drawerRef.current) {
         setParentHeight(drawerRef.current.clientHeight);
-        console.log('Drawer ref height', drawerRef.current.clientHeight);
       }
     };
 
-    console.log('Parent Height', parentHeight);
 
     // Update parent height initially and on window resize
 

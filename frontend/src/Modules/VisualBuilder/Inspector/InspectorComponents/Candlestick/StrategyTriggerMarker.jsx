@@ -6,7 +6,6 @@ const StrategyTriggerMarker = ({
      message,
    }) => {
 
-     console.log('StrategyTriggerMarker:', x, y, message);
     
   return (
      <g transform={`translate(${x}, ${y})`}>

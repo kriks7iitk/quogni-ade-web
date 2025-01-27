@@ -56,7 +56,6 @@ export class UserService {
           },
         });
       } catch (e) {
-        console.log("error is ", e);
 
         if (e instanceof Prisma.PrismaClientKnownRequestError) {
           console.log(e);

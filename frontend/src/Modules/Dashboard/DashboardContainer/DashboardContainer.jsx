@@ -26,6 +26,7 @@ const DashboardProvider = ({ children }) => {
   const [currentActiveAgent, setCurrentActiveAgent] = useState([]);
 
   const toggleEventsRightContainer = () => {
+    
     setMaximizeEventsRightContainer((prevState) => !prevState);
   };
 

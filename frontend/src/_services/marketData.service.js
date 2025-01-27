@@ -75,8 +75,6 @@ function getStockSignals(stock, strategyName) {
     },
   };
 
-  console.log('this is name');
-  console.log(strategyName);
 
   const url = `${import.meta.env.VITE_QUANT_SERVER_HOST}/signal_date_range_data?stock=${stock}&strategy=${strategyName}&from_date=2024-01-14&to_date=2024-08-25`;
 
