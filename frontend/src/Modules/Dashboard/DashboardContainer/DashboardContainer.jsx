@@ -54,7 +54,6 @@ const DashboardProvider = ({ children }) => {
 };
 
 export function DashboardContainerUI() {
-  const { aiMode, setAiMode } = useDashboard();
 
   return (
     <div className="dashboard-container">
