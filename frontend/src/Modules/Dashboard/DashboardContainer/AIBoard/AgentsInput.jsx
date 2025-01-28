@@ -5,6 +5,7 @@ import SolidButton from '../../../../_components/Buttons/SolidButton';
 import ThemeButton from '../../../../_components/Buttons/ThemeButton';
 import { dataInsight } from '../../../../_services/dataInsight.service'
 import { screenerAgent } from '../../../../_services/analystAagent.service'
+import DataTable from '../../../../_components/DataTable/DataTable'
 import toast from 'react-hot-toast';
 
 export default function AgentsInput() {
@@ -35,6 +36,7 @@ export default function AgentsInput() {
       return [...prevState, messageObject];
     });
     //api calll - Subham api call
+    console.log(agentName, "hi from sendMessage")
 
     if (agentName === 'Data and insight agent') {
       const body = {
@@ -50,6 +52,7 @@ export default function AgentsInput() {
             user: data["data"]["message"],
             time: new Date().toISOString(),
           }
+          console.log(aiResponse)
           setMessagesAi((prevState) => {
             return [...prevState, aiResponse];
           });
@@ -64,15 +67,18 @@ export default function AgentsInput() {
       const body = {
         "prompt": "give top 10 marketcap stocks in BSE"
       }
-
-      screenerAgent.getScreenerChat(body)
+      console.log(body)
+      screenerAgent.getScreener(body)
         .then((data) => {
           console.log(data);
           const aiResponse = {
             type: 'agent',
-            user: data["messages"],
+            user: data["data"],
             time: new Date().toISOString(),
+            agentname: agentName,
+            description: data["description"]
           }
+          console.log(aiResponse)
           setMessagesAi((prevState) => {
             return [...prevState, aiResponse];
           });
@@ -84,7 +90,6 @@ export default function AgentsInput() {
     }
 
 
-    console.log(aiResponse)
     setMessage('')
   };
 
@@ -95,7 +100,7 @@ export default function AgentsInput() {
         return;
       } else {
         event.preventDefault();
-        sendMessage();
+        sendMessage('Analyst agent');
       }
     }
   };
