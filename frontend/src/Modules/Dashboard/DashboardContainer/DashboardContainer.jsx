@@ -19,6 +19,8 @@ const DashboardProvider = ({ children }) => {
   const [maximizeEventsRightContainer, setMaximizeEventsRightContainer] =
     useState(false);
 
+  const [selectedEvent, setSelectedEvent] = useState(null);
+
   const toggleAgentsContainer = () => {
     setMaximizeAgentLogs((prevState) => !prevState);
   };
@@ -46,6 +48,8 @@ const DashboardProvider = ({ children }) => {
         setMaximizeEventsRightContainer,
         currentActiveAgent,
         setCurrentActiveAgent,
+        selectedEvent,
+        setSelectedEvent,
       }}
     >
       {children}

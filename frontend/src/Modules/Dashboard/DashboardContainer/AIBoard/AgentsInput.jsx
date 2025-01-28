@@ -14,6 +14,8 @@ export default function AgentsInput() {
     messagesAi,
     toggleEventsRightContainer,
     setMessagesAi,
+    currentActiveAgent,
+    setCurrentActiveAgent,
   } = useDashboard();
 
   const [message, setMessage] = useState('');
@@ -22,7 +24,6 @@ export default function AgentsInput() {
     if (messagesAi.length === 0) {
       toggleEventsRightContainer();
     }
-
   };
 
   const sendMessage = (agentName) => {
@@ -38,54 +39,55 @@ export default function AgentsInput() {
 
     if (agentName === 'Data and insight agent') {
       const body = {
-        "symbol": "icici",
-        "prompt": message
-      }
+        symbol: 'icici',
+        prompt: message,
+      };
 
-      dataInsight.getInsight(body)
+      dataInsight
+        .getInsight(body)
         .then((data) => {
           console.log(data);
           const aiResponse = {
             type: 'agent',
-            user: data["data"]["message"],
+            user: data['data']['message'],
             time: new Date().toISOString(),
-          }
+          };
           setMessagesAi((prevState) => {
             return [...prevState, aiResponse];
           });
         })
         .catch((error) => {
           console.error(error);
-          toast.error(error?.error)
-        })
+          toast.error(error?.error);
+        });
     }
 
     if (agentName === 'Analyst agent') {
       const body = {
-        "prompt": "give top 10 marketcap stocks in BSE"
-      }
+        prompt: 'give top 10 marketcap stocks in BSE',
+      };
 
-      screenerAgent.getScreenerChat(body)
+      screenerAgent
+        .getScreenerChat(body)
         .then((data) => {
           console.log(data);
           const aiResponse = {
             type: 'agent',
-            user: data["messages"],
+            user: data['messages'],
             time: new Date().toISOString(),
-          }
+          };
           setMessagesAi((prevState) => {
             return [...prevState, aiResponse];
           });
         })
         .catch((error) => {
           console.error(error);
-          toast.error(error?.error)
-        })
+          toast.error(error?.error);
+        });
     }
 
-
-    console.log(aiResponse)
-    setMessage('')
+    console.log(aiResponse);
+    setMessage('');
   };
 
   const handleKeyDown = (event) => {
@@ -130,7 +132,6 @@ export default function AgentsInput() {
               onBlur={() => {
                 toggleEventOnCondition();
                 if (messagesAi.length === 0) {
-
                   setAiMode(false);
                 }
               }}
@@ -150,14 +151,23 @@ export default function AgentsInput() {
         </div>
         <div className="agent-selection-section">
           {currentAgents.map((agent, index) => {
+            const isActiveAgent = currentActiveAgent == agent?.iconName;
             return (
               <SolidButton
                 key={index}
                 leftIcon={agent?.iconName}
                 iconWidth={15}
-                customClass="icon-class"
-                iconFill={'var(--slate-400)'}
-                onClick={() => { sendMessage('Analyst agent') }}
+                customClass={`icon-class ${isActiveAgent ? 'active' : 'un-active'}`}
+                iconFill={
+                  isActiveAgent ? 'var(--ps-dark-blue)' : 'var(--slate-400)'
+                }
+                onClick={() => {
+                  if (isActiveAgent) {
+                    setCurrentActiveAgent(null);
+                    return;
+                  }
+                  setCurrentActiveAgent(agent?.iconName);
+                }}
               />
             );
           })}

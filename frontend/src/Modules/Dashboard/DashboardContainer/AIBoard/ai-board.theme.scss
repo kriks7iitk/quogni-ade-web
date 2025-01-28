@@ -101,11 +101,20 @@
 
         .icon-class{
             padding: 2px !important;
-            border: none !important;
             width: auto !important;
             height: auto !important;
             min-height: 0 !important;
             min-width: 0 !important;
+
+            &.active{
+                border-radius: 50% !important;
+                background-color: var(--ps-green-bright) !important;
+                border: 1px solid var(--ps-dark-blue) !important;
+            }
+
+            &.un-active{
+                border: none !important;
+            }
         }
     }
     

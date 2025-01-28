@@ -20,8 +20,8 @@ export default function EventList() {
   
 
   return (
-    <div className="feed-event-list" >
-      {newsData.map((event, index) => {
+    <div className="feed-event-list">
+      {eventsData.map((event, index) => {
         try {
           const formattedString = event?.industries?.replace(/'/g, '"');
           const stringStockList = event?.stocks?.replace(/'/g, '"');
@@ -39,15 +39,14 @@ export default function EventList() {
             hour12: false,
           };
 
-          // Format the date and time
-          const formattedDate = date.toLocaleDateString('en-GB', dateOptions); // 6 Jan 2024
-          const formattedTime = date.toLocaleTimeString('en-GB', timeOptions); // 02:52
+          const formattedDate = date.toLocaleDateString('en-GB', dateOptions);
+          const formattedTime = date.toLocaleTimeString('en-GB', timeOptions);
 
-          // Combine date and time
           const finalFormattedDate = `${formattedDate}, ${formattedTime} UTC`;
           return (
             <EventInsightContainer
               key={index}
+              id={event?.id}
               industries={industriesArray}
               title={event?.title}
               source={event?.source}
@@ -60,7 +59,7 @@ export default function EventList() {
           return;
         }
       })}
-      {loadingNews && <p>Loading...</p>} 
+      {loadingNews && <p>Loading...</p>}
       {!hasMore && <p>No more events to load.</p>}
     </div>
   );

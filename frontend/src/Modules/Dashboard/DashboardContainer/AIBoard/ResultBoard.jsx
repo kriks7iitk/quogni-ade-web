@@ -8,7 +8,9 @@ export default function ResultBoard() {
   return (
     <div className="result-board">
       {messagesAi.map((message, index) => {
-        return <UserPrompt key={index} message={message?.user} />;
+        return (
+          <UserPrompt key={index} message={message?.user} type={message.type} />
+        );
       })}
     </div>
   );

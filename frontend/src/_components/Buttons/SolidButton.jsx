@@ -48,7 +48,7 @@ const SolidButton = ({
           className="ml-2 transition-colors duration-300"
           name={leftIcon}
           width={iconWidth}
-          fill={isHovered ? hoverIconFill : iconFill}
+          fill={isHovered && !isActive ? hoverIconFill : iconFill}
         />
       )}
       {children}
