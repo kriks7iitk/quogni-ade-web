@@ -1,11 +1,26 @@
-import React from 'react';
+import React , {useState, useEffect} from 'react';
 import './feed-container.theme.scss';
 import EventInsightContainer from './EventInsightContainer';
 import newsData from '../../newsData.json';
+import { eventAgentService } from '../../../../_services';
+import { toast } from 'react-hot-toast';
+import { useEventsFeeds } from './EventsFeedContainer';
 
 export default function EventList() {
+
+  const {eventsData, setEventsData, loading, setLoading, page, setPage, loadingNews, setLoadingNews, hasMore, setHasMore} = useEventsFeeds()
+
+  // const [eventsData, setEventsData] = useState([])
+  // const [loading, setLoading] = useState(false)
+  // const [page, setPage] = useState(1)
+  // const [loadingNews, setLoadingNews] = useState(false)
+  // const [hasMore, setHasMore] = useState(true);
+
+  
+  
+
   return (
-    <div className="feed-event-list">
+    <div className="feed-event-list" >
       {newsData.map((event, index) => {
         try {
           const formattedString = event?.industries?.replace(/'/g, '"');
@@ -45,6 +60,8 @@ export default function EventList() {
           return;
         }
       })}
+      {loadingNews && <p>Loading...</p>} 
+      {!hasMore && <p>No more events to load.</p>}
     </div>
   );
 }

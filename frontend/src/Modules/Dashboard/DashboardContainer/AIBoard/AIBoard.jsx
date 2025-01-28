@@ -16,6 +16,7 @@ export default function AIBoard() {
           ...styleObject,
         }}
         className="main-panel"
+        
       >
         {aiMode ? <ResultBoard /> : <EventsFeedContainer />}
       </div>
