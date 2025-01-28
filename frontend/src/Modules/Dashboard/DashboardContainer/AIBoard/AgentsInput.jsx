@@ -3,6 +3,9 @@ import { useDashboard } from '../DashboardContainer';
 import './ai-board.theme.scss';
 import SolidButton from '../../../../_components/Buttons/SolidButton';
 import ThemeButton from '../../../../_components/Buttons/ThemeButton';
+import { dataInsight } from '../../../../_services/dataInsight.service'
+import { screenerAgent } from '../../../../_services/analystAagent.service'
+import toast from 'react-hot-toast';
 
 export default function AgentsInput() {
   const {
@@ -19,20 +22,69 @@ export default function AgentsInput() {
     if (messagesAi.length === 0) {
       toggleEventsRightContainer();
     }
-    
+
   };
 
-  const sendMessage = () => {
+  const sendMessage = (agentName) => {
     const messageObject = {
-      type:'prompt',
+      type: 'prompt',
       user: message,
       time: new Date().toISOString(),
     };
     setMessagesAi((prevState) => {
-
       return [...prevState, messageObject];
     });
     //api calll - Subham api call
+
+    if (agentName === 'Data and insight agent') {
+      const body = {
+        "symbol": "icici",
+        "prompt": message
+      }
+
+      dataInsight.getInsight(body)
+        .then((data) => {
+          console.log(data);
+          const aiResponse = {
+            type: 'agent',
+            user: data["data"]["message"],
+            time: new Date().toISOString(),
+          }
+          setMessagesAi((prevState) => {
+            return [...prevState, aiResponse];
+          });
+        })
+        .catch((error) => {
+          console.error(error);
+          toast.error(error?.error)
+        })
+    }
+
+    if (agentName === 'Analyst agent') {
+      const body = {
+        "prompt": "give top 10 marketcap stocks in BSE"
+      }
+
+      screenerAgent.getScreenerChat(body)
+        .then((data) => {
+          console.log(data);
+          const aiResponse = {
+            type: 'agent',
+            user: data["messages"],
+            time: new Date().toISOString(),
+          }
+          setMessagesAi((prevState) => {
+            return [...prevState, aiResponse];
+          });
+        })
+        .catch((error) => {
+          console.error(error);
+          toast.error(error?.error)
+        })
+    }
+
+
+    console.log(aiResponse)
     setMessage('')
   };
 
@@ -69,7 +121,7 @@ export default function AgentsInput() {
         <div className="input-container-main">
           <div className="input-container">
             <textarea
-            value={message}
+              value={message}
               onKeyDown={handleKeyDown}
               onFocus={() => {
                 toggleEventOnCondition();
@@ -78,7 +130,7 @@ export default function AgentsInput() {
               onBlur={() => {
                 toggleEventOnCondition();
                 if (messagesAi.length === 0) {
-                  
+
                   setAiMode(false);
                 }
               }}
@@ -105,7 +157,7 @@ export default function AgentsInput() {
                 iconWidth={15}
                 customClass="icon-class"
                 iconFill={'var(--slate-400)'}
-                onClick={sendMessage}
+                onClick={() => { sendMessage('Analyst agent') }}
               />
             );
           })}
