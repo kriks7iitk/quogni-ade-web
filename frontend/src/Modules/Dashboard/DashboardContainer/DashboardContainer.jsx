@@ -18,6 +18,7 @@ const DashboardProvider = ({ children }) => {
   const [maximizeAgentLogs, setMaximizeAgentLogs] = useState(false);
   const [maximizeEventsRightContainer, setMaximizeEventsRightContainer] =
     useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const toggleAgentsContainer = () => {
     setMaximizeAgentLogs((prevState) => !prevState);
@@ -26,7 +27,7 @@ const DashboardProvider = ({ children }) => {
   const [currentActiveAgent, setCurrentActiveAgent] = useState([]);
 
   const toggleEventsRightContainer = () => {
-    
+
     setMaximizeEventsRightContainer((prevState) => !prevState);
   };
 
@@ -46,6 +47,8 @@ const DashboardProvider = ({ children }) => {
         setMaximizeEventsRightContainer,
         currentActiveAgent,
         setCurrentActiveAgent,
+        isLoading,
+        setIsLoading,
       }}
     >
       {children}

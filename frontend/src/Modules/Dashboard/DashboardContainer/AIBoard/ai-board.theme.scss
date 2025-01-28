@@ -12,6 +12,7 @@
         max-height: calc(100% - 150px);
         display: flex;
         flex-direction: column-reverse;
+        overflow-y: auto;
     }
 }
 
@@ -49,37 +50,37 @@
             flex-grow: 1;
             display: flex;
             flex-direction: row;
-    
+
             .input-container{
-             flex-grow: 1;
-             height: 100%;
-            
-             textarea {
-                width: 100%;
-                font-size: var(--ps-txt-xs);
-                resize: none;
                 flex-grow: 1;
-                flex-wrap: wrap;
-                padding: 10px;
+                height: 100%;
+
+                textarea {
+                    width: 100%;
+                    font-size: var(--ps-txt-xs);
+                    resize: none;
+                    flex-grow: 1;
+                    flex-wrap: wrap;
+                    padding: 10px;
                 background-color: transparent; /* Fix the invalid value */
                 border: none; /* Add a border for clarity */
-                border-radius: 4px;
+                    border-radius: 4px;
                 outline: none; /* Remove the default outline */
                 word-wrap: break-word; /* Break content into a new line */
                 overflow-wrap: break-word; /* Ensure long words break properly */
                 white-space: normal; /* Allow wrapping to the next line */
 
-      
-                &::placeholder {
+
+                    &::placeholder {
                   color: #aaa; /* Placeholder text color */
-                  font-style: italic;
+                        font-style: italic;
+                    }
+
+                    // &:focus {
+                    // }
                 }
-      
-                // &:focus {
-                // }
-              }
             }
-        
+
             .button-section{
                 width: 35px;
                 display: flex;
@@ -108,9 +109,9 @@
             min-width: 0 !important;
         }
     }
-    
 
-    
+
+
 
     .message-container{
         min-height: 20px;
@@ -121,12 +122,12 @@
     padding: 10px;
     border-radius: 6px;
     width: fit-content;
-    max-width: 95%; 
+    max-width: 95%;
     margin: 2px;
     font-size: var(--ps-txt-s);
     background-color: var(--ps-white-1);
-    white-space: pre-wrap;      
-    word-wrap: break-word;      
-    overflow-wrap: break-word;  
-    word-break: break-word;  
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-word;
 }

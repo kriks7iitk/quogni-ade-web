@@ -15,6 +15,8 @@ export default function AgentsInput() {
     messagesAi,
     toggleEventsRightContainer,
     setMessagesAi,
+    isLoading,
+    setIsLoading,
   } = useDashboard();
 
   const [message, setMessage] = useState('');
@@ -27,15 +29,16 @@ export default function AgentsInput() {
   };
 
   const sendMessage = (agentName) => {
+    setIsLoading(true)
     const messageObject = {
       type: 'prompt',
       user: message,
       time: new Date().toISOString(),
     };
     setMessagesAi((prevState) => {
-      return [...prevState, messageObject];
+      return [messageObject, ...prevState];
     });
-    //api calll - Subham api call
+
     console.log(agentName, "hi from sendMessage")
 
     if (agentName === 'Data and insight agent') {
@@ -53,11 +56,13 @@ export default function AgentsInput() {
             time: new Date().toISOString(),
           }
           console.log(aiResponse)
+          setIsLoading(false)
           setMessagesAi((prevState) => {
-            return [...prevState, aiResponse];
+            return [aiResponse, ...prevState,];
           });
         })
         .catch((error) => {
+          setIsLoading(false);
           console.error(error);
           toast.error(error?.error)
         })
@@ -65,7 +70,7 @@ export default function AgentsInput() {
 
     if (agentName === 'Analyst agent') {
       const body = {
-        "prompt": "give top 10 marketcap stocks in BSE"
+        "prompt": message
       }
       console.log(body)
       screenerAgent.getScreener(body)
@@ -79,11 +84,13 @@ export default function AgentsInput() {
             description: data["description"]
           }
           console.log(aiResponse)
+          setIsLoading(false);
           setMessagesAi((prevState) => {
-            return [...prevState, aiResponse];
+            return [aiResponse, ...prevState];
           });
         })
         .catch((error) => {
+          setIsLoading(false);
           console.error(error);
           toast.error(error?.error)
         })
@@ -126,6 +133,7 @@ export default function AgentsInput() {
         <div className="input-container-main">
           <div className="input-container">
             <textarea
+              disabled={isLoading}
               value={message}
               onKeyDown={handleKeyDown}
               onFocus={() => {
