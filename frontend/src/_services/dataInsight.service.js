@@ -13,7 +13,7 @@ function getInsight(body) {
         },
         body: JSON.stringify(body),
     };
-    return fetch("http://13.202.100.162:8001/pdfAgent/pdfagent/", requestPayload).then(
+    return fetch("http://qunatlb-d0d36c677e4e4fcd.elb.ap-south-1.amazonaws.com/pdfAgent/pdfagent/", requestPayload).then(
         handleResponse,
     );
 }

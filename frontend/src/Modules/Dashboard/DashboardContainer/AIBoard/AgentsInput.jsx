@@ -3,8 +3,9 @@ import { useDashboard } from '../DashboardContainer';
 import './ai-board.theme.scss';
 import SolidButton from '../../../../_components/Buttons/SolidButton';
 import ThemeButton from '../../../../_components/Buttons/ThemeButton';
-import { dataInsight } from '../../../../_services/dataInsight.service'
-import { screenerAgent } from '../../../../_services/analystAagent.service'
+import { dataInsight } from '../../../../_services/dataInsight.service';
+import { screenerAgent } from '../../../../_services/analystAagent.service';
+import DataTable from '../../../../_components/DataTable/DataTable';
 import toast from 'react-hot-toast';
 
 export default function AgentsInput() {
@@ -16,6 +17,8 @@ export default function AgentsInput() {
     setMessagesAi,
     currentActiveAgent,
     setCurrentActiveAgent,
+    isLoading,
+    setIsLoading,
   } = useDashboard();
 
   const [message, setMessage] = useState('');
@@ -27,15 +30,17 @@ export default function AgentsInput() {
   };
 
   const sendMessage = (agentName) => {
+    setIsLoading(true);
     const messageObject = {
       type: 'prompt',
       user: message,
       time: new Date().toISOString(),
     };
     setMessagesAi((prevState) => {
-      return [...prevState, messageObject];
+      return [messageObject, ...prevState];
     });
-    //api calll - Subham api call
+
+    console.log(agentName, 'hi from sendMessage');
 
     if (agentName === 'Data and insight agent') {
       const body = {
@@ -52,11 +57,14 @@ export default function AgentsInput() {
             user: data['data']['message'],
             time: new Date().toISOString(),
           };
+          console.log(aiResponse);
+          setIsLoading(false);
           setMessagesAi((prevState) => {
-            return [...prevState, aiResponse];
+            return [aiResponse, ...prevState];
           });
         })
         .catch((error) => {
+          setIsLoading(false);
           console.error(error);
           toast.error(error?.error);
         });
@@ -64,29 +72,33 @@ export default function AgentsInput() {
 
     if (agentName === 'Analyst agent') {
       const body = {
-        prompt: 'give top 10 marketcap stocks in BSE',
+        prompt: message,
       };
-
+      console.log(body);
       screenerAgent
-        .getScreenerChat(body)
+        .getScreener(body)
         .then((data) => {
           console.log(data);
           const aiResponse = {
             type: 'agent',
-            user: data['messages'],
+            user: data['data'],
             time: new Date().toISOString(),
+            agentname: agentName,
+            description: data['description'],
           };
+          console.log(aiResponse);
+          setIsLoading(false);
           setMessagesAi((prevState) => {
-            return [...prevState, aiResponse];
+            return [aiResponse, ...prevState];
           });
         })
         .catch((error) => {
+          setIsLoading(false);
           console.error(error);
           toast.error(error?.error);
         });
     }
 
-    console.log(aiResponse);
     setMessage('');
   };
 
@@ -97,7 +109,7 @@ export default function AgentsInput() {
         return;
       } else {
         event.preventDefault();
-        sendMessage();
+        sendMessage('Analyst agent');
       }
     }
   };
@@ -123,6 +135,7 @@ export default function AgentsInput() {
         <div className="input-container-main">
           <div className="input-container">
             <textarea
+              disabled={isLoading}
               value={message}
               onKeyDown={handleKeyDown}
               onFocus={() => {

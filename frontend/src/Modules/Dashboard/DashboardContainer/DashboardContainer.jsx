@@ -18,6 +18,7 @@ const DashboardProvider = ({ children }) => {
   const [maximizeAgentLogs, setMaximizeAgentLogs] = useState(false);
   const [maximizeEventsRightContainer, setMaximizeEventsRightContainer] =
     useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [selectedEvent, setSelectedEvent] = useState(null);
 
@@ -28,7 +29,6 @@ const DashboardProvider = ({ children }) => {
   const [currentActiveAgent, setCurrentActiveAgent] = useState([]);
 
   const toggleEventsRightContainer = () => {
-    
     setMaximizeEventsRightContainer((prevState) => !prevState);
   };
 
@@ -50,6 +50,8 @@ const DashboardProvider = ({ children }) => {
         setCurrentActiveAgent,
         selectedEvent,
         setSelectedEvent,
+        isLoading,
+        setIsLoading,
       }}
     >
       {children}
@@ -58,7 +60,6 @@ const DashboardProvider = ({ children }) => {
 };
 
 export function DashboardContainerUI() {
-
   return (
     <div className="dashboard-container">
       <LeftPanel />
