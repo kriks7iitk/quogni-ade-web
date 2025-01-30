@@ -35,7 +35,7 @@ export default function AgentsInput() {
     }
   };
 
-  const transformAIOutput = (response) => {
+  const transformAIOutput = (response, body) => {
     const metaData = {
       type: 'agent',
       time: new Date().toISOString(),
@@ -43,7 +43,7 @@ export default function AgentsInput() {
     };
     console.log("tranforming response");
     console.log(response?.message);
-    
+
     switch (currentActiveAgent) {
       case 'data-insight-agent':
         const object = {
@@ -52,15 +52,31 @@ export default function AgentsInput() {
           symbol: selectedStock,
         };
         console.log("objecgt is");
-        
+
         console.log(object);
-        
-        
+        setAgentLogs((prevState) => {
+          return [{
+            timestamp: Date.now(),
+            agent: 'data-insight-agent',
+            metadata: { 'collection id': response["source collection ID"] },
+            query: body?.prompt
+          }, ...prevState];
+        })
+
+
         return {
           ...metaData,
           data: response?.message,
         };
       case 'analyst-agent':
+        setAgentLogs((prevState) => {
+          return [{
+            timestamp: Date.now(),
+            agent: 'analyst-agent',
+            metadata: { 'query': response["query"] },
+            query: body?.prompt
+          }, ...prevState];
+        })
         return {
           ...metaData,
           data: response?.data,
@@ -83,7 +99,7 @@ export default function AgentsInput() {
     setMessagesAi((prevState) => {
       return [messageObject, ...prevState];
     });
-    
+
     const body = { prompt: message };
     if (currentActiveAgent === 'data-insight-agent')
       body.symbol = selectedStock;
@@ -97,7 +113,7 @@ export default function AgentsInput() {
                       
                       `
     }
-      
+
     const agentMap = {
       'data-insight-agent': dataInsight.getInsight,
       'analyst-agent': screenerAgent.getScreener,
@@ -110,15 +126,15 @@ export default function AgentsInput() {
     console.log("hello this is it");
     console.log(currentActiveAgent);
     console.log(agentFunction);
-    
-    
-    
+
+
+
     agentFunction(body)
       .then((response) => {
         console.log("response is");
         console.log(response);
-        
-        const aiResponse = transformAIOutput(response);
+
+        const aiResponse = transformAIOutput(response, body);
         setIsLoading(false);
         setMessagesAi((prevState) => [aiResponse, ...prevState]);
       })

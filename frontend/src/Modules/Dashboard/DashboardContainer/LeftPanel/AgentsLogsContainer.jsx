@@ -47,7 +47,7 @@ export default function AgentsLogsContainer() {
       isMaximized={maximizeAgentLogs}
       toggleMaximize={toggleAgentsContainer}
     >
-      <LogViewer logs={logs} />
+      <LogViewer logs={agentLogs} />
     </ResizableContainer>
   );
 }
