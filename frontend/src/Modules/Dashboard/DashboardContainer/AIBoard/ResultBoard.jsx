@@ -7,6 +7,10 @@ import AnalysitAgentOutput from './_component/AnalysitAgentOutput';
 
 export default function ResultBoard() {
   const { messagesAi, isLoading } = useDashboard();
+  console.log("message logs are");
+  console.log(messagesAi);
+  
+  
   return (
     <div className="result-board">
       {isLoading ? <AiTyping /> : <></>}
@@ -14,7 +18,7 @@ export default function ResultBoard() {
         if (message?.agentname === 'Analyst agent') {
           return <AnalysitAgentOutput key={index} message={message} />;
         }
-        return <UserPrompt key={index} message={message?.user} />;
+        return <UserPrompt key={index} message={message?.data} />;
       })}
     </div>
   );

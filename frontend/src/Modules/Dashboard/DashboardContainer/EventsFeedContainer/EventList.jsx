@@ -53,6 +53,7 @@ export default function EventList() {
               date={finalFormattedDate}
               sentiment={event?.sentiment}
               stocks={stockArray}
+              description={event?.description}
             ></EventInsightContainer>
           );
         } catch (error) {

@@ -19,6 +19,7 @@ const DashboardProvider = ({ children }) => {
   const [maximizeEventsRightContainer, setMaximizeEventsRightContainer] =
     useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [placeholder, setPlaceHolder] = useState('Ask anything using our piggiestack AI')
 
   const [selectedEvent, setSelectedEvent] = useState(null);
 
@@ -28,7 +29,7 @@ const DashboardProvider = ({ children }) => {
     setMaximizeAgentLogs((prevState) => !prevState);
   };
 
-  const [currentActiveAgent, setCurrentActiveAgent] = useState([]);
+  const [currentActiveAgent, setCurrentActiveAgent] = useState(null);
 
   const toggleEventsRightContainer = () => {
     setMaximizeEventsRightContainer((prevState) => !prevState);
@@ -56,6 +57,7 @@ const DashboardProvider = ({ children }) => {
         setIsLoading,
         selectedStock,
         setSelectedStock,
+        placeholder, setPlaceHolder
       }}
     >
       {children}

@@ -21,6 +21,9 @@ export default function AgentsInput() {
     isLoading,
     setIsLoading,
     selectedStock,
+    setSelectedStock,
+    placeholder, setPlaceHolder,
+    selectedEvent
   } = useDashboard();
 
   const [message, setMessage] = useState('');
@@ -52,7 +55,7 @@ export default function AgentsInput() {
       default:
         return {
           ...metaData,
-          data: response?.message,
+          data: response?.messages,
         };
     }
   };
@@ -66,23 +69,36 @@ export default function AgentsInput() {
     setMessagesAi((prevState) => {
       return [messageObject, ...prevState];
     });
-
+    
     const body = { prompt: message };
     if (currentActiveAgent === 'data-insight-agent')
       body.symbol = selectedStock;
+    if(currentActiveAgent==='event-agent'){
+      body.eventId = selectedEvent?.id;
+      body.prompt = `
+                      title: ${selectedEvent?.title} 
+                      description: ${selectedEvent?.description}
 
+                      ${body?.prompt}  for the stock symbol ${selectedStock} and support the ${selectedEvent?.sentiment} sentiment
+                      
+                      `
+    }
+      
     const agentMap = {
       'data-insight-agent': dataInsight.getInsight,
       'analyst-agent': screenerAgent.getScreener,
-      'event-agent': () => {
-        console.log('this is not ready');
-      },
+      'event-agent': screenerAgent.getScreenerChat,
     };
 
     const agentFunction = currentActiveAgent
       ? agentMap[currentActiveAgent]
       : screenerAgent.getScreenerChat;
-
+    console.log("hello this is it");
+    console.log(currentActiveAgent);
+    console.log(agentFunction);
+    
+    
+    
     agentFunction(body)
       .then((response) => {
         const aiResponse = transformAIOutput(response);
@@ -145,7 +161,7 @@ export default function AgentsInput() {
               onChange={(e) => {
                 setMessage(e.target.value);
               }}
-              placeholder="Type your message..."
+              placeholder={placeholder}
             ></textarea>
           </div>
           <div className="button-section">
@@ -171,8 +187,14 @@ export default function AgentsInput() {
                   }
                   onClick={() => {
                     if (isActiveAgent) {
+                      setPlaceHolder("Ask anything finance from our AI")
+                      setSelectedStock(null);
                       setCurrentActiveAgent(null);
                       return;
+                    }
+                    if(agent?.iconName === 'analyst-agent'){
+                      setSelectedStock(null)
+                      setPlaceHolder("Query from database and get your insight")
                     }
                     setCurrentActiveAgent(agent?.iconName);
                   }}

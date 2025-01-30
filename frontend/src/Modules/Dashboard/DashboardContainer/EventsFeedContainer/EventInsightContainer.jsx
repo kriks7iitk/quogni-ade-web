@@ -6,6 +6,7 @@ import StockButton from '../../../../_components/Buttons/StockButton';
 import SolidButton from '../../../../_components/Buttons/SolidButton';
 import { useDashboard } from '../DashboardContainer';
 import ThemeButton from '../../../../_components/Buttons/ThemeButton';
+import toast from 'react-hot-toast';
 
 export default function EventInsightContainer({
   id,
@@ -15,6 +16,7 @@ export default function EventInsightContainer({
   industries = [],
   sentiment,
   stocks = [],
+  description
 }) {
   useEffect(() => {}, [sentiment]);
 
@@ -25,6 +27,7 @@ export default function EventInsightContainer({
     setSelectedEvent,
     setSelectedStock,
     selectedStock,
+    setPlaceHolder
   } = useDashboard();
 
   const sentimentSymbol = (type) => {
@@ -45,7 +48,7 @@ export default function EventInsightContainer({
     );
   };
 
-  const isActive = currentActiveAgent === 'event-agent' && id === selectedEvent;
+  const isActive = currentActiveAgent === 'event-agent' && id === selectedEvent?.id;
 
   return (
     <div className="feed-event-container">
@@ -78,9 +81,27 @@ export default function EventInsightContainer({
                 percentageChange="2.0"
                 onClick={() => {
                   if (selectedStock === ind) {
+                    if(currentActiveAgent==='event-agent'){
+                      setPlaceHolder("Ask anything regarding this event")
+                    }
+                    else if(currentActiveAgent==='data-insight-agent'){
+                      toast.error("Stock need to be selected for this agent")
+                      return;
+                    }
+                    else{
+                      setPlaceHolder('Ask finance to our AI')
+                    }
+                   
                     setSelectedStock(null);
                     return;
                   }
+                  if(currentActiveAgent==='event-agent'){
+                    setPlaceHolder("Ask anything regarding this event from our event agent for given stock")
+                  }
+                  else if(currentActiveAgent==='data-insight-agent'){
+                    setPlaceHolder("Ask anything 'report insight agent' for the choosen stock")
+                  }
+                  
                   setSelectedStock(ind);
                 }}
               />
@@ -94,12 +115,14 @@ export default function EventInsightContainer({
             customClass="icon-class"
             iconFill={isActive ? 'var(--ps-green-bright)' : 'var(--slate-600)'}
             onClick={() => {
-              setSelectedEvent(id);
+              setSelectedEvent({id,selectedStock,sentiment, title,description,sentiment});
               if (isActive) {
                 setCurrentActiveAgent('');
                 setSelectedEvent(null);
+                setPlaceHolder("Ask anything finance from our AI")
                 return;
               }
+              setPlaceHolder("Ask for insight regarding this event from our event agent")
               setCurrentActiveAgent('event-agent');
             }}
             isActive={isActive}
