@@ -23,7 +23,8 @@ export default function AgentsInput() {
     selectedStock,
     setSelectedStock,
     placeholder, setPlaceHolder,
-    selectedEvent
+    selectedEvent,
+    agentLogs, setAgentLogs
   } = useDashboard();
 
   const [message, setMessage] = useState('');
@@ -40,8 +41,21 @@ export default function AgentsInput() {
       time: new Date().toISOString(),
       agent: currentActiveAgent ? currentActiveAgent : 'ai-chat',
     };
-    switch (currentAgents) {
+    console.log("tranforming response");
+    console.log(response?.message);
+    
+    switch (currentActiveAgent) {
       case 'data-insight-agent':
+        const object = {
+          ...metaData,
+          data: response?.message,
+          symbol: selectedStock,
+        };
+        console.log("objecgt is");
+        
+        console.log(object);
+        
+        
         return {
           ...metaData,
           data: response?.message,
@@ -50,7 +64,7 @@ export default function AgentsInput() {
         return {
           ...metaData,
           data: response?.data,
-          description: data?.description,
+          description: response?.description,
         };
       default:
         return {
@@ -101,6 +115,9 @@ export default function AgentsInput() {
     
     agentFunction(body)
       .then((response) => {
+        console.log("response is");
+        console.log(response);
+        
         const aiResponse = transformAIOutput(response);
         setIsLoading(false);
         setMessagesAi((prevState) => [aiResponse, ...prevState]);

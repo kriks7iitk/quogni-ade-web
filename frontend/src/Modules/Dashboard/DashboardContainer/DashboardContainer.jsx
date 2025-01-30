@@ -22,6 +22,7 @@ const DashboardProvider = ({ children }) => {
   const [placeholder, setPlaceHolder] = useState('Ask anything using our piggiestack AI')
 
   const [selectedEvent, setSelectedEvent] = useState(null);
+  const [agentLogs, setAgentLogs] = useState([])
 
   const [selectedStock, setSelectedStock] = useState(null);
 
@@ -57,7 +58,8 @@ const DashboardProvider = ({ children }) => {
         setIsLoading,
         selectedStock,
         setSelectedStock,
-        placeholder, setPlaceHolder
+        placeholder, setPlaceHolder,
+        agentLogs, setAgentLogs
       }}
     >
       {children}

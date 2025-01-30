@@ -15,7 +15,7 @@ export default function ResultBoard() {
     <div className="result-board">
       {isLoading ? <AiTyping /> : <></>}
       {messagesAi.map((message, index) => {
-        if (message?.agentname === 'Analyst agent') {
+        if (message?.agent === 'analyst-agent') {
           return <AnalysitAgentOutput key={index} message={message} />;
         }
         return <UserPrompt key={index} message={message?.data} />;

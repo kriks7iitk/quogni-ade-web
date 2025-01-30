@@ -6,7 +6,7 @@ import { useDashboard } from '../DashboardContainer';
 // import LogViewer from './Logs/LogsViewer';
 
 export default function AgentsLogsContainer() {
-  const { maximizeAgentLogs, toggleAgentsContainer } = useDashboard();
+  const { maximizeAgentLogs, toggleAgentsContainer, agentLogs } = useDashboard();
   const logs = [
     {
       timestamp: 1634777951000,

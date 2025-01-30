@@ -6,7 +6,7 @@ import ReactMarkdown from "react-markdown";
 
 export default function AnalysitAgentOutput({ message }) {
     return <div className="user-prompt">
-        <DataTable data={JSON.parse(message?.user)} />
+        <DataTable data={JSON.parse(message?.data)} />
         <ReactMarkdown>{message?.description}</ReactMarkdown>
     </div>;
 }

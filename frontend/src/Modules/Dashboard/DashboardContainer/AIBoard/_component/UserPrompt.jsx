@@ -1,5 +1,6 @@
 import React from 'react';
 import '../ai-board.theme.scss';
+import Markdown from 'react-markdown';
 
 export default function UserPrompt({ message, type }) {
   return (
