@@ -22,6 +22,8 @@ const DashboardProvider = ({ children }) => {
 
   const [selectedEvent, setSelectedEvent] = useState(null);
 
+  const [selectedStock, setSelectedStock] = useState(null);
+
   const toggleAgentsContainer = () => {
     setMaximizeAgentLogs((prevState) => !prevState);
   };
@@ -52,6 +54,8 @@ const DashboardProvider = ({ children }) => {
         setSelectedEvent,
         isLoading,
         setIsLoading,
+        selectedStock,
+        setSelectedStock,
       }}
     >
       {children}

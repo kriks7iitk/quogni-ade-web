@@ -5,6 +5,7 @@ import SolidThemeIcon from '../../../../_icons/svgs/SolidThemeIcons';
 import StockButton from '../../../../_components/Buttons/StockButton';
 import SolidButton from '../../../../_components/Buttons/SolidButton';
 import { useDashboard } from '../DashboardContainer';
+import ThemeButton from '../../../../_components/Buttons/ThemeButton';
 
 export default function EventInsightContainer({
   id,
@@ -22,6 +23,8 @@ export default function EventInsightContainer({
     currentActiveAgent,
     selectedEvent,
     setSelectedEvent,
+    setSelectedStock,
+    selectedStock,
   } = useDashboard();
 
   const sentimentSymbol = (type) => {
@@ -69,9 +72,17 @@ export default function EventInsightContainer({
               <StockButton
                 key={index}
                 symbol={ind}
+                customClass={selectedStock === ind ? 'selected-stock' : ''}
                 direction={sentiment === 'negative' ? 'down' : 'up'}
                 showChangeSymbol={false}
                 percentageChange="2.0"
+                onClick={() => {
+                  if (selectedStock === ind) {
+                    setSelectedStock(null);
+                    return;
+                  }
+                  setSelectedStock(ind);
+                }}
               />
             ))}
           </div>
@@ -98,7 +109,15 @@ export default function EventInsightContainer({
 
       <div className="footer-section">
         <div className="source-field">{source}</div>
-        <div className="date-field">{date}</div>
+        <div className="footer-right-sec">
+          <div className="date-field">{date}</div>
+          <ThemeButton
+            leftIcon="plus"
+            className="add-btn"
+            iconFill="var(--slate-300)"
+            iconWidth="18"
+          />
+        </div>
       </div>
     </div>
   );

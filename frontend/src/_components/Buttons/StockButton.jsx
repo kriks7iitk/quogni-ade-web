@@ -10,6 +10,7 @@ export default function StockButton({
   customClass,
   active = false,
   showChangeSymbol,
+  onClick,
 }) {
   const colorCode = {
     up: 'var(--green-300)',
@@ -38,7 +39,10 @@ export default function StockButton({
     );
   };
   return (
-    <div className={`stock-btn ${size} ${customClass ? `${customClass}` : ''}`}>
+    <button
+      className={`stock-btn ${size} ${customClass ? `${customClass}` : ''}`}
+      onClick={onClick}
+    >
       {symbol}
       {direction && (
         <div className="direction-arrow">
@@ -48,6 +52,6 @@ export default function StockButton({
       {percentageChange && (
         <span style={{ color: colorCode[direction] }}>{percentageChange}%</span>
       )}
-    </div>
+    </button>
   );
 }

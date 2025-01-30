@@ -7,6 +7,7 @@ import { dataInsight } from '../../../../_services/dataInsight.service';
 import { screenerAgent } from '../../../../_services/analystAagent.service';
 import DataTable from '../../../../_components/DataTable/DataTable';
 import toast from 'react-hot-toast';
+import StockButton from '../../../../_components/Buttons/StockButton';
 
 export default function AgentsInput() {
   const {
@@ -19,6 +20,7 @@ export default function AgentsInput() {
     setCurrentActiveAgent,
     isLoading,
     setIsLoading,
+    selectedStock,
   } = useDashboard();
 
   const [message, setMessage] = useState('');
@@ -29,83 +31,75 @@ export default function AgentsInput() {
     }
   };
 
-  const sendMessage = (agentName) => {
+  const transformAIOutput = (response) => {
+    const metaData = {
+      type: 'agent',
+      time: new Date().toISOString(),
+      agent: currentActiveAgent ? currentActiveAgent : 'ai-chat',
+    };
+    switch (currentAgents) {
+      case 'data-insight-agent':
+        return {
+          ...metaData,
+          data: response?.message,
+        };
+      case 'analyst-agent':
+        return {
+          ...metaData,
+          data: response?.data,
+          description: data?.description,
+        };
+      default:
+        return {
+          ...metaData,
+          data: response?.message,
+        };
+    }
+  };
+
+  const sendMessage = () => {
     setIsLoading(true);
     const messageObject = {
       type: 'prompt',
-      user: message,
-      time: new Date().toISOString(),
+      data: message,
     };
     setMessagesAi((prevState) => {
       return [messageObject, ...prevState];
     });
 
-    console.log(agentName, 'hi from sendMessage');
+    const body = { prompt: message };
+    if (currentActiveAgent === 'data-insight-agent')
+      body.symbol = selectedStock;
 
-    if (agentName === 'Data and insight agent') {
-      const body = {
-        symbol: 'icici',
-        prompt: message,
-      };
+    const agentMap = {
+      'data-insight-agent': dataInsight.getInsight,
+      'analyst-agent': screenerAgent.getScreener,
+      'event-agent': () => {
+        console.log('this is not ready');
+      },
+    };
 
-      dataInsight
-        .getInsight(body)
-        .then((data) => {
-          console.log(data);
-          const aiResponse = {
-            type: 'agent',
-            user: data['data']['message'],
-            time: new Date().toISOString(),
-          };
-          console.log(aiResponse);
-          setIsLoading(false);
-          setMessagesAi((prevState) => {
-            return [aiResponse, ...prevState];
-          });
-        })
-        .catch((error) => {
-          setIsLoading(false);
-          console.error(error);
-          toast.error(error?.error);
-        });
-    }
+    const agentFunction = currentActiveAgent
+      ? agentMap[currentActiveAgent]
+      : screenerAgent.getScreenerChat;
 
-    if (agentName === 'Analyst agent') {
-      const body = {
-        prompt: message,
-      };
-      console.log(body);
-      screenerAgent
-        .getScreener(body)
-        .then((data) => {
-          console.log(data);
-          const aiResponse = {
-            type: 'agent',
-            user: data['data'],
-            time: new Date().toISOString(),
-            agentname: agentName,
-            description: data['description'],
-          };
-          console.log(aiResponse);
-          setIsLoading(false);
-          setMessagesAi((prevState) => {
-            return [aiResponse, ...prevState];
-          });
-        })
-        .catch((error) => {
-          setIsLoading(false);
-          console.error(error);
-          toast.error(error?.error);
-        });
-    }
-
+    agentFunction(body)
+      .then((response) => {
+        const aiResponse = transformAIOutput(response);
+        setIsLoading(false);
+        setMessagesAi((prevState) => [aiResponse, ...prevState]);
+      })
+      .catch((error) => {
+        setIsLoading(false);
+        console.error(error);
+        toast.error(error?.error);
+      });
     setMessage('');
   };
 
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
       if (event.shiftKey) {
-        // Allow normal newline behavior
         return;
       } else {
         event.preventDefault();
@@ -163,27 +157,39 @@ export default function AgentsInput() {
           </div>
         </div>
         <div className="agent-selection-section">
-          {currentAgents.map((agent, index) => {
-            const isActiveAgent = currentActiveAgent == agent?.iconName;
-            return (
-              <SolidButton
-                key={index}
-                leftIcon={agent?.iconName}
-                iconWidth={15}
-                customClass={`icon-class ${isActiveAgent ? 'active' : 'un-active'}`}
-                iconFill={
-                  isActiveAgent ? 'var(--ps-dark-blue)' : 'var(--slate-400)'
-                }
-                onClick={() => {
-                  if (isActiveAgent) {
-                    setCurrentActiveAgent(null);
-                    return;
+          <div className="agent-list">
+            {currentAgents.map((agent, index) => {
+              const isActiveAgent = currentActiveAgent == agent?.iconName;
+              return (
+                <SolidButton
+                  key={index}
+                  leftIcon={agent?.iconName}
+                  iconWidth={15}
+                  customClass={`icon-class ${isActiveAgent ? 'active' : 'un-active'}`}
+                  iconFill={
+                    isActiveAgent ? 'var(--ps-dark-blue)' : 'var(--slate-400)'
                   }
-                  setCurrentActiveAgent(agent?.iconName);
-                }}
+                  onClick={() => {
+                    if (isActiveAgent) {
+                      setCurrentActiveAgent(null);
+                      return;
+                    }
+                    setCurrentActiveAgent(agent?.iconName);
+                  }}
+                />
+              );
+            })}
+          </div>
+          <div className="selected-stock">
+            {selectedStock && <span className="title-sec">Selected:</span>}
+            {selectedStock && (
+              <StockButton
+                symbol={selectedStock}
+                showChangeSymbol={false}
+                customClass="stock-btn-class"
               />
-            );
-          })}
+            )}
+          </div>
         </div>
       </div>
       <div className="message-container"></div>

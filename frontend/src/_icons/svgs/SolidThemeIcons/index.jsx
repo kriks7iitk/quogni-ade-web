@@ -14,6 +14,7 @@ import Delete from './Delete';
 import Copy from './Copy';
 import History from './History';
 import Enter from './Enter';
+import Add from './Add';
 
 export default function SolidThemeIcon({ name, ...props }) {
   switch (name) {
@@ -35,6 +36,8 @@ export default function SolidThemeIcon({ name, ...props }) {
       return <Enter {...props} />;
     case 'positive-up':
       return <PositiveUp {...props} />;
+    case 'plus':
+      return <Add {...props} />;
     case 'negative-down':
       return <NegativeDown {...props} />;
     case 'neutral-dash':

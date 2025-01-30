@@ -84,8 +84,8 @@
             .button-section{
                 width: 35px;
                 display: flex;
-                flex-direction: column-reverse;
-
+                flex-direction: column;
+                justify-content: center;
                 .enter-btn{
                     padding: 0 !important;
                 }
@@ -93,28 +93,57 @@
         }
 
         .agent-selection-section {
-            height: 20px;
+            height: 30px;
             display: flex;
             flex-direction: row;
             gap: 15px;
             padding-left: 20px;
-        }
 
-        .icon-class{
-            padding: 2px !important;
-            width: auto !important;
-            height: auto !important;
-            min-height: 0 !important;
-            min-width: 0 !important;
+            .agent-list{
+                display: flex;
+                flex-direction: row;
+                gap: 15px;
+                flex-grow: 1;
 
-            &.active{
-                border-radius: 50% !important;
-                background-color: var(--ps-green-bright) !important;
-                border: 1px solid var(--ps-dark-blue) !important;
+                .icon-class{
+                    padding: 2px !important;
+                    width: auto !important;
+                    height: auto !important;
+                    min-height: 0 !important;
+                    min-width: 0 !important;
+        
+                    &.active{
+                        border-radius: 50% !important;
+                        background-color: var(--ps-green-bright) !important;
+                        border: 1px solid var(--ps-dark-blue) !important;
+                    }
+        
+                    &.un-active{
+                        border: none !important;
+                    }
+                }
             }
+            .selected-stock{
+                width: auto;
+                display: flex;
+                flex-direction: row;
+                gap: 10px;
+                justify-content: center;
+                align-items: center;
+                padding-right: 30px;
 
-            &.un-active{
-                border: none !important;
+                .title-sec{
+                    display: flex;
+                    font-size: var(--ps-txt-xxs);
+                    align-items: center;
+                    font-weight: bold;
+                    color: var(--ps-dark-blue);
+                }
+
+                .stock-btn-class{
+                    border-right: 2px solid var(--ps-green-bright) !important;
+                    border-left: 2px solid var(--ps-green-bright) !important;
+                }
             }
         }
     }
