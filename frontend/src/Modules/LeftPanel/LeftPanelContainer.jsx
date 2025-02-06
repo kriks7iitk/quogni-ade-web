@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import CardHeader from '../../_components/Containers/CardHeader';
 import { useLeftPanelContext } from './LeftPanelProvider';
 import { kebabCaseToNormal } from '../../Utility/utility';
+import AgentSetting from '../ADE/AgentsSetting/AgentSetting';
 
 export default function LeftPanelContainer() {
   const { activeTab } = useLeftPanelContext();
@@ -28,8 +29,7 @@ export default function LeftPanelContainer() {
   };
   return (
     <div className="container-card left-panel-container">
-      <CardHeader title={kebabCaseToNormal(activeTab)} />
-      {activeTabComponent()}
+      <AgentSetting/>
     </div>
   );
 }
