@@ -12,14 +12,15 @@ export default function SubNavigationButton({
 }) {
 
   return (
-    <div>
+    <div className='button-container'>
       <SolidButton
         leftIcon={iconName}
-        iconWidth="20"
+        iconWidth="25"
         customClass="sub-navigation-button"
         size="xs"
         onClick={onClick}
-        iconFill={isSelected ? 'var(--ps-dark-blue)' : 'var(--slate-300)'}
+        iconFill={'var(--slate-300)'}
+        iconStroke={isSelected ? '2' : '1.5'}
       />
     </div>
   );

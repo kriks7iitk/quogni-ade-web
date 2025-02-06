@@ -1,8 +1,13 @@
 .dashboard {
     border: solid 1px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     height: 100%;
     width: 100%;
-    // overflow-y: auto;
+
+    .dashboard-page{
+        display: flex ;
+        flex-direction: column;
+        flex-grow: 1;
+    }
 }

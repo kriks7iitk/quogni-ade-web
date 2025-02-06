@@ -19,6 +19,7 @@ const SolidButton = ({
   hoverIconFill,
   hoverOverColor,
   isActive,
+  iconStroke
 }) => {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -49,6 +50,7 @@ const SolidButton = ({
           name={leftIcon}
           width={iconWidth}
           fill={isHovered && !isActive ? hoverIconFill : iconFill}
+          strokeWidth={iconStroke}
         />
       )}
       {children}

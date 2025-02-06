@@ -1,0 +1,9 @@
+.dashboard-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    max-height: calc(100vh - 50px);
+    flex-grow: 1;
+    justify-content: flex-start;
+    background-color: var(--ps-white-2);
+}

@@ -15,12 +15,14 @@ import Copy from './Copy';
 import History from './History';
 import Enter from './Enter';
 import Add from './Add';
+import Dashboard from './Dashboard';
 
 export default function SolidThemeIcon({ name, ...props }) {
   switch (name) {
     case 'back-1':
       return <BackIcon {...props}></BackIcon>;
-      break;
+    case 'dashboard':
+      return <Dashboard {...props} />;
     case 'email':
       return <Email {...props} />;
       break;
