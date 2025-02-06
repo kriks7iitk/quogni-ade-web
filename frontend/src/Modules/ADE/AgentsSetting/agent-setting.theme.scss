@@ -1,0 +1,25 @@
+.agent-setting{
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+
+    .main-header{
+        font-size: var(--ps-txt-xl);
+        font-weight: 500;
+        margin-bottom: 10px;
+    }
+    .setting-header{
+        font-size: var(--ps-txt-l);
+    }
+
+    .container{
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        border: 1px solid var(--slate-600);
+        border-radius: 6px;
+
+    }
+}
