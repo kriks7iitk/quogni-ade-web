@@ -5,10 +5,10 @@ import TrainingList from '../ADE/AgentTraining/TrainingList'
 export default function RightPanel() {
   return (
     <div className="right-panel">
-      <TrainingList promptResponsePairs={[{
-        "prompt": "this my promt", "response": {
-        "state1": true
-      }}]} />
+      <TrainingList promptList={["this my promt","second prompt"]} response={{
+        "isCollapsed": false,
+        "height": 12
+      }} />
     </div>
   );
 }

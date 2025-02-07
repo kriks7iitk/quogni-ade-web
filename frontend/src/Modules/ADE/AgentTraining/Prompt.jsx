@@ -1,18 +1,20 @@
 import React, { useState } from 'react'
 
 const Prompt = ({ prompt }) => {
-  const [editablePrompt, setEditablePrompt] = useState(prompt);
-
-  const handleChange = (event) => {
-    setEditablePrompt(event.target.value);
+  const style = {
+    border: '1px solid #ccc',
+    padding: '5px',
+    backgroundColor: '#f9f9f9',
+    borderRadius: '5px',
+    margin: '2px 0'
   };
 
   return (
-    <input 
-      type="text" 
-      value={editablePrompt} 
-      onChange={handleChange} 
-    />
+      <div style={style}>
+          {
+              prompt
+          }
+        </div>
   );
 }
 
