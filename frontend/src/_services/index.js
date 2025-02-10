@@ -1,8 +1,6 @@
 export { authenticationService } from './auth.service';
-export * as marketDataService from './marketData.service';
 export { oAuthService } from './oauth.service';
 export { userService } from './user.service';
-export { eventAgentService } from './eventAgent.service'
 export { aiAgent } from './agent.service'
 export { toolService } from './tool.service'
 

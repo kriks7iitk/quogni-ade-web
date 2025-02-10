@@ -4,47 +4,23 @@ import { aiAgent } from '../../_services';
 
 const AiUiContext = createContext();
 
-function AiUiComponent({ children, onAgentResponse }) {  
-    const [data, setData] = useState({
-        leftSidePanelOpen:false
-    });
-    const [contextMemory, setContextMemory] = useState({});
-    const [logs, setLogs] = useState([]);
+function AiUiComponent({ children, toolId, onAgentResponse }) {  
+    const [data, setData] = useState();
     const [prompt, setPrompt] = useState('');
 
     useEffect(() => {
-        // if (!socket) return;
-    
-        // socket.on("message", (response) => {
-        //     setData((prevState) => ({ ...prevState, ...response }));
-        //     onAgentResponse(response);
-        //     setLogs((prevState) => [...prevState, response]);
-        //     setContextMemory((prevState) => ({ ...prevState, ...response }));
-        // });
-    
-        // return () => {
-        //     socket.off("message");
-        // };
     }, []);
 
     const sendMessage = () => {
-        // if (!socket || !prompt.trim()) return;
-
         const body = {
-            stateDescription:{
-                leftSidePanelOpen:'This state define if left side menu panel is open or not'
-            },
-            currentRoute: 'dashboard',
-            data,
             prompt,
+            tool_id:toolId
         };
 
         aiAgent.sendToAgent(body)
         .then((response) => {
-           console.log("response is");
-            
-           console.log(response);
-           
+            setPrompt('');
+            onAgentResponse(response)
         })
         .catch((error) => {
             console.error(error);
@@ -52,16 +28,16 @@ function AiUiComponent({ children, onAgentResponse }) {
     };
 
     return (
-        <AiUiContext.Provider value={{ data, logs, setPrompt, sendMessage ,setData,setLogs,setContextMemory}}>
+        <AiUiContext.Provider value={{ data, setPrompt, sendMessage ,setData}}>
             {children}
         </AiUiContext.Provider>
     );
 }
 
-export function AiUiProvider({ children, onAgentResponse, agentUrl }) {
+export function AiUiProvider({ children, onAgentResponse, agentUrl, toolId }) {
     return (
         <SocketProvider agentUrl={agentUrl}>
-            <AiUiComponent onAgentResponse={onAgentResponse}>
+            <AiUiComponent onAgentResponse={onAgentResponse} toolId={toolId}>
                 {children}
             </AiUiComponent>
         </SocketProvider>

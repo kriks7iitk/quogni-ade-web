@@ -1,6 +1,5 @@
 import { handleResponse } from '../Utility/responseHandler';
 import { SERVER_HOST } from '.';
-import { getFromSessionStorage } from '../Utility/utility';
 import { generateHeader } from '../Utility/authorization';
 
 export const userService = {

@@ -5,7 +5,7 @@ import AgentsInput from './AgentsInput';
 import './ai-board.theme.scss';
 
 export default function AIBoard() {
-  const { aiMode } = useDashboard();
+  const { aiMode,toolId } = useDashboard();
   const styleObject = { padding: '0 2%' };
 
   const activeTabComponent = () => {

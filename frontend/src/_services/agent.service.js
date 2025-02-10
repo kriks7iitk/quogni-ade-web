@@ -5,8 +5,6 @@ export const aiAgent = {
     sendToAgent
 };
 
-
-
 function sendToAgent(body) {
     const requestPayload = {
         method: 'POST',
@@ -15,7 +13,7 @@ function sendToAgent(body) {
         },
         body: JSON.stringify(body),
     };
-    return fetch(`${AI_SERVER_HOST}/statefullAgent/tool`, requestPayload).then(
+    return fetch(`${AI_SERVER_HOST}/statefullAgent/agent`, requestPayload).then(
         handleResponse,
       );
 }

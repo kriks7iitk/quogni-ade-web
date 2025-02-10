@@ -1,25 +1,14 @@
 import React from 'react';
 import Dashboard from './Dashboard';
-import PiggieStackWhite from './PiggieStackWhite';
-import Portfolio from './Portfolio';
-import MarketPlace from './MarketPlace';
 import Library from './Library';
 import Explore from './Explore';
-import Builder from './Builder';
 import Community from './Community';
 import Wrench from './Wrench';
 import Setting from './Settings';
-import BackTest from './BackTest';
 import Performance from './Performace';
-import Screener from './Screener';
-import LineChart from './LineChart';
 import Temp from './Temp';
 import Google from './Google';
 import LinkedIn from './LinkedIn';
-import BookMark from './BookMark';
-import AnalystAgent from './AnalystAgent';
-import DataInsightAgent from './DataInsightAgent';
-import EventAgent from './EventAgent';
 import History from '../SolidThemeIcons/History';
 
 const Icon = ({ name, ...props }) => {
@@ -32,10 +21,6 @@ const Icon = ({ name, ...props }) => {
       return <DataInsightAgent {...props} />;
     case 'event-agent':
       return <EventAgent {...props} />;
-    case 'piggie-white':
-      return <PiggieStackWhite {...props} />;
-    case 'portfolio':
-      return <Portfolio {...props} />;
     case 'google':
       return <Google {...props} />;
     case 'market-place':

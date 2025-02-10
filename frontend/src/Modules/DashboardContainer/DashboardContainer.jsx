@@ -3,6 +3,7 @@ import './dashboard-container.theme.scss';
 import AIBoard from '../AIBoard/AIBoard';
 import LeftPanel from '../LeftPanel/LeftPanel';
 import RightPanel from '../RightPanel/RightPanel';
+import { AiUiProvider } from '../Ai-Ui/AiUiProvider';
 
 export const DashboardContext = createContext();
 
@@ -11,54 +12,23 @@ export const useDashboard = () => {
 };
 
 const DashboardProvider = ({ children }) => {
-  const [aiMode, setAiMode] = useState(false);
-  const [eventsData, setEventsData] = useState([]);
+ 
   const [messagesAi, setMessagesAi] = useState([]);
-  const [maximizeAgentLogs, setMaximizeAgentLogs] = useState(false);
-  const [maximizeEventsRightContainer, setMaximizeEventsRightContainer] =
-    useState(false);
+  const [toolId, setToolId] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [placeholder, setPlaceHolder] = useState('Ask anything using our piggiestack AI')
-
-  const [selectedEvent, setSelectedEvent] = useState(null);
   const [agentLogs, setAgentLogs] = useState([])
-
-  const [selectedStock, setSelectedStock] = useState(null);
-
-  const toggleAgentsContainer = () => {
-    setMaximizeAgentLogs((prevState) => !prevState);
-  };
-
-  const [currentActiveAgent, setCurrentActiveAgent] = useState(null);
-
-  const toggleEventsRightContainer = () => {
-    setMaximizeEventsRightContainer((prevState) => !prevState);
-  };
 
   return (
     <DashboardContext.Provider
       value={{
-        aiMode,
-        setAiMode,
-        eventsData,
         messagesAi,
         setMessagesAi,
-        maximizeAgentLogs,
-        maximizeEventsRightContainer,
-        toggleAgentsContainer,
-        toggleEventsRightContainer,
-        setMaximizeAgentLogs,
-        setMaximizeEventsRightContainer,
-        currentActiveAgent,
-        setCurrentActiveAgent,
-        selectedEvent,
-        setSelectedEvent,
         isLoading,
         setIsLoading,
-        selectedStock,
-        setSelectedStock,
         placeholder, setPlaceHolder,
-        agentLogs, setAgentLogs
+        agentLogs, setAgentLogs,
+        toolId, setToolId
       }}
     >
       {children}
@@ -67,11 +37,14 @@ const DashboardProvider = ({ children }) => {
 };
 
 export function DashboardContainerUI() {
+  const {toolId } = useDashboard();
   return (
     <div className="dashboard-container">
-      <LeftPanel/>
-      <AIBoard />
-      <RightPanel/>
+      <AiUiProvider toolId={toolId} >
+        <LeftPanel/>
+        <AIBoard />
+        <RightPanel/>
+      </AiUiProvider>
     </div>
   );
 }

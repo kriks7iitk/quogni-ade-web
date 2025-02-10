@@ -18,7 +18,6 @@ import { authorize } from './Utility/authorization';
 import AuthCallback from './Modules/Auth/OAuth/AuthCallback';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import InfoModal from './Modules/Auth/InfoModal';
-import { AiUiProvider} from './Modules/Ai-Ui/AiUiProvider';
 
 const AppContext = createContext(null);
 export const useApp = () => useContext(AppContext);
@@ -40,7 +39,6 @@ function App() {
 
   
   return (
-    <AiUiProvider>
     <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
       <AppContext.Provider value={{ appLoadingState }}>
         <div className="app-container">
@@ -86,9 +84,7 @@ function App() {
                 path="/dashboard"
                 element={
                   <PrivateRoute>
-                    {/* <MainLayoutWithMenuBar> */}
                       <Dashboard />
-                    {/* </MainLayoutWithMenuBar> */}
                   </PrivateRoute>
                 }
               />
@@ -99,7 +95,6 @@ function App() {
         </div>
       </AppContext.Provider>
     </GoogleOAuthProvider>
-    </AiUiProvider>
   );
 }
 
