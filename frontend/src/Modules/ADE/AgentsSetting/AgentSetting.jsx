@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import SingleSelect from '../../../_components/Form/SingleSelect'
 import './agent-setting.theme.scss'
 import InputField from '../../../_components/Form/InputField'
@@ -6,6 +6,23 @@ import ThemeButton from '../../../_components/Buttons/ThemeButton'
 import ReactJson from 'react-json-view'
 
 export default function AgentSetting() {
+
+const [jsonData, setJsonData] = useState({});
+
+const handleEdit = (edit) => {
+    console.log("Edited:", edit);
+    if (edit.updated_src) {
+        setJsonData(edit.updated_src); 
+    }
+};
+
+const handleAdd = (add) => {
+    console.log("Added:", add);
+    if (add.updated_src) {
+        setJsonData(add.updated_src);
+    }
+};
+
   return (
     <div className='agent-setting'>
         <span className='main-header'>Agent Setting</span>
@@ -49,7 +66,18 @@ export default function AgentSetting() {
         <div className=' container state-description-cont'>
         <span className='setting-header'>State description</span>
         <div className='state-description'>
-            <ReactJson theme='summerfruit:inverted' style={{padding:'10px' , border:'1px solid var(--slate-300)', minHeight:'200px'}}/>
+                  <ReactJson
+                      name="state"
+                      theme='summerfruit:inverted'
+                      style={{ padding: '10px', border: '1px solid var(--slate-300)', minHeight: '200px' }}
+                      src={jsonData}
+                      onEdit={handleEdit}
+                      onAdd={handleAdd}
+                      onDelete={handleEdit}
+                      defaultValue={{
+                          "type": "",
+                          "description": ""}}
+                  />
         </div>
         </div>
         <div className='tool-list-cont'>
