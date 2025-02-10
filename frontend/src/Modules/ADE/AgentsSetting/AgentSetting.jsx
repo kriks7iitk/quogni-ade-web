@@ -42,7 +42,7 @@ const handleAdd = (add) => {
                     color: 'var(--slate-400)',
                     width: '100%',
                     padding:'5px'
-                    }}>agent-123123-1312312-12313123-12e12312ewdfeqw</span>
+                    }}>agent-123123-1312312-12313123-P</span>
                 <ThemeButton leftIcon='copy' />
             </div>
         </div>
