@@ -16,7 +16,9 @@ export default function InputField({
   customContainerStyle,
   customInputStyle,
   height,
+  disable,
   onChange,
+  onBlur,
   value,
 }) {
   const [onFocus, setOnFocus] = useState(false);
@@ -79,6 +81,7 @@ export default function InputField({
               }}
               onBlur={() => {
                 setOnFocus(false);
+                
               }}
             />
           </div>
@@ -94,12 +97,16 @@ export default function InputField({
             <input
               type={type}
               id={id}
+              disabled={disable}
               placeholder={placeholder}
               required={required}
               style={inputStyle}
               onChange={(event) => {
                 const inputValue = event.target.value;
                 onChange(inputValue);
+              }}
+              onBlur={() => {
+                onBlur();
               }}
               value={value}
             />

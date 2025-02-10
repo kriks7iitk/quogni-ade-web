@@ -1,13 +1,13 @@
 import { handleResponse } from '../Utility/responseHandler';
 import { AI_SERVER_HOST } from '.';
 
-export const aiAgent = {
-    sendToAgent
+export const toolService = {
+    saveAgentDescription
 };
 
 
 
-function sendToAgent(body) {
+function saveAgentDescription(body) {
     const requestPayload = {
         method: 'POST',
         headers: {
@@ -19,6 +19,3 @@ function sendToAgent(body) {
         handleResponse,
       );
 }
-
-
-

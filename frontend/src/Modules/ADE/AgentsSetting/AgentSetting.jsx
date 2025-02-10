@@ -1,19 +1,67 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import SingleSelect from '../../../_components/Form/SingleSelect'
 import './agent-setting.theme.scss'
 import InputField from '../../../_components/Form/InputField'
 import ThemeButton from '../../../_components/Buttons/ThemeButton'
 import ReactJson from 'react-json-view'
+import { useAiUi } from '../../Ai-Ui/AiUiProvider'
+import { toolService } from '../../../_services'
+import toast from 'react-hot-toast'
 
 export default function AgentSetting() {
+  
+  const { data , setData } = useAiUi();
+
+  useEffect(() => {
+    setData({
+        disableNameEdit:true,
+        name:'',
+        currentLLMModelState:{},
+        description:'',
+        parameters:{},
+        code:' ',
+    })
+  },[])
+
+
+  const saveToolOutputDescription = () => {
+    const body = {
+        name:data?.name,
+        description:data?.description,
+        parameters:data?.parameters,
+        code:data?.code
+    }
+    toolService.saveAgentDescription(body).then((res) => {
+        toast.success("Agent details are saved")
+    })
+    .catch((err) => {
+        console.log(err)
+    })
+  }
   return (
     <div className='agent-setting'>
         <span className='main-header'>Agent Setting</span>
         <div className='container agent-name-cont'>
             <span className='setting-header'>Agent Name</span>
             <div className='agent-name'>
-                <InputField type='text' customInputStyle={{ padding:'2px 10px', border:'1px solid var(--slate--600) !important'}}/>
-                    <ThemeButton leftIcon='edit' />
+                <InputField disable={data?.disableNameEdit} type='text' customInputStyle={{ padding:'2px 10px', border:'1px solid var(--slate--600) !important'}} value={data?.name} onChange={(value) => {
+                    setData({
+                        ...data,
+                        name: value
+                    })
+                }}
+                onBlur={()=> {
+                    setData({
+                        ...data,
+                        disableNameEdit: true
+                    })
+                }}/>
+                    <ThemeButton leftIcon='edit' onClick={() => {
+                        setData({
+                            ...data,
+                            disableNameEdit: !data.disableNameEdit
+                        })
+                    }} />
             </div>
             <div className='agent-id'>
                 <span style={{
@@ -43,12 +91,20 @@ export default function AgentSetting() {
         <div className=' container system-description-cont'>
         <span className='setting-header'>System description</span>
         <div className='agent-description'>
-            <textarea placeholder='Agent Description'></textarea>
+            <textarea placeholder='Agent Description' onChange={(event) => {
+                const value = event.target.value;
+                setData({
+                    ...data,
+                    description: value
+                })
+            }}></textarea>
         </div>
         </div>
         <div className=' container state-description-cont'>
         <span className='setting-header'>State description</span>
-        <div className='state-description'>
+        <div className='state-description' onBlur={() => {
+            saveToolOutputDescription();
+        }}>
             <ReactJson theme='summerfruit:inverted' style={{padding:'10px' , border:'1px solid var(--slate-300)', minHeight:'200px'}}/>
         </div>
         </div>

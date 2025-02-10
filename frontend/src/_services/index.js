@@ -4,6 +4,7 @@ export { oAuthService } from './oauth.service';
 export { userService } from './user.service';
 export { eventAgentService } from './eventAgent.service'
 export { aiAgent } from './agent.service'
+export { toolService } from './tool.service'
 
 export const SERVER_HOST =
   process.env.NODE_ENV == 'prod'
