@@ -19,7 +19,7 @@ export default function AgentSetting() {
         currentLLMModelState:{},
         description:'',
         parameters:{},
-        code:' ',
+        code:' hellojasdj',
     })
   },[])
 
@@ -38,6 +38,28 @@ export default function AgentSetting() {
         console.log(err)
     })
   }
+
+
+const handleEdit = (edit) => {
+    console.log("Edited:", edit);
+    if (edit.updated_src) {
+        setData({
+            ...data,
+            parameters: edit.updated_src
+        })
+    }
+};
+
+const handleAdd = (add) => {
+    console.log("Added:", add);
+    if (add.updated_src) {
+        setData({
+            ...data,
+            parameters: add.updated_src
+        })
+    }
+};
+
   return (
     <div className='agent-setting'>
         <span className='main-header'>Agent Setting</span>
@@ -101,16 +123,26 @@ export default function AgentSetting() {
         </div>
         </div>
         <div className=' container state-description-cont'>
-        <span className='setting-header'>State description</span>
-        <div className='state-description' onBlur={() => {
-            saveToolOutputDescription();
-        }}>
-            <ReactJson theme='summerfruit:inverted' style={{padding:'10px' , border:'1px solid var(--slate-300)', minHeight:'200px'}}/>
-        </div>
+            <span className='setting-header'>State description</span>
+            <div className='state-description'>
+                  <ReactJson
+                      name="state"
+                      theme='summerfruit:inverted'
+                      style={{ padding: '10px', border: '1px solid var(--slate-300)', minHeight: '240px', maxHeight:'240px', overflowY:'auto' }}
+                      src={data?.parameters}
+                      onEdit={handleEdit}
+                      onAdd={handleAdd}
+                      onDelete={handleEdit}
+                      defaultValue={{
+                          "type": "",
+                          "description": ""}}
+                  />
+            </div>
         </div>
         <div className='tool-list-cont'>
-        <span className='description-txt'>Add tools and agents to your agentic workflow seamlessly</span>
-        <ThemeButton leftIcon='add' className='add-tool-btn' iconFill='var(--ps-white-1)'>Add tools</ThemeButton>   
+            <ThemeButton  className='add-tool-btn' iconFill='var(--ps-white-1)' onClick={()=>{
+                saveToolOutputDescription();
+            }}>Save settings</ThemeButton>   
         </div>
     </div>
   )
