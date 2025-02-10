@@ -55,10 +55,6 @@ const [jsonData, setJsonData] = useState({});
                       onEdit={handleEdit}
                       onAdd={handleAdd}
                       onDelete={handleEdit}
-                      defaultValue={{
-                          "type": "",
-                          "description": ""
-                      }}
                   />
                 <div className='button-section'>
                     <SolidButton customClass='btn-class reject'>Reject</SolidButton><SolidButton customClass='btn-class accept'>Accept</SolidButton>
