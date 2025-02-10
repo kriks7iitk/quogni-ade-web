@@ -2,31 +2,12 @@ import React, { useState } from 'react'
 import Prompt from './Prompt';
 import ReactJson from 'react-json-view'
 import StatusCircle from './StatusCircle';
-import Papa from 'papaparse';
+
 import './TrainingList.scss';
 
 const TrainingList = ({ response, promptList }) => {
-    const [fileName, setFileName] = useState('');
-    const [csvData, setCsvData] = useState(null);
-
-    const handleFileUpload = (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            setFileName(file.name);
-            console.log('File selected:', file);
-
-            Papa.parse(file, {
-                header: true,
-                complete: (results) => {
-                    console.log('Parsed CSV data:', results.data);
-                    setCsvData(results.data);
-                },
-                error: (error) => {
-                    console.error('Error parsing CSV:', error);
-                }
-            });
-        }
-    };
+    
+    
     return (
         <div className="training-list">
             <div>
@@ -67,17 +48,7 @@ const TrainingList = ({ response, promptList }) => {
                 }
             </div>
             
-            <button className="upload-button"
-                onClick={() => {
-                    const input = document.createElement('input');
-                    input.type = 'file';
-                    input.accept = '.csv';
-                    input.style.display = 'none';
-                    input.onchange = handleFileUpload;
-                    document.body.appendChild(input);
-                    input.click();
-                    document.body.removeChild(input);
-                }}>
+            <button className="upload-button">
                 upload csv
             </button>
         </div>

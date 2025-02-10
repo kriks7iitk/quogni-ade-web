@@ -16,16 +16,19 @@ import History from './History';
 import Enter from './Enter';
 import Add from './Add';
 import Dashboard from './Dashboard';
+import Edit from './Edit';
+import Info from './Info';
 
 export default function SolidThemeIcon({ name, ...props }) {
   switch (name) {
+    case 'add':
+      return <Add {...props} />;
     case 'back-1':
       return <BackIcon {...props}></BackIcon>;
     case 'dashboard':
       return <Dashboard {...props} />;
     case 'email':
       return <Email {...props} />;
-      break;
     case 'user':
       return <User {...props} />;
     case 'next':
@@ -52,8 +55,12 @@ export default function SolidThemeIcon({ name, ...props }) {
       return <Delete {...props} />;
     case 'copy':
       return <Copy {...props} />;
+    case 'edit':
+      return <Edit {...props} />
     case 'history':
       return <History {...props} />;
+    case 'info':
+      return <Info {...props} />
     default:
       break;
   }

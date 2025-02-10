@@ -1,12 +1,16 @@
 .right-panel{
-    height: 100%;
-    max-width: 25%;
-    min-width: 25%;
-    flex-grow: 1;
-    background-color: none;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  flex-grow: 1;
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+  border-top: none;
+  flex-grow: 1;
+  max-width: 27%;
+  min-width: 27%;
+  
 }
 
 

@@ -1,8 +1,8 @@
 .left-panel{
     height: 100%;
     flex-grow: 1;
-    max-width: 25%;
-    min-width: 25%;
+    max-width: 27%;
+    min-width: 27%;
     background-color: none;
     display: flex;
     flex-direction: column;
@@ -20,7 +20,7 @@
 .left-panel-container{
     display: flex;
     flex-direction: column;
-    padding-left: 20px;
+    padding: 10px;
     flex-grow: 1;
     border-top-left-radius: 0 !important;
     border-bottom-left-radius: 0 !important;
