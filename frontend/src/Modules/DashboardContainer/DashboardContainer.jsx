@@ -1,4 +1,4 @@
-import React, { useContext, createContext, useState } from 'react';
+import React, { useEffect,useContext, createContext, useState } from 'react';
 import './dashboard-container.theme.scss';
 import AIBoard from '../AIBoard/AIBoard';
 import LeftPanel from '../LeftPanel/LeftPanel';
@@ -14,10 +14,25 @@ export const useDashboard = () => {
 const DashboardProvider = ({ children }) => {
  
   const [messagesAi, setMessagesAi] = useState([]);
-  const [toolId, setToolId] = useState(null);
+  const [tool, setTool] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [placeholder, setPlaceHolder] = useState('Ask anything using our piggiestack AI')
   const [agentLogs, setAgentLogs] = useState([])
+  const [responseCode, setResponseCode ] = useState({});
+
+  const handleAgentResponse = (response) => {
+    console.log("Response is");
+    console.log(response);
+  };
+
+  useEffect(() => {
+    console.log("prinitng tool");
+    console.log(tool);
+    
+  
+    
+  }, [tool])
+  
 
   return (
     <DashboardContext.Provider
@@ -28,7 +43,9 @@ const DashboardProvider = ({ children }) => {
         setIsLoading,
         placeholder, setPlaceHolder,
         agentLogs, setAgentLogs,
-        toolId, setToolId
+        tool, setTool,
+        responseCode, setResponseCode,
+        handleAgentResponse
       }}
     >
       {children}
@@ -37,10 +54,10 @@ const DashboardProvider = ({ children }) => {
 };
 
 export function DashboardContainerUI() {
-  const {toolId } = useDashboard();
+  const {tool, handleAgentResponse } = useDashboard();
   return (
     <div className="dashboard-container">
-      <AiUiProvider toolId={toolId} >
+      <AiUiProvider toolId={tool?.id} onAgentResponse={handleAgentResponse} >
         <LeftPanel/>
         <AIBoard />
         <RightPanel/>

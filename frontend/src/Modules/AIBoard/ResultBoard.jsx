@@ -7,8 +7,6 @@ import AnalysitAgentOutput from './_component/AnalysitAgentOutput';
 
 export default function ResultBoard() {
   const { messagesAi, isLoading } = useDashboard();
-  console.log("message logs are");
-  console.log(messagesAi);
   
   
   return (

@@ -7,31 +7,42 @@ import ReactJson from 'react-json-view'
 import { useAiUi } from '../../Ai-Ui/AiUiProvider'
 import { toolService } from '../../../_services'
 import toast from 'react-hot-toast'
+import { useDashboard } from '../../DashboardContainer/DashboardContainer'
 
 export default function AgentSetting() {
   
   const { data , setData } = useAiUi();
+  const { tool,setTool } = useDashboard();
 
   useEffect(() => {
+    console.log("tool id is ", tool);
+    console.log(tool?.parameters?.properties);
+    
+    
     setData({
         disableNameEdit:true,
-        name:'',
+        name:tool?.name || '',
         currentLLMModelState:{},
-        description:'',
-        parameters:{},
-        code:' hellojasdj',
+        description:tool?.description,
+        parameters:tool?.parameters?.properties,
+        code: tool?.code,
     })
-  },[])
+  },[tool])
 
 
   const saveToolOutputDescription = () => {
     const body = {
         name:data?.name,
         description:data?.description,
-        parameters:data?.parameters,
-        code:data?.code
+        parameters:{
+            type:'object',
+            properties:data?.parameters,
+            required:[],
+        },
+        code:data?.code || 'print(0)'
     }
     toolService.saveAgentDescription(body).then((res) => {
+        setTool(res);
         toast.success("Agent details are saved")
     })
     .catch((err) => {
@@ -95,7 +106,7 @@ const handleAdd = (add) => {
                     color: 'var(--slate-400)',
                     width: '100%',
                     padding:'5px'
-                    }}>agent-123123-1312312-12313123-12e12312ewdfeqw</span>
+                    }}>agent-123123-1312312-12313123-P</span>
                 <ThemeButton leftIcon='copy' />
             </div>
         </div>
