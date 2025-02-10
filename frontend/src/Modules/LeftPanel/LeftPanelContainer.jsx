@@ -3,6 +3,7 @@ import CardHeader from '../../_components/Containers/CardHeader';
 import { useLeftPanelContext } from './LeftPanelProvider';
 import { kebabCaseToNormal } from '../../Utility/utility';
 import AgentSetting from '../ADE/AgentsSetting/AgentSetting';
+import { AiUiProvider } from '../Ai-Ui/AiUiProvider';
 
 export default function LeftPanelContainer() {
   const { activeTab } = useLeftPanelContext();
@@ -29,7 +30,9 @@ export default function LeftPanelContainer() {
   };
   return (
     <div className="container-card left-panel-container">
-      <AgentSetting/>
+      <AiUiProvider>
+        <AgentSetting/>
+      </AiUiProvider>
     </div>
   );
 }
