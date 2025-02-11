@@ -21,8 +21,7 @@ const DashboardProvider = ({ children }) => {
   const [responseCode, setResponseCode ] = useState({});
 
   const handleAgentResponse = (response) => {
-    console.log("Response is");
-    console.log(response);
+    setResponseCode(response);
   };
 
   useEffect(() => {

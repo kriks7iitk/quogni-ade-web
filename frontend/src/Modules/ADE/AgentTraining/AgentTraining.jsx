@@ -3,12 +3,13 @@ import './agent-training.scss'
 import ReactJson from 'react-json-view'
 import SolidButton from '../../../_components/Buttons/SolidButton'
 import Papa from 'papaparse';
+import { useDashboard } from '../../DashboardContainer/DashboardContainer';
 
 export default function AgentTraining() {
 
     const [csvData, setCsvData] = useState(null);
     const [fileName, setFileName] = useState('');
-    const [jsonData, setJsonData] = useState({});
+    const {responseCode} = useDashboard();
 
     const handleEdit = (edit) => {
         if (edit.updated_src) {
@@ -47,7 +48,7 @@ export default function AgentTraining() {
                       theme='summerfruit:inverted'
                       style={{ padding: '10px', border: '1px solid var(--slate-300)', minHeight: '300px' }}
                       name="state"
-                      src={jsonData}
+                      src={responseCode}
                       onEdit={handleEdit}
                       onAdd={handleAdd}
                       onDelete={handleEdit}

@@ -19,6 +19,9 @@ function AiUiComponent({ children, toolId, onAgentResponse }) {
 
         aiAgent.sendToAgent(body)
         .then((response) => {
+            console.log("response is");
+            console.log(response);
+            
             setPrompt('');
             onAgentResponse(response)
         })
