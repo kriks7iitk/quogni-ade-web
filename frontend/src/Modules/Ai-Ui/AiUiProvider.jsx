@@ -30,7 +30,7 @@ function AiUiComponent({ children, toolId, onAgentResponse }) {
     };
 
     return (
-        <AiUiContext.Provider value={{ data, setPrompt, sendMessage ,setData}}>
+        <AiUiContext.Provider value={{ data, setPrompt, sendMessage, setData, prompt }}>
             {children}
         </AiUiContext.Provider>
     );
