@@ -8,6 +8,7 @@ export default function AgentsInput() {
   const {
     isLoading,
     placeholder,
+    setMessagesAi
   } = useDashboard();
 
 
@@ -19,6 +20,7 @@ export default function AgentsInput() {
       if (event.shiftKey) {
         return;
       } else {
+        setMessagesAi((message) => ([...message, { data: prompt, agent:'user' }] ))
         sendMessage();
       }
     }
