@@ -1,12 +1,12 @@
 import React from 'react';
-import { useDashboard } from '../DashboardContainer/DashboardContainer';
+import { useDevelopmentEnvironment } from '../DevelopmentEnvironment/DevelopmentEnvironment';
 import UserPrompt from './_component/UserPrompt';
 import AiTyping from '../../_components/AiTyping/AiTyping';
 import './ai-board.theme.scss';
 import AnalysitAgentOutput from './_component/AnalysitAgentOutput';
 
 export default function ResultBoard() {
-  const { messagesAi, isLoading } = useDashboard();
+  const { messagesAi, isLoading } = useDevelopmentEnvironment();
   
   
   return (

@@ -9,7 +9,7 @@ import SignUp from './Modules/Auth/SignUp';
 import { Toaster } from 'react-hot-toast';
 import './app.theme.scss';
 import 'driver.js/dist/driver.css';
-import Dashboard from './Modules/Dashboard/Dashboard';
+import Builder from './Modules/Builder/Builder';
 import Onboarding from './Modules/Auth/Onboarding';
 import SignIn from './Modules/Auth/SignIn';
 import OtpVerify from './Modules/Auth/OtpVerify';
@@ -18,6 +18,7 @@ import { authorize } from './Utility/authorization';
 import AuthCallback from './Modules/Auth/OAuth/AuthCallback';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import InfoModal from './Modules/Auth/InfoModal';
+import Dashboard from './Modules/Dashboard/Dashboard';
 
 const AppContext = createContext(null);
 export const useApp = () => useContext(AppContext);
@@ -81,11 +82,17 @@ function App() {
                 }
               />
               <Route
-                path="/dashboard"
+                path="/builder"
                 element={
                   <PrivateRoute>
-                      <Dashboard />
+                      <Builder />
                   </PrivateRoute>
+                }
+              />
+              <Route
+                path="/dashboard"
+                element={
+                  <Dashboard/>
                 }
               />
              

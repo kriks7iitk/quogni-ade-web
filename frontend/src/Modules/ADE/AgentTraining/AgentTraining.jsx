@@ -3,15 +3,14 @@ import './agent-training.scss'
 import ReactJson from 'react-json-view'
 import SolidButton from '../../../_components/Buttons/SolidButton'
 import Papa from 'papaparse';
-import { useDashboard } from '../../DashboardContainer/DashboardContainer';
-import { useAiUi } from '../../Ai-Ui/AiUiProvider';
+import { useDevelopmentEnvironment } from '../../DevelopmentEnvironment/DevelopmentEnvironment';
 import { toolService } from '../../../_services';
 
 export default function AgentTraining() {
 
     const [csvData, setCsvData] = useState(null);
     const [fileName, setFileName] = useState('');
-    const { responseCode, tool, setResponseCode } = useDashboard();
+    const {responseCode,tool, setResponseCode} = useDevelopmentEnvironment();
     const [promptList, setPromptList] = useState([]);
 
     const handleEdit = (edit) => {
