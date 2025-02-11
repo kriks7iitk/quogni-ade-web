@@ -4,22 +4,24 @@ import ReactJson from 'react-json-view'
 import SolidButton from '../../../_components/Buttons/SolidButton'
 import Papa from 'papaparse';
 import { useDevelopmentEnvironment } from '../../DevelopmentEnvironment/DevelopmentEnvironment';
+import { toolService } from '../../../_services';
 
 export default function AgentTraining() {
 
     const [csvData, setCsvData] = useState(null);
     const [fileName, setFileName] = useState('');
-    const {responseCode} = useDevelopmentEnvironment();
+    const {responseCode,tool, setResponseCode} = useDevelopmentEnvironment();
+    const [promptList, setPromptList] = useState([]);
 
     const handleEdit = (edit) => {
         if (edit.updated_src) {
-            setJsonData(edit.updated_src);
+            setResponseCode({ ...responseCode, response:edit.updated_src });
         }
     };
 
     const handleAdd = (add) => {
         if (add.updated_src) {
-            setJsonData(add.updated_src);
+            setResponseCode({ ...responseCode, response: add.updated_src });
         }
     };
     const handleFileUpload = (event) => {
@@ -38,6 +40,23 @@ export default function AgentTraining() {
             });
         }
     };  
+
+    const trainToolHandler = () => {
+        const body = {
+            state: responseCode.response,
+            prompt: responseCode.prompt,
+            tool_id: tool?.id
+        }
+
+        toolService.toolTraining(body).then((res) => {
+            setTool(res);
+            toast.success("Agent is reTrained")
+            setPromptList([...promptList,responseCode.prompt])
+        })
+            .catch((err) => {
+                console.log(err)
+            })
+    }
   return (
     <div className='agent-training'>
         <span className='main-header'>Agent Training</span>
@@ -48,22 +67,23 @@ export default function AgentTraining() {
                       theme='summerfruit:inverted'
                       style={{ padding: '10px', border: '1px solid var(--slate-300)', minHeight: '300px' }}
                       name="state"
-                      src={responseCode}
+                      src={responseCode.response}
                       onEdit={handleEdit}
                       onAdd={handleAdd}
                       onDelete={handleEdit}
                   />
                 <div className='button-section'>
-                    <SolidButton customClass='btn-class reject'>Reject</SolidButton><SolidButton customClass='btn-class accept'>Accept</SolidButton>
+                      <SolidButton customClass='btn-class reject'>Reject</SolidButton><SolidButton customClass='btn-class accept' onClick={() => { trainToolHandler()}}>Accept</SolidButton>
                 </div>
                 
             </div>
             <div className='container prompts-container'>
-            <span className='setting-header'>Prompts</span>
-             <span className='prompt-txt'>No prompts updated or created</span>
+                  <span className='setting-header'>Prompts</span>
+                  {promptList.map(({ prompt, index }) => { return (<span className='prompt-txt' key={index}>{prompt}</span>)})
+                  }
         </div>
             <div className='container'>
-                <span className='description-txt'>Upload your prompt data in thie given csv format</span>
+                <span className='description-txt'>Upload your prompt data in this given csv format</span>
                 <SolidButton 
                 onClick={() => {
                     const input = document.createElement('input');
