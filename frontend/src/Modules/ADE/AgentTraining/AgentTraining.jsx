@@ -3,13 +3,13 @@ import './agent-training.scss'
 import ReactJson from 'react-json-view'
 import SolidButton from '../../../_components/Buttons/SolidButton'
 import Papa from 'papaparse';
-import { useDashboard } from '../../DashboardContainer/DashboardContainer';
+import { useDevelopmentEnvironment } from '../../DevelopmentEnvironment/DevelopmentEnvironment';
 
 export default function AgentTraining() {
 
     const [csvData, setCsvData] = useState(null);
     const [fileName, setFileName] = useState('');
-    const {responseCode} = useDashboard();
+    const {responseCode} = useDevelopmentEnvironment();
 
     const handleEdit = (edit) => {
         if (edit.updated_src) {
@@ -60,7 +60,7 @@ export default function AgentTraining() {
             </div>
             <div className='container prompts-container'>
             <span className='setting-header'>Prompts</span>
-             <span className='prompt-txt'>This is my prompt</span>
+             <span className='prompt-txt'>No prompts updated or created</span>
         </div>
             <div className='container'>
                 <span className='description-txt'>Upload your prompt data in thie given csv format</span>

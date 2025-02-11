@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDashboard } from '../DashboardContainer/DashboardContainer';
+import { useDevelopmentEnvironment } from '../DevelopmentEnvironment/DevelopmentEnvironment';
 import './ai-board.theme.scss';
 import ThemeButton from '../../_components/Buttons/ThemeButton';
 import { useAiUi } from '../Ai-Ui/AiUiProvider';
@@ -8,7 +8,7 @@ export default function AgentsInput() {
   const {
     isLoading,
     placeholder,
-  } = useDashboard();
+  } = useDevelopmentEnvironment();
 
 
   const { setPrompt,prompt,sendMessage } = useAiUi()

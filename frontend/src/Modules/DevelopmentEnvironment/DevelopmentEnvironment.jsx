@@ -5,13 +5,13 @@ import LeftPanel from '../LeftPanel/LeftPanel';
 import RightPanel from '../RightPanel/RightPanel';
 import { AiUiProvider } from '../Ai-Ui/AiUiProvider';
 
-export const DashboardContext = createContext();
+export const EnvironmentContext = createContext();
 
-export const useDashboard = () => {
-  return useContext(DashboardContext);
+export const useDevelopmentEnvironment = () => {
+  return useContext(EnvironmentContext);
 };
 
-const DashboardProvider = ({ children }) => {
+const EnvironmentProvider = ({ children }) => {
  
   const [messagesAi, setMessagesAi] = useState([]);
   const [tool, setTool] = useState(null);
@@ -25,16 +25,11 @@ const DashboardProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    console.log("prinitng tool");
-    console.log(tool);
-    
-  
-    
   }, [tool])
   
 
   return (
-    <DashboardContext.Provider
+    <EnvironmentContext.Provider
       value={{
         messagesAi,
         setMessagesAi,
@@ -48,12 +43,12 @@ const DashboardProvider = ({ children }) => {
       }}
     >
       {children}
-    </DashboardContext.Provider>
+    </EnvironmentContext.Provider>
   );
 };
 
-export function DashboardContainerUI() {
-  const {tool, handleAgentResponse } = useDashboard();
+export function EnvironmentContainerUI() {
+  const {tool, handleAgentResponse } = useDevelopmentEnvironment();
   return (
     <div className="dashboard-container">
       <AiUiProvider toolId={tool?.id} onAgentResponse={handleAgentResponse} >
@@ -65,10 +60,10 @@ export function DashboardContainerUI() {
   );
 }
 
-export default function DashboardContainer() {
+export default function EnvironmentContainer() {
   return (
-    <DashboardProvider>
-      <DashboardContainerUI />
-    </DashboardProvider>
+    <EnvironmentProvider>
+      <EnvironmentContainerUI />
+    </EnvironmentProvider>
   );
 }

@@ -1,11 +1,11 @@
 import React from 'react';
-import { useDashboard } from '../DashboardContainer/DashboardContainer';
+import { useDevelopmentEnvironment } from '../DevelopmentEnvironment/DevelopmentEnvironment';
 import ResultBoard from './ResultBoard';
 import AgentsInput from './AgentsInput';
 import './ai-board.theme.scss';
 
 export default function AIBoard() {
-  const { aiMode,toolId } = useDashboard();
+  const { aiMode,toolId } = useDevelopmentEnvironment();
   const styleObject = { padding: '0 2%' };
 
   const activeTabComponent = () => {

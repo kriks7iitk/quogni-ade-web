@@ -7,12 +7,12 @@ import ReactJson from 'react-json-view'
 import { useAiUi } from '../../Ai-Ui/AiUiProvider'
 import { toolService } from '../../../_services'
 import toast from 'react-hot-toast'
-import { useDashboard } from '../../DashboardContainer/DashboardContainer'
+import { useDevelopmentEnvironment } from '../../DevelopmentEnvironment/DevelopmentEnvironment'
 
 export default function AgentSetting() {
   
   const { data , setData } = useAiUi();
-  const { tool,setTool } = useDashboard();
+  const { tool,setTool } = useDevelopmentEnvironment();
 
   useEffect(() => {
     console.log("tool id is ", tool);

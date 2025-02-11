@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import './dashboard-header.theme.scss';
-import SolidButton from '../../../_components/Buttons/SolidButton';
-import { authenticationService } from '../../../_services';
-import { getInitials } from '../../../Utility/utility';
+import SolidButton from '../../_components/Buttons/SolidButton';
+import { authenticationService } from '../../_services';
+import { getInitials } from '../../Utility/utility';
 
 export default function DashboardHeader() {
   const [session, setSession] = useState(
