@@ -1,12 +1,14 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import { SocketProvider, useSocket } from './SocketProvider';
 import { aiAgent } from '../../_services';
+import { useDevelopmentEnvironment } from '../DevelopmentEnvironment/DevelopmentEnvironment';
 
 const AiUiContext = createContext();
 
 function AiUiComponent({ children, toolId, onAgentResponse }) {  
     const [data, setData] = useState();
     const [prompt, setPrompt] = useState('');
+    const { setMessagesAi } = useDevelopmentEnvironment();
 
     useEffect(() => {
     }, []);
@@ -21,7 +23,8 @@ function AiUiComponent({ children, toolId, onAgentResponse }) {
             .then((response) => {
                 console.log("response is");
                 console.log(response);
-                onAgentResponse({response, prompt})
+                onAgentResponse({ response:response["state"], prompt })
+                setMessagesAi((messages) => ([...messages, { data: response["explanation"], agent: 'ai' }]))
                 setPrompt('');
         })
         .catch((error) => {

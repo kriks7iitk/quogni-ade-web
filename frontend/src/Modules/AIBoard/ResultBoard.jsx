@@ -16,7 +16,7 @@ export default function ResultBoard() {
         if (message?.agent === 'analyst-agent') {
           return <AnalysitAgentOutput key={index} message={message} />;
         }
-        return <UserPrompt key={index} message={message?.data} />;
+        return <UserPrompt key={index} message={message?.data} agent={message?.agent} />;
       })}
     </div>
   );

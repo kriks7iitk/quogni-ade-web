@@ -5,12 +5,13 @@ import SolidButton from '../../../_components/Buttons/SolidButton'
 import Papa from 'papaparse';
 import { useDevelopmentEnvironment } from '../../DevelopmentEnvironment/DevelopmentEnvironment';
 import { toolService } from '../../../_services';
+import { toast } from 'react-hot-toast'
 
 export default function AgentTraining() {
 
     const [csvData, setCsvData] = useState(null);
     const [fileName, setFileName] = useState('');
-    const {responseCode,tool, setResponseCode} = useDevelopmentEnvironment();
+    const { responseCode, tool, setResponseCode, setTool, setMessagesAi } = useDevelopmentEnvironment();
     const [promptList, setPromptList] = useState([]);
 
     const handleEdit = (edit) => {
@@ -48,10 +49,11 @@ export default function AgentTraining() {
             tool_id: tool?.id
         }
 
-        toolService.toolTraining(body).then((res) => {
-            setTool(res);
+        toolService.toolTraining(body).then((response) => {
+            setTool(response["tool_data"]);
             toast.success("Agent is reTrained")
-            setPromptList([...promptList,responseCode.prompt])
+            setPromptList([...promptList, responseCode.prompt])
+            setMessagesAi((messages) => ([...messages, { data: response["explanation"], agent: 'aiTrainer' }]))
         })
             .catch((err) => {
                 console.log(err)
@@ -79,7 +81,7 @@ export default function AgentTraining() {
             </div>
             <div className='container prompts-container'>
                   <span className='setting-header'>Prompts</span>
-                  {promptList.map(({ prompt, index }) => { return (<span className='prompt-txt' key={index}>{prompt}</span>)})
+                  {promptList.map(( prompt, index ) => { return (<span className='prompt-txt' key={index}>{prompt}</span>)})
                   }
         </div>
             <div className='container'>

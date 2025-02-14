@@ -189,3 +189,31 @@
     overflow-wrap: break-word;
     word-break: break-word;
 }
+
+.ai-explanation{
+    padding: 10px;
+    border-radius: 6px;
+    width: fit-content;
+    max-width: 95%;
+    margin: 2px;
+    font-size: var(--ps-txt-s);
+    background-color: greenyellow;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+
+.aiTrainer-explanation{
+    padding: 10px;
+    border-radius: 6px;
+    width: fit-content;
+    max-width: 95%;
+    margin: 2px;
+    font-size: var(--ps-txt-s);
+    background-color: rgb(65, 165, 247);
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
