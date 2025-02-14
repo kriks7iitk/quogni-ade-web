@@ -17,8 +17,8 @@ const SolidButton = ({
   iconFill,
   rightIcon,
   hoverIconFill,
-  hoverOverColor,
   isActive,
+  iconStroke
 }) => {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -32,7 +32,7 @@ const SolidButton = ({
           ? 'var(--slate-400)'
           : color
             ? `${color}`
-            : 'var(--ps-dark-blue)',
+            : 'var(--gray-900)',
         backgroundColor: disabled
           ? 'var(--slate-200)'
           : bgColor
@@ -48,7 +48,8 @@ const SolidButton = ({
           className="ml-2 transition-colors duration-300"
           name={leftIcon}
           width={iconWidth}
-          fill={isHovered ? hoverIconFill : iconFill}
+          fill={isHovered && !isActive ? hoverIconFill : isActive ? hoverIconFill :iconFill}
+          strokeWidth={iconStroke}
         />
       )}
       {children}

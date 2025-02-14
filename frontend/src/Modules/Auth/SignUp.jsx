@@ -3,7 +3,6 @@ import { authenticationService } from '../../_services';
 import { camelCaseToNormal } from '../../Utility/utility';
 import '../Auth/auth.theme.scss';
 import { toast } from 'react-hot-toast';
-import SolidThemeIcon from '../../_icons/svgs/SolidThemeIcons';
 import Icon from '../../_icons/svgs/SolidIcons';
 import PiggieStackName from '../BrandAndLogo/PiggieStackName';
 import InputField from '../../_components/Form/inputField';
@@ -76,7 +75,7 @@ function SignUp() {
       </div>
       <div className="intro-line">
         <div style={{ fontSize: '30px' }}>
-          <span style={{ color: 'var(--ps-dark-blue)' }}>Sign Up & </span>
+          <span style={{ color: 'var(--gray-900)' }}>Sign Up & </span>
           <span style={{ color: 'var(--ps-pink)' }}>Evolve!</span>
         </div>
       </div>
@@ -90,17 +89,17 @@ function SignUp() {
         Create a new account to
       </span>
       <div className="intro-line-2">
-        <span style={{ color: 'var(--ps-dark-blue)' }}>
+        <span style={{ color: 'var(--gray-900)' }}>
           Experience financial evolution{' '}
         </span>
         <span style={{ color: 'var(--ps-pink)' }}>
           using
-          <span style={{ color: 'var(--ps-dark-blue)', fontWeight: 'bold' }}>
+          <span style={{ color: 'var(--gray-900)', fontWeight: 'bold' }}>
             {' '}
             AI{' '}
           </span>
           and
-          <span style={{ color: 'var(--ps-dark-blue)', fontWeight: 'bold' }}>
+          <span style={{ color: 'var(--gray-900)', fontWeight: 'bold' }}>
             {' '}
             Automation{' '}
           </span>

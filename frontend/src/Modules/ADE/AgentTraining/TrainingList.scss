@@ -1,0 +1,64 @@
+.training-list {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding-inline: 2px;
+
+    .header {
+        font-weight: bold;
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+
+    .checkbox-container {
+        margin-bottom: 10px;
+    }
+
+    .prompt-container {
+        overflow-y: auto;
+
+        .prompt-item {
+            margin-bottom: 10px;
+            display: flex;
+            gap: 20px;
+            justify-content: start;
+            align-items: center;
+        }
+    }
+
+    .uploaded-file {
+        margin-bottom: 10px;
+    }
+
+    .upload-button {
+        margin-top: auto;
+        padding: 5px 10px;
+        background-color: #000000;
+        color: #fff;
+        border: none;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: background-color 0.3s ease;
+
+        &:hover {
+            background-color: rgb(50, 50, 50);
+        }
+    }
+
+    .confirm-button{
+        padding: 5px 10px;
+        background-color: #000000;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: background-color 0.3s ease;
+    
+        &:hover {
+            background-color: rgb(50, 50, 50);
+            }
+    }
+}

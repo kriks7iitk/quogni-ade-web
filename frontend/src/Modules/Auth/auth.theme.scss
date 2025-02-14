@@ -21,7 +21,7 @@ html, body {
         flex-grow: 3;
         justify-content: center;
         align-items: center;
-        background-color: var(--ps-dark-blue);
+        background-color: var(--gray-900);
         border-top-right-radius: 50% 30%;
         border-bottom-right-radius: 50% 30%;
 
@@ -157,7 +157,7 @@ html, body {
 
 .redirection-text {
     font-size: var(--ps-txt-s);
-    color: var(--ps-dark-blue);
+    color: var(--gray-900);
 }
 
 
@@ -231,7 +231,7 @@ html, body {
 
 
   .onboarding-modal-page{
-    background-color: var(--ps-dark-blue);
+    background-color: var(--gray-900);
     display: flex;
   }
 
@@ -271,7 +271,7 @@ html, body {
             }
             
             .dot.active {
-            background-color: var(--ps-dark-blue); /* Active color */
+            background-color: var(--gray-900); /* Active color */
             }
     }
 

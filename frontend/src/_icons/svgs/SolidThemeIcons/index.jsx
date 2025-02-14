@@ -12,17 +12,20 @@ import Minimize from './Minimize';
 import Maximize from './Maximize';
 import Delete from './Delete';
 import Copy from './Copy';
-import History from './History';
 import Enter from './Enter';
+import Add from './Add';
+import Edit from './Edit';
+import Info from './Info';
+import {Sun , Moon, Settings } from 'lucide-react'
 
 export default function SolidThemeIcon({ name, ...props }) {
   switch (name) {
+    case 'add':
+      return <Add {...props} />;
     case 'back-1':
       return <BackIcon {...props}></BackIcon>;
-      break;
     case 'email':
       return <Email {...props} />;
-      break;
     case 'user':
       return <User {...props} />;
     case 'next':
@@ -35,6 +38,8 @@ export default function SolidThemeIcon({ name, ...props }) {
       return <Enter {...props} />;
     case 'positive-up':
       return <PositiveUp {...props} />;
+    case 'plus':
+      return <Add {...props} />;
     case 'negative-down':
       return <NegativeDown {...props} />;
     case 'neutral-dash':
@@ -47,8 +52,16 @@ export default function SolidThemeIcon({ name, ...props }) {
       return <Delete {...props} />;
     case 'copy':
       return <Copy {...props} />;
-    case 'history':
-      return <History {...props} />;
+    case 'edit':
+      return <Edit {...props} />
+    case 'sun':
+      return <Sun color={props?.fill} size={props?.width} strokeWidth={props?.strokeWidth} />
+    case 'moon':
+      return <Moon color={props?.fill} size={props?.width} strokeWidth={props?.strokeWidth} />
+    case 'settings':
+      return <Settings color={props?.fill} size={props?.width} strokeWidth={props?.strokeWidth} />
+    case 'info':
+      return <Info {...props} />
     default:
       break;
   }

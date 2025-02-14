@@ -4,7 +4,6 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    border-bottom: 1px solid var(--ps-green-bright);
 
     .header-nav-btn-left{
         width: 50px;
@@ -12,9 +11,9 @@
     }
 
     .header-title{
-        font-size: var(--ps-txt-s);
-        font-weight: 600;
-        padding-left: 10px;
+        font-size: var(--ps-txt-l);
+        font-weight: 500;
+        padding-left: 20px;
         color: var(--slate-600);
     }
 
@@ -29,4 +28,14 @@
     padding: 5px;
     flex-grow: 1;
     overflow-y: auto;
+}
+
+
+.card{
+    display: flex;
+    flex-direction: column;
+    width: 100px;
+    height: 80px;
+    border-radius: 12px;
+    border: 1px solid var(--slate-400);
 }

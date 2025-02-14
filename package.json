@@ -16,12 +16,13 @@
     "install:all": "npm install --prefix backend && npm install --prefix frontend"
   },
   "dependencies": {
-    "concurrently": "^8.0.0"
+    "concurrently": "^8.0.0",
+    "lucide-react": "^0.475.0"
   },
   "devDependencies": {
-    "@eslint/js": "^9.18.0",
+    "@eslint/js": "^9.19.0",
     "env-cmd": "^10.1.0",
-    "eslint": "^9.18.0",
+    "eslint": "^9.19.0",
     "eslint-config-prettier": "^10.0.1",
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-react": "^7.37.4",

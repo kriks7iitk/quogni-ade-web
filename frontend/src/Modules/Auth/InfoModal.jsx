@@ -10,7 +10,6 @@ import InputField from '../../_components/Form/inputField';
 import SolidButton from '../../_components/Buttons/SolidButton';
 import ThemeButton from '../../_components/Buttons/ThemeButton';
 import { useApp } from '../../App';
-import TagButton from '../../_components/Buttons/TagButton';
 import { oAuthService } from '../../_services';
 import { userService } from '../../_services/user.service';
 import { useNavigate } from 'react-router-dom';
@@ -104,7 +103,7 @@ const InfoModal = ({ isOpen, closeModal }) => {
         {size - 1 === currentState && (
           <SolidButton
             size="m"
-            bgColor={'var(--ps-dark-blue)'}
+            bgColor={'var(--gray-900)'}
             color={'var(--ps-green-bright)'}
             customClass="btn-info"
             disabled={isDisable()}
@@ -183,29 +182,7 @@ const InfoModal = ({ isOpen, closeModal }) => {
         case 'SECTOR_SELECTION':
           return (
             <div className="info-sector-selection">
-              {tabs.map((_, index) => (
-                <TagButton
-                  tag={_}
-                  bgColor={
-                    preferredSector[_]
-                      ? 'var(--ps-pink)'
-                      : 'var(--ps-dark-blue)'
-                  }
-                  color="var(--ps-green-bright)"
-                  onClick={() => {
-
-                    if (!preferredSector?.[_])
-                      setPreferredSector({ ...preferredSector, [_]: 1 });
-                    else {
-                      setPreferredSector((prevState) => {
-                        const newState = { ...prevState };
-                        delete newState[_];
-                        return newState;
-                      });
-                    }
-                  }}
-                />
-              ))}
+              
             </div>
           );
 
@@ -266,7 +243,7 @@ const InfoModal = ({ isOpen, closeModal }) => {
     updateUser(body)
       .then(() => {
         toast.success('User onboarded');
-        navigate('/dashboard');
+        navigate('/workspace/tools');
       })
       .catch((error) => {
         console.error('error is ', error);
@@ -274,7 +251,7 @@ const InfoModal = ({ isOpen, closeModal }) => {
   };
 
   return (
-    <div style={{ display: 'flex', background: 'var(--ps-dark-blue)' }}>
+    <div style={{ display: 'flex', background: 'var(--gray-900)' }}>
       <ParticleMemo backgroundMask="#000b50" />
       <div className="onboarding-container">
         <Modal
