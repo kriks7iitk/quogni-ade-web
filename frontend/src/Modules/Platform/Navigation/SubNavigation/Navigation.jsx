@@ -1,18 +1,34 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import SubNavigationButton from './SubNavigationButton';
-import { useLeftPanelContext } from '../../LeftPanel/LeftPanelProvider';
-import SolidButton from '../../../_components/Buttons/SolidButton';
+import { usePlatform } from '../../PlatformLayout';
+import { useNavigate } from 'react-router-dom';
 
-export default function SubNavigation() {
-  const { activeTab, setActiveTab } = useLeftPanelContext();
+export default function Navigation() {
+
+  
+  
+  const { activeTab, setActiveTab } = usePlatform();
+  const navigate = useNavigate();
   const menuList = [
     {
-      name: 'Dashboard',
-      link: 'all-servers',
-      iconName: 'dashboard',
+      name: 'Tools',
+      link: '/workspace/tools',
+      iconName: 'tools',
+    },
+    {
+      name: 'Agents',
+      link: '/workspace/agents',
+      iconName: 'agents',
     },
     
   ];
+
+  useEffect(() => {
+    console.log("active tab is changes");
+    console.log(activeTab);
+    
+  
+  }, [activeTab])
 
   const bottomNavigation = [
     {
@@ -21,22 +37,22 @@ export default function SubNavigation() {
       iconName: 'setting',
     },
   ];
-
   return (
     <div className='sub-navigation'>
+      <div className='logo'></div>
       <div className="sub-navigation-menu">
-        <div className='logo'>
-            <SolidButton leftIcon='piggie-white' iconWidth='23' customClass='sub-navigation-button' size="s" iconFill='var(--ps-white-1)'/>
-        </div>
         {menuList.map((menu, index) => {
           return (
             <SubNavigationButton
             key={index}
               iconName={menu?.iconName}
               onClick={() => {
+                console.log("this is clicked");
+                
                 setActiveTab(menu?.link);
+                navigate(menu.link);
               }}
-              isSelected={menu?.link == activeTab}
+              isSelected={location.pathname === menu.link}
             />
           );
         })}
@@ -48,9 +64,11 @@ export default function SubNavigation() {
             key={index}
               iconName={menu?.iconName}
               onClick={() => {
+                console.log("this is clicked");
                 setActiveTab(menu?.link);
+                navigate(menu.link);
               }}
-              isSelected={menu?.link == activeTab}
+              isSelected={location.pathname === menu.link}
             />
           );
         })}

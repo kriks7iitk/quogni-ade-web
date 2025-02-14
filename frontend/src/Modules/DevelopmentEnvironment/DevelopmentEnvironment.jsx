@@ -4,6 +4,7 @@ import AIBoard from '../AIBoard/AIBoard';
 import LeftPanel from '../LeftPanel/LeftPanel';
 import RightPanel from '../RightPanel/RightPanel';
 import { AiUiProvider } from '../Ai-Ui/AiUiProvider';
+import AgentSetting from '../ADE/AgentsSetting/AgentSetting';
 
 export const EnvironmentContext = createContext();
 
@@ -52,9 +53,13 @@ export function EnvironmentContainerUI() {
   return (
     <div className="dashboard-container">
       <AiUiProvider toolId={tool?.id} onAgentResponse={handleAgentResponse} >
-        <LeftPanel/>
+        <LeftPanel>
+          <AgentSetting />
+        </LeftPanel>
         <AIBoard />
-        <RightPanel/>
+        <RightPanel>
+          <AgentSetting/> 
+        </RightPanel>
       </AiUiProvider>
     </div>
   );

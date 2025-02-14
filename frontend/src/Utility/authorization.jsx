@@ -14,7 +14,7 @@ export function authorize() {
       window.location.href = '/onboarding';
     }
     if (isAuthRoute) {
-      window.location.href = '/dashboard';
+      window.location.href = '/workspace/tools';
     }
     
   });

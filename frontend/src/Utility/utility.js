@@ -5,6 +5,7 @@ export function camelCaseToNormal(str) {
 }
 
 export function kebabCaseToNormal(str) {
+  if(!str)return '';
   return str
     .split('-')
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))

@@ -79,20 +79,20 @@ function SignIn() {
         </div>
         <div className="intro-line">
           <div style={{ fontSize: '30px' }}>
-            <span style={{ color: 'var(--ps-dark-blue)' }}>Stack </span>
+            <span style={{ color: 'var(--gray-900)' }}>Stack </span>
             <span style={{ color: 'var(--ps-pink)' }}>Smarter</span>
           </div>
         </div>
         <div className="intro-line-2">
-          <span style={{ color: 'var(--ps-dark-blue)' }}>Log in to </span>
+          <span style={{ color: 'var(--gray-900)' }}>Log in to </span>
           <span style={{ color: 'var(--ps-pink)' }}>
             power up your portfolio using
-            <span style={{ color: 'var(--ps-dark-blue)', fontWeight: 'bold' }}>
+            <span style={{ color: 'var(--gray-900)', fontWeight: 'bold' }}>
               {' '}
               AI{' '}
             </span>
             and
-            <span style={{ color: 'var(--ps-dark-blue)', fontWeight: 'bold' }}>
+            <span style={{ color: 'var(--gray-900)', fontWeight: 'bold' }}>
               {' '}
               Automation{' '}
             </span>
@@ -105,7 +105,7 @@ function SignIn() {
                 fontSize: '12px',
                 marginBottom: '8px',
                 fontWeight: '500',
-                color: 'var(--ps-dark-blue)',
+                color: 'var(--gray-900)',
               }}
             >
               Phone number
@@ -154,7 +154,7 @@ function SignIn() {
         </div>
         <div className="redirection-text">
           New to{' '}
-          <span style={{ color: 'var(--ps-dark-blue)', fontWeight: '500' }}>
+          <span style={{ color: 'var(--gray-900)', fontWeight: '500' }}>
             Piggie
           </span>
           <span style={{ color: 'var(--ps-pink)', fontWeight: '500' }}>

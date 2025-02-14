@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function Minimize({
   viewBox = '0 0 24 24',
-  fill = 'var(--ps-dark-blue)',
+  fill = 'var(--gray-900)',
   width = '24',
 }) {
   return (

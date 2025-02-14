@@ -24,7 +24,7 @@ function OtpVerify() {
         .authorize({ userId, otp: otpValue })
         .then((response) => {
           addToSessionStorage('ps-auth-token', response?.accessToken);
-          window.location.href = '/dashboard';
+          window.location.href = '/workspace/tools';
         })
         .catch(({ error }) => {
           toast.error(error?.message);

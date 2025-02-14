@@ -12,7 +12,7 @@ export default function AgentsInput() {
   } = useDevelopmentEnvironment();
 
 
-  const { setPrompt,prompt,sendMessage } = useAiUi()
+  const { setPrompt,prompt,sendMessage } = useAiUi();
   
 
   const handleKeyDown = (event) => {

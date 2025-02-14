@@ -32,7 +32,7 @@ const AuthCallback = () => {
         const response = await oAuthService.sendCode(body);
         const jwtToken = response.accessToken;
         addToSessionStorage('ps-auth-token', jwtToken);
-        window.location.href = '/dashboard';
+        window.location.href = '/workspace/tools';
       } catch ({ error }) {
         toast.error(error?.message);
         if (error?.code === 'auth109') {

@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { authenticationService } from '../../_services';
 import Modal from 'react-modal';
 import './modals.theme.scss';
 
 export default function CustomModal({
-  isOpen,
+  show,
   closeModal,
   subTitle,
   header = () => {},
@@ -14,39 +13,7 @@ export default function CustomModal({
   modalFooter = () => {},
 }) {
   const [activeTab, setActiveTab] = useState(0);
-  const [selectedInterests, setSelectedInterests] = useState({});
-  const user = authenticationService.currentSessionValue?.user;
-  const [username, setUsername] = useState('');
-  const [dateOfBirth, setDateOfBirth] = useState('');
 
-  const handleTabChange = (index) => {
-    setActiveTab(index);
-  };
-
-  const handleInterestClick = (interest) => {
-    setSelectedInterests((prevState) => {
-      const updatedInterests = { ...prevState };
-      const currentTab = tabs[activeTab].name;
-
-      if (!updatedInterests[currentTab]) {
-        updatedInterests[currentTab] = [];
-      }
-
-      if (currentTab === 'occupation') {
-        updatedInterests[currentTab] = [interest];
-      } else if (currentTab === 'sector') {
-        if (updatedInterests[currentTab].includes(interest)) {
-          updatedInterests[currentTab] = updatedInterests[currentTab].filter(
-            (item) => item !== interest,
-          );
-        } else {
-          updatedInterests[currentTab].push(interest);
-        }
-      }
-
-      return updatedInterests;
-    });
-  };
 
   const handleNextStep = async () => {
     setActiveTab((prevIndex) => {
@@ -55,24 +22,10 @@ export default function CustomModal({
     });
   };
 
-  const handleSubmit = async () => {
-    const formData = {
-      username,
-      dateOfBirth,
-      occupation: selectedInterests['occupation'] || [],
-      sector: selectedInterests['sector'] || [],
-    };
-
-    try {
-      sendOAuthUserDetails(formData).then((response) => {});
-    } catch (e) {
-      console.error(e);
-    }
-  };
   return (
     <div>
       <Modal
-        isOpen={isOpen}
+        isOpen={show}
         className="modal-content"
         overlayClassName="modal-overlay"
         closeTimeoutMS={200}

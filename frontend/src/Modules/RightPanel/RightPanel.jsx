@@ -3,14 +3,10 @@ import './right-panel.theme.scss';
 import TrainingList from '../ADE/AgentTraining/TrainingList'
 import AgentTraining from '../ADE/AgentTraining/AgentTraining';
   
-export default function RightPanel() {
+export default function RightPanel({children}) {
   return (
     <div className="container-card right-panel">
-      <AgentTraining/>
-      {/* <TrainingList promptList={["this my promt","second prompt"]} response={{
-        "isCollapsed": false,
-        "height": 12
-      }} /> */}
+        {children}
       </div>
   );
 }

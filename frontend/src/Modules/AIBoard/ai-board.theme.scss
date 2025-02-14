@@ -135,7 +135,7 @@
                     &.active{
                         border-radius: 50% !important;
                         background-color: var(--ps-green-bright) !important;
-                        border: 1px solid var(--ps-dark-blue) !important;
+                        border: 1px solid var(--gray-900) !important;
                     }
         
                     &.un-active{
@@ -157,7 +157,7 @@
                     font-size: var(--ps-txt-xxs);
                     align-items: center;
                     font-weight: bold;
-                    color: var(--ps-dark-blue);
+                    color: var(--gray-900);
                 }
 
                 .stock-btn-class{

@@ -31,11 +31,11 @@ export default function InputField({
       ...(onFocus &&
         !isError &&
         type == 'phone' && {
-          borderColor: 'var(--ps-dark-blue)',
-          boxShadow: '0 0 5px var(--ps-green-bright)',
+          borderColor: 'var(--gray-900)',
+          boxShadow: '0 0 5px var(--slate-300)',
         }),
       ...(isError && {
-        borderColor: 'var(--ps-dark-blue)',
+        borderColor: 'var(--gray-900)',
         boxShadow: '0 0 5px var(--ps-error)',
       }),
       display: 'flex',
@@ -53,6 +53,7 @@ export default function InputField({
         borderTopLeftRadius: '8px',
         borderBottomLeftRadius: '8px',
       }),
+      paddingLeft:'10px',
       ...(isError && {}),
     };
 
