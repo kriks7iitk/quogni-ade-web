@@ -22,7 +22,8 @@ const EnvironmentProvider = ({ children }) => {
   const [responseCode, setResponseCode ] = useState({});
 
   const handleAgentResponse = ({ response, prompt }) => {
-    setResponseCode({ prompt,response });
+    setResponseCode({ prompt,response:response["state"]});
+    setMessagesAi((messages) => ([...messages, { data: response["explanation"], agent: 'ai' }]))
   };
 
   useEffect(() => {
