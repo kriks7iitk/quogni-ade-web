@@ -21,6 +21,33 @@ export function addToSessionStorage(key, value) {
   }
 }
 
+export function convertSnakeCaseToCamelCase(obj) {
+  if (Array.isArray(obj)) {
+      return obj.map(item => convertSnakeCaseToCamelCase(item));
+  } else if (obj !== null && typeof obj === "object") {
+      return Object.entries(obj).reduce((acc, [key, value]) => {
+          const camelCaseKey = key.replace(/_([a-z])/g, (_, letter) => letter.toUpperCase());
+          acc[camelCaseKey] = convertSnakeCaseToCamelCase(value);
+          return acc;
+      }, {});
+  }
+  return obj; 
+}
+
+export function camelToSnakeCase(obj) {
+  if (typeof obj !== 'object' || obj === null) return obj;
+
+  if (Array.isArray(obj)) {
+      return obj.map(item => camelToSnakeCase(item));
+  }
+
+  return Object.keys(obj).reduce((acc, key) => {
+      const snakeKey = key.replace(/([a-z])([A-Z])/g, '$1_$2').toLowerCase();
+      acc[snakeKey] = camelToSnakeCase(obj[key]);
+      return acc;
+  }, {});
+}
+
 export function getFromSessionStorage(key) {
   try {
     const serializedValue = sessionStorage.getItem(key);
@@ -52,11 +79,11 @@ export function formatTimestamp(timestamp) {
   const date = new Date(timestamp);
 
   const day = date.getDate();
-  const month = date.toLocaleString('default', { month: 'short' }); // Get short month name
-  const hours = String(date.getHours()).padStart(2, '0'); // Get hours in 24-hour format
-  const minutes = String(date.getMinutes()).padStart(2, '0'); // Get minutes and pad with zero if needed
+  const month = date.toLocaleString('default', { month: 'short' }); 
+  const hours = String(date.getHours()).padStart(2, '0'); 
+  const minutes = String(date.getMinutes()).padStart(2, '0'); 
 
-  // Add suffix to day (st, nd, rd, th)
+
   const suffix =
     day % 10 === 1 && day !== 11
       ? 'st'

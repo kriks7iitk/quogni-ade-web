@@ -1,44 +1,41 @@
 import React, { useState, useEffect } from 'react';
 import { authenticationService } from '../../_services';
-import { camelCaseToNormal } from '../../Utility/utility';
+import { camelCaseToNormal, camelToSnakeCase, addToSessionStorage } from '../../Utility/utility';
 import '../Auth/auth.theme.scss';
 import { toast } from 'react-hot-toast';
-import SolidThemeIcon from '../../_icons/svgs/SolidThemeIcons';
-import Icon from '../../_icons/svgs/SolidIcons';
-import PiggieStackName from '../BrandAndLogo/PiggieStackName';
 import InputField from '../../_components/Form/inputField';
-import SingleSelect from '../../_components/Form/SingleSelect';
 import SolidButton from '../../_components/Buttons/SolidButton';
-import { OCCUPATIONS } from './constants/auth.constant';
-import { convertOccupationData } from './utils/utilityFunction';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import { oAuthService } from '../../_services';
-import GoogleOAuthButton from './OAuth/GoogleOAuth';
-import LinkedInOAuthButton from './OAuth/LinkedInOAuth';
 import GoogleOAuthLoginButton from './OAuth/GoogleOAuthLogin';
 import LinkedInOAuthLoginButton from './OAuth/LinkedInOAuthLogin';
+import LogoFullColoured from '../../_logo/LogoFullColoured';
+import { authorize } from '../../Utility/authorization';
 
 function SignIn() {
   const [signIn, setSignIn] = useState({});
   const navigate = useNavigate();
   const [serverError, setError] = useState({});
-  const [searchParams] = useSearchParams();
+  const [appLoadingState, setAppLoadingState] = useState(false)
 
   const handleSignIn = () => {
-    if (!signIn?.phoneNumber) {
-      serverError['phoneNumber'] = 'Please enter the phone number';
+    console.log("this is calling");
+    
+    if (!signIn?.email) {
+      serverError['emain'] = 'Please enter the email';
       return;
     }
+    const body = {
+      ...camelToSnakeCase(signIn),
+    };
+    setAppLoadingState(true)
     authenticationService
-      .sendOtp(signIn)
+      .login(body)
       .then((data) => {
-        navigate('/otp-verify', {
-          state: {
-            phoneNumber: data?.phoneNumber,
-            userId: data?.id,
-          },
-        });
+        toast.success('Login successful');
+        const jwtToken = data.token;
+        addToSessionStorage('q-auth-token', jwtToken);
+        authorize()
       })
       .catch(({ error }) => {
         if (error?.code === 'auth101') {
@@ -49,87 +46,65 @@ function SignIn() {
           setError({ ...errorMessages });
         }
         toast.error(error?.error);
+      })
+      .finally(() => {
+        setAppLoadingState(false)
       });
+      
   };
-
-  useEffect(() => {
-    const toastMessage = searchParams.get('toastMessage');
-    if (toastMessage) {
-      toast.error(decodeURIComponent(toastMessage));
-      const newParams = new URLSearchParams(searchParams);
-      newParams.delete('toastMessage');
-      window.history.replaceState(
-        {},
-        '',
-        `${window.location.pathname}?${newParams.toString()}`,
-      );
-    }
-  }, [searchParams]);
 
   return (
     <div className="sign-up-page">
       <div style={{ marginTop: '20%' }}>
         <div className="logo-title">
-          <Icon name="piggie-white" fill="#000b50" width="35" />
-          <PiggieStackName
-            firstColor="#F08788"
-            secondColor="#000b50"
-            size={25}
-          />
+         <LogoFullColoured/>
         </div>
         <div className="intro-line">
           <div style={{ fontSize: '30px' }}>
-            <span style={{ color: 'var(--gray-900)' }}>Stack </span>
-            <span style={{ color: 'var(--ps-pink)' }}>Smarter</span>
+            <span style={{ color: 'var(--gray-900)' }}>Make AI </span>
+            <span style={{ color: 'var(--ps-pink)' }}>simpler</span>
           </div>
         </div>
         <div className="intro-line-2">
           <span style={{ color: 'var(--gray-900)' }}>Log in to </span>
           <span style={{ color: 'var(--ps-pink)' }}>
-            power up your portfolio using
+            power up your organization using
             <span style={{ color: 'var(--gray-900)', fontWeight: 'bold' }}>
               {' '}
               AI{' '}
             </span>
-            and
-            <span style={{ color: 'var(--gray-900)', fontWeight: 'bold' }}>
-              {' '}
-              Automation{' '}
-            </span>
           </span>
         </div>
         <div className="sign-up-form">
-          <div>
-            <span
-              style={{
-                fontSize: '12px',
-                marginBottom: '8px',
-                fontWeight: '500',
-                color: 'var(--gray-900)',
+          <div className="input-container">
+            <InputField
+              leftIcon="email"
+              type="email"
+              id="email"
+              placeholder="Enter your email"
+              required={true}
+              onChange={(value) => {
+                setSignIn({ ...signIn, email: value });
               }}
-            >
-              Phone number
-            </span>
-            <div className="input-container">
-              <InputField
-                type="phone"
-                id="phone-input"
-                required={true}
-                height={'40'}
-                inputProps={{
-                  name: 'Phone',
-                  required: true,
-                  autoFocus: false,
-                }}
-                isError={!!serverError?.phoneNumber}
-                onChange={(value) => {
-                  setSignIn({ ...signIn, phoneNumber: value });
-                }}
-              />
-              {serverError?.phoneNumber && (
-                <span className="error-label">{serverError?.phoneNumber}</span>
-              )}
-            </div>
+              isError={!!serverError?.email}
+              value={signIn?.email}
+            />
+            {serverError?.phoneNumber && (
+              <span className="error-label">{serverError?.phoneNumber}</span>
+            )}
+          </div>
+          <div className="input-container">
+            <InputField
+              leftIcon="lock"
+              type="text"
+              id="password-input"
+              placeholder="Password"
+              required={true}
+              onChange={(value) => {
+                setSignIn({ ...signIn, password: value });
+              }}
+              value={signIn?.password}
+            />
           </div>
         </div>
         <div class="or-divider">
@@ -143,13 +118,13 @@ function SignIn() {
         <div className="confirm-button">
           <SolidButton
             customClass="btn-class"
-            borderColor="none"
-            bgColor={'var(--ps-pink)'}
+            bgColor={'var(--gray-900)'}
             onClick={() => {
               handleSignIn();
             }}
+            color='var(--ps-white-1)'
           >
-            Send OTP
+            Sign In
           </SolidButton>
         </div>
         <div className="redirection-text">
@@ -161,7 +136,7 @@ function SignIn() {
             Stack?{' '}
           </span>
           <span>
-          {' '} <Link to="/signup" style={{textDecoration: "underline"}}>Sign Up</Link> {' '}
+          {' '} <Link to="/sign-up" style={{textDecoration: "underline"}}>Sign Up</Link> {' '}
           </span>
           and Evolve your investment
         </div>

@@ -92,7 +92,7 @@ export default function InputField({
           <div className="input-field" style={containerStyle}>
             {leftIcon && (
               <div className="input-icon">
-                <SolidThemeIcon name={leftIcon} />
+                <SolidThemeIcon name={leftIcon} width='18' />
               </div>
             )}
             <input

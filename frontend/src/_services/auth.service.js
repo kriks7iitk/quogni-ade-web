@@ -9,9 +9,7 @@ const currentSessionSubject = new BehaviorSubject({
 
 export const authenticationService = {
   signUp,
-  sendOtp,
-  authorize,
-  resendOtp,
+  login,
   currentSession: currentSessionSubject.asObservable(),
   get currentSessionValue() {
     return currentSessionSubject.value;
@@ -23,6 +21,10 @@ export const authenticationService = {
 };
 
 function validateSession() {
+  console.log("header is");
+  console.log(generateHeader());
+  
+  
   const requestPayload = {
     method: 'GET',
     headers: generateHeader(),
@@ -40,12 +42,13 @@ function signUp(body) {
     },
     body: JSON.stringify(body),
   };
-  return fetch(`${SERVER_HOST}/auth/signup`, requestPayload).then(
+  return fetch(`${SERVER_HOST}/auth/register`, requestPayload).then(
     handleResponse,
   );
 }
 
-function sendOtp(body) {
+
+function login(body) {
   const requestPayload = {
     method: 'POST',
     headers: {
@@ -53,33 +56,7 @@ function sendOtp(body) {
     },
     body: JSON.stringify(body),
   };
-  return fetch(`${SERVER_HOST}/auth/send-otp`, requestPayload).then(
-    handleResponse,
-  );
-}
-
-function authorize(body) {
-  const requestPayload = {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(body),
-  };
-  return fetch(`${SERVER_HOST}/auth/authorize`, requestPayload).then(
-    handleResponse,
-  );
-}
-
-function resendOtp(body) {
-  const requestPayload = {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(body),
-  };
-  return fetch(`${SERVER_HOST}/auth/resend-otp`, requestPayload).then(
+  return fetch(`${SERVER_HOST}/auth/login`, requestPayload).then(
     handleResponse,
   );
 }

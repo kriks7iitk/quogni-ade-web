@@ -31,7 +31,7 @@ const AuthCallback = () => {
 
         const response = await oAuthService.sendCode(body);
         const jwtToken = response.accessToken;
-        addToSessionStorage('ps-auth-token', jwtToken);
+        addToSessionStorage('q-auth-token', jwtToken);
         window.location.href = '/workspace/tools';
       } catch ({ error }) {
         toast.error(error?.message);

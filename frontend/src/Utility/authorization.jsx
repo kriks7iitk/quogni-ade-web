@@ -1,18 +1,16 @@
 import { authenticationService } from '../_services/auth.service';
 import { isAuthRoutes } from './routes';
+import { convertSnakeCaseToCamelCase } from './utility';
 
 export function authorize() {
   const isAuthRoute = isAuthRoutes();
-  authenticationService.validateSession().then((data) => {
+  authenticationService.validateSession().then((response) => {
+    const data =  convertSnakeCaseToCamelCase(response);
     authenticationService.updateCurrentSession({
       user: data?.user,
       session: data?.session,
     });
-    const user = data?.user;
 
-    if (!user?.isOnboarded && window.location.pathname !== '/onboarding') {
-      window.location.href = '/onboarding';
-    }
     if (isAuthRoute) {
       window.location.href = '/workspace/tools';
     }
@@ -30,10 +28,10 @@ export function generateHeader() {
 }
 
 export function checkForSessionExist() {
-  const token = sessionStorage.getItem('ps-auth-token');
+  const token = sessionStorage.getItem('q-auth-token');
   return !!token;
 }
 
 export function extractToken() {
-  return sessionStorage.getItem('ps-auth-token');
+  return sessionStorage.getItem('q-auth-token');
 }

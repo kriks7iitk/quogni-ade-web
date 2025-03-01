@@ -17,7 +17,12 @@ export default function DashboardHeader({ children }) {
         setSession(sessionCurrent);
       },
     );
+    console.log("printing user");
+    console.log(user?.userDetails);
+    
     return () => subscription.unsubscribe();
+    
+    
   }, []);
 
   return (
@@ -28,8 +33,8 @@ export default function DashboardHeader({ children }) {
       <div className="dashboard-header">
         { children }
         <div className="header-profile">
-          <SolidButton customClass="profile-button" bgColor={'var(--ps-white-1)'}>
-            {getInitials(user?.userDetails?.fullname)}
+          <SolidButton customClass="profile-button" bgColor={'var(--ps-white-1)'} color={'var(--grey-900)'}>
+            {getInitials(user?.userDetails?.fullName)}
           </SolidButton>
         </div>
       </div>

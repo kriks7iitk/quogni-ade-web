@@ -16,7 +16,7 @@ import Enter from './Enter';
 import Add from './Add';
 import Edit from './Edit';
 import Info from './Info';
-import {Sun , Moon, Settings } from 'lucide-react'
+import {Sun , Moon, Settings , LockKeyhole} from 'lucide-react'
 
 export default function SolidThemeIcon({ name, ...props }) {
   switch (name) {
@@ -60,6 +60,8 @@ export default function SolidThemeIcon({ name, ...props }) {
       return <Moon color={props?.fill} size={props?.width} strokeWidth={props?.strokeWidth} />
     case 'settings':
       return <Settings color={props?.fill} size={props?.width} strokeWidth={props?.strokeWidth} />
+    case 'lock':
+      return <LockKeyhole color={props?.fill} size={props?.width} strokeWidth={props?.strokeWidth} />
     case 'info':
       return <Info {...props} />
     default:

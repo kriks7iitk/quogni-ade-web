@@ -2,7 +2,6 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import Builder from '../../Builder/Builder';
 import Onboarding from '../../Auth/Onboarding';
 import SignIn from '../../Auth/SignIn';
-import OtpVerify from '../../Auth/OtpVerify';
 import PrivateRoute from '../../Routes/PrivateRoute';
 import InfoModal from '../../Auth/InfoModal';
 import PlatformLayout from '../PlatformLayout';
@@ -17,7 +16,7 @@ const AppRouter = () => {
       <Route path="/" element={<Navigate to="/workspace/workspace/tools" />} />
       
       {/* Auth & Onboarding Routes */}
-      <Route path="/signup" element={
+      <Route path="/sign-up" element={
         <Onboarding>
           <SignUp />
         </Onboarding>
@@ -30,14 +29,9 @@ const AppRouter = () => {
         />
       } />
       <Route path="/oauth/callback/:type" element={<AuthCallback />} />
-      <Route path="/signin" element={
+      <Route path="/sign-in" element={
         <Onboarding>
           <SignIn />
-        </Onboarding>
-      } />
-      <Route path="/otp-verify" element={
-        <Onboarding>
-          <OtpVerify />
         </Onboarding>
       } />
       <Route path="builder" element={
