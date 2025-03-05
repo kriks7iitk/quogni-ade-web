@@ -8,15 +8,15 @@ const env = dotenv.config({ path: envPath }).parsed;
 
 export default defineConfig(({ mode }) => {
   return {
-    plugins: [react()],
+    plugins: [react()],  
     resolve: {
       alias: {
         '@': path.resolve(__dirname, './src'),
       },
     },
     server: {
-      host: env.VITE_CLIENT_HOST,
-      port: parseInt(env.VITE_CLIENT_PORT, 10) || 3000,
+      host: env?.VITE_CLIENT_HOST || 'localhost',
+      port: parseInt(env?.VITE_CLIENT_PORT, 10) || 3000,
       open: true,
     },
     envDir: path.resolve(__dirname, '../'),

@@ -42,8 +42,8 @@
         align-items: center;
 
         &.is-focused {
-            border-color:var(--ps-green-bright); 
-            box-shadow: 0 0 5px var(--ps-green-bright);
+            border-color:var(--gray-900); 
+            box-shadow: 0 0 5px var(--gray-900);
         }
     }
 
@@ -67,7 +67,7 @@
     &__option{
         -webkit-flex-wrap:none;
         &.is-focused {
-            background-color: var(--ps-green-bright);
+            background-color: var(--slate-200);
             opacity: 0.5;
         }
 
@@ -90,7 +90,7 @@
 
     &:focus {
         // border: none;
-        border-bottom: 2px solid var(--ps-green-bright) !important;
+        border-bottom: 2px solid var(--gray-900) !important;
         // box-shadow: 0 0 5px var(--ps-green) !important;
         outline: none;
       }

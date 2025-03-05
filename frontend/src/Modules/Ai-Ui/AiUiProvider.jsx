@@ -1,6 +1,4 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
-import { SocketProvider, useSocket } from './SocketProvider';
-import { aiAgent } from '../../_services';
 
 const AiUiContext = createContext();
 
@@ -17,14 +15,14 @@ function AiUiComponent({ children, toolId, onAgentResponse }) {
             tool_id:toolId
         };
 
-        aiAgent.sendToAgent(body)
-            .then((response) => {
-                onAgentResponse({ response, prompt })
-                setPrompt('');
-        })
-        .catch((error) => {
-            console.error(error);
-        })
+        // aiAgent.sendToAgent(body)
+        //     .then((response) => {
+        //         onAgentResponse({ response, prompt })
+        //         setPrompt('');
+        // })
+        // .catch((error) => {
+        //     console.error(error);
+        // })
     };
 
     return (
@@ -36,11 +34,11 @@ function AiUiComponent({ children, toolId, onAgentResponse }) {
 
 export function AiUiProvider({ children, onAgentResponse, agentUrl, toolId }) {
     return (
-        <SocketProvider agentUrl={agentUrl}>
+        // <SocketProvider agentUrl={agentUrl}>
             <AiUiComponent onAgentResponse={onAgentResponse} toolId={toolId}>
                 {children}
             </AiUiComponent>
-        </SocketProvider>
+        // </SocketProvider>
     );
 }
 

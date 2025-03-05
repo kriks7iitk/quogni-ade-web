@@ -4,92 +4,79 @@ import './form.theme.scss';
 
 export default function MultiSelect({
   height = 40,
-  isClearable,
-  isSearchable,
-  isDisabled,
-  isLoading,
-  isRtl,
+  width = 200,
+  isClearable = true,
+  isSearchable = true,
+  isDisabled = false,
+  isLoading = false,
+  isRtl = false,
   onChange,
   value,
-  options,
+  options = [],
   defaultValue,
   grouped = false,
-  fontSize = 's',
-  placeholder = '',
-  width = 30,
+  fontSize = "s",
+  placeholder = "Select...",
 }) {
   const formatGroupLabel = (data) => (
-    <div
-      style={{
-        fontSize: 'var(--ps-txt-m)',
-        color: 'var(--slate-700)',
-      }}
-    >
-      <span>{data.label}</span>
+    <div className="text-gray-700 text-sm font-semibold">
+      {data.label}
     </div>
   );
+
+  const customStyles = {
+    control: (base, state) => ({
+      ...base,
+      borderRadius: "8px",
+      border:"none",
+      height: `${height}px`,
+      minHeight: "36px",
+      display: "flex",
+      alignItems: "center",
+    }),
+    valueContainer: (base) => ({
+      ...base,
+      width: `${width}px`,
+      padding: "8px",
+    }),
+    singleValue: (base) => ({
+      ...base,
+      fontSize: `var(--ps-txt-${fontSize})`,
+      display: "flex",
+      alignItems: "center",
+    }),
+    input: (base) => ({
+      ...base,
+      fontSize: `var(--ps-txt-${fontSize})`,
+      padding: "0",
+      margin: "0",
+    }),
+    placeholder: (base) => ({
+      ...base,
+      fontSize: `var(--ps-txt-${fontSize})`,
+      color: "#9ca3af",
+    }),
+    menu: (base) => ({
+      ...base,
+      borderRadius: "8px",
+      zIndex: 10,
+    }),
+    option: (base, state) => ({
+      ...base,
+      fontSize: `var(--ps-txt-${fontSize})`,
+      backgroundColor: state.isSelected ? "#2563eb" : state.isFocused ? "#dbeafe" : "white",
+      color: state.isSelected ? "white" : "black",
+      padding: "10px",
+    }),
+  };
+
   return (
-    <>
+    <div className="w-full">
       <Select
         isMulti
         className="basic-multi-select"
         classNamePrefix="custom-select"
-        styles={{
-          control: (base, state) => ({
-            ...base,
-            borderRadius: '8px',
-
-            border: 'none',
-            height: `${height}px`,
-            minHeight: `20px`,
-            flexWrap: 'nowrap',
-            padding: 0,
-          }),
-          valueContainer: (base, state) => ({
-            ...base,
-            width: `${width}px`,
-            flexWrap: 'nowrap',
-            padding: '8px',
-          }),
-          singleValue: (base, state) => ({
-            ...base,
-            height: `${height - 16}px`,
-            fontSize: `var(--ps-txt-s)`,
-            alignItem: 'center',
-            display: 'flex',
-          }),
-          input: (base, state) => ({
-            ...base,
-
-            height: `${height - 16}px`,
-            fontSize: `var(--ps-txt-${fontSize})`,
-            padding: '0',
-            margin: '0',
-          }),
-          placeholder: (base, state) => ({
-            ...base,
-            fontSize: `var(--ps-txt-${fontSize})`,
-          }),
-          menu: (base, state) => ({
-            ...base,
-            borderBottomLeftRadius: '8px',
-            borderBottomRightRadius: '8px',
-            borderRadius: 'none',
-          }),
-          option: (base, state) => ({
-            ...base,
-            height: `${height - 16}px`,
-            fontSize: `var(--ps-txt-${fontSize})`,
-            flexWrap: 'nowrap',
-            padding: '5px',
-          }),
-        }}
-        classNames={{
-          control: (state) =>
-            `custom-select__control ${state.isFocused ? 'is-focused' : ''}`,
-          option: (state) =>
-            `custom-select__option ${state.isFocused ? 'is-focused' : ''} ${state.isSelected ? 'is-selected' : ''}`,
-        }}
+        styles={customStyles}
         placeholder={placeholder}
         defaultValue={defaultValue}
         isDisabled={isDisabled}
@@ -97,14 +84,12 @@ export default function MultiSelect({
         isClearable={isClearable}
         isRtl={isRtl}
         isSearchable={isSearchable}
-        name="color"
-        onChange={(value) => {
-          onChange(value);
-        }}
+        name="multi-select"
+        onChange={(value) => onChange(value)}
         options={options}
         value={value}
-        formatGroupLabel={grouped && formatGroupLabel}
+        formatGroupLabel={grouped ? formatGroupLabel : undefined}
       />
-    </>
+    </div>
   );
 }

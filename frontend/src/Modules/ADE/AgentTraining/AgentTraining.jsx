@@ -4,7 +4,7 @@ import ReactJson from 'react-json-view'
 import SolidButton from '../../../_components/Buttons/SolidButton'
 import Papa from 'papaparse';
 import { useDevelopmentEnvironment } from '../../DevelopmentEnvironment/DevelopmentEnvironment';
-import { toolService } from '../../../_services';
+// import { toolService } from '../../../_services';
 import { toast } from 'react-hot-toast'
 
 export default function AgentTraining() {
@@ -49,15 +49,15 @@ export default function AgentTraining() {
             tool_id: tool?.id
         }
 
-        toolService.toolTraining(body).then((response) => {
-            setTool(response["tool_data"]);
-            toast.success("Agent is reTrained")
-            setPromptList([...promptList, responseCode.prompt])
-            setMessagesAi((messages) => ([...messages, { data: response["explanation"], agent: 'aiTrainer' }]))
-        })
-            .catch((err) => {
-                console.log(err)
-            })
+        // toolService.toolTraining(body).then((response) => {
+        //     setTool(response["tool_data"]);
+        //     toast.success("Agent is reTrained")
+        //     setPromptList([...promptList, responseCode.prompt])
+        //     setMessagesAi((messages) => ([...messages, { data: response["explanation"], agent: 'aiTrainer' }]))
+        // })
+        //     .catch((err) => {
+        //         console.log(err)
+        //     })
     }
   return (
     <div className='agent-training'>

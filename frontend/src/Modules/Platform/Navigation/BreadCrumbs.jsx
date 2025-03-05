@@ -7,7 +7,7 @@ export default function Breadcrumbs() {
 
   return (
     <nav className="breadcrumbs">
-      <Link to="/">Home</Link>
+      {/* <Link to="/">Home</Link>
       {pathSegments.map((segment, index) => {
         const path = `/${pathSegments.slice(0, index + 1).join("/")}`;
         const formattedSegment = segment.charAt(0).toUpperCase() + segment.slice(1);
@@ -18,7 +18,7 @@ export default function Breadcrumbs() {
             <Link to={path}>{formattedSegment}</Link>
           </span>
         );
-      })}
+      })} */}
     </nav>
   );
 }

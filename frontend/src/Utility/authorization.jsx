@@ -15,6 +15,11 @@ export function authorize() {
       window.location.href = '/workspace/tools';
     }
     
+  })
+  .catch(() => {
+    if (!isAuthRoute) {
+      window.location.href = '/sign-in';
+    }
   });
 }
 

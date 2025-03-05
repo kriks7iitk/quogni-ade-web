@@ -18,6 +18,9 @@ export default function SingleSelect({
   placeholder = '',
   width = 30,
 }) {
+
+  const [selectedValue, setSelectedValue] = useState(defaultValue);
+
   const formatGroupLabel = (data) => (
     <div
       style={{
@@ -46,7 +49,7 @@ export default function SingleSelect({
           }),
           valueContainer: (base, state) => ({
             ...base,
-            width: `${width}px`,
+            width: `${width}%`,
             flexWrap: 'nowrap',
             padding: '8px',
           }),
@@ -77,7 +80,7 @@ export default function SingleSelect({
           }),
           option: (base, state) => ({
             ...base,
-            height: `${height - 16}px`,
+            height: `${height}px`,
             fontSize: `var(--ps-txt-${fontSize})`,
             flexWrap: 'nowrap',
             padding: '5px',
@@ -90,7 +93,7 @@ export default function SingleSelect({
             `custom-select__option ${state.isFocused ? 'is-focused' : ''} ${state.isSelected ? 'is-selected' : ''}`,
         }}
         placeholder={placeholder}
-        defaultValue={defaultValue}
+        defaultValue={selectedValue}
         isDisabled={isDisabled}
         isLoading={isLoading}
         isClearable={isClearable}

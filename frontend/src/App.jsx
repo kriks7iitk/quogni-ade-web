@@ -4,7 +4,6 @@ import {
 import React, { useState, useEffect, createContext, useContext } from 'react';
 import { Toaster } from 'react-hot-toast';
 import './app.theme.scss';
-import 'driver.js/dist/driver.css';
 import { authorize } from './Utility/authorization';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import AppRouter from './Modules/Platform/Navigation/AppRouter';

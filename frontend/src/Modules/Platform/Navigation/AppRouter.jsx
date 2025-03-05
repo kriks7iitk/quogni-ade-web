@@ -3,7 +3,6 @@ import Builder from '../../Builder/Builder';
 import Onboarding from '../../Auth/Onboarding';
 import SignIn from '../../Auth/SignIn';
 import PrivateRoute from '../../Routes/PrivateRoute';
-import InfoModal from '../../Auth/InfoModal';
 import PlatformLayout from '../PlatformLayout';
 import SignUp from '../../Auth/SignUp';
 import AuthCallback from '../../Auth/OAuth/AuthCallback';
@@ -20,13 +19,6 @@ const AppRouter = () => {
         <Onboarding>
           <SignUp />
         </Onboarding>
-      } />
-      <Route path="/onboarding" element={
-        <InfoModal 
-          isOpen={true} 
-          closeModal={false} 
-          title="Welcome to Piggie Stack" 
-        />
       } />
       <Route path="/oauth/callback/:type" element={<AuthCallback />} />
       <Route path="/sign-in" element={

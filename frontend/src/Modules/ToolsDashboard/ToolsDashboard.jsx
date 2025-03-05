@@ -4,8 +4,9 @@ import SolidButton from '../../_components/Buttons/SolidButton';
 import { authenticationService } from '../../_services';
 import { useAiUi } from '../Ai-Ui/AiUiProvider';
 import CustomModal from '../../_components/Modals/Modal';
-import InputField from '../../_components/Form/InputField';
+import InputField from '../../_components/Form/inputField';
 import { kebabCaseToNormal } from '../../Utility/utility';
+import CreateAgentModal from './DashboardModals/CreateAgentModal';
 
 export default function ToolsDashboard() {
   const [activeTab, setActiveTab] = useState('Recent');
@@ -33,22 +34,37 @@ export default function ToolsDashboard() {
     }, []);
 
 
-  const createAppModalBody = () => {
-    return (
-      <div className='create-app-modal-body'>
-        <div className='create-app-modal-body__input'>
-          <label className='create-app-modal-body__label'>{`${kebabCaseToNormal(data?.selectedApp)} name`}</label>
-          <InputField type='text' onChange={(value) => {
-            setData((prevData) => ({
-              ...prevData,
-              toolName:value
-            }));
-          }}/>
-        </div>
-      </div>
-    )
+    const createAppModalBody = () => {
+      const renderInputField = () => {
+          switch (data?.selectedApp) {
+              case 'tool':
+                  return (
+                      <div className='create-app-modal-body__input'>
+                          <label className='create-app-modal-body__label'>{`${kebabCaseToNormal(data?.selectedApp)} name`}</label>
+                          <InputField type='text' onChange={(value) => {
+                              setData((prevData) => ({
+                                  ...prevData,
+                                  toolName: value
+                              }));
+                          }}/>
+                      </div>
+                  );
+                case 'agent':
+                  return (
+                      <CreateAgentModal />
+                  );
+              default:
+                  return <p>No input available for this selection.</p>;
+          }
+      };
   
-  }
+      return (
+          <div className='create-app-modal-body'>
+              {renderInputField()}
+          </div>
+      );
+  };
+  
 
 
   const openCreateToolModal = (app) => {
@@ -59,6 +75,8 @@ export default function ToolsDashboard() {
     }));
   
   }
+
+
   const tabs = ['Recent', 'Published', 'Starred', 'Trash'];
 
   return (
@@ -75,7 +93,7 @@ export default function ToolsDashboard() {
       titleText={`Create ${data?.selectedApp}`}
       />
       <div className='tool-dashboard__main'>
-        <h2 className='tool-dashboard__welcome'>{`Welcome, ${user?.userDetails?.fullname}`}</h2>
+        <h2 className='tool-dashboard__welcome'>{`Welcome, ${user?.userDetails?.fullName}`}</h2>
 
         {/* Tabs */}
         <div className='tool-dashboard__tabs'>
