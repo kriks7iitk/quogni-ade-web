@@ -1,13 +1,9 @@
-import React from 'react';
-import DashboardHeader from './DashboardHeader/DashboardHeader';
-import './dashboard.theme.scss';
-import DashboardContainer from './DashboardContainer/DashboardContainer';
-import FeedContainer from './FeedContainer/FeedContainer';
+import React from 'react'
+
 export default function Dashboard() {
-    return (
-        <div className='dashboard'>
-            <DashboardHeader></DashboardHeader>
-            <DashboardContainer></DashboardContainer>
-        </div>
-    )
+  return (
+    <div className='dashboard'>
+        
+    </div>
+  )
 }

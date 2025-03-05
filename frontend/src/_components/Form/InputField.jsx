@@ -16,7 +16,9 @@ export default function InputField({
   customContainerStyle,
   customInputStyle,
   height,
+  disable,
   onChange,
+  onBlur,
   value,
 }) {
   const [onFocus, setOnFocus] = useState(false);
@@ -29,11 +31,11 @@ export default function InputField({
       ...(onFocus &&
         !isError &&
         type == 'phone' && {
-          borderColor: 'var(--ps-dark-blue)',
-          boxShadow: '0 0 5px var(--ps-green-bright)',
+          borderColor: 'var(--gray-900)',
+          boxShadow: '0 0 5px var(--slate-300)',
         }),
       ...(isError && {
-        borderColor: 'var(--ps-dark-blue)',
+        borderColor: 'var(--gray-900)',
         boxShadow: '0 0 5px var(--ps-error)',
       }),
       display: 'flex',
@@ -51,6 +53,7 @@ export default function InputField({
         borderTopLeftRadius: '8px',
         borderBottomLeftRadius: '8px',
       }),
+      paddingLeft:'10px',
       ...(isError && {}),
     };
 
@@ -79,6 +82,7 @@ export default function InputField({
               }}
               onBlur={() => {
                 setOnFocus(false);
+                
               }}
             />
           </div>
@@ -88,18 +92,22 @@ export default function InputField({
           <div className="input-field" style={containerStyle}>
             {leftIcon && (
               <div className="input-icon">
-                <SolidThemeIcon name={leftIcon} />
+                <SolidThemeIcon name={leftIcon} width='18' />
               </div>
             )}
             <input
               type={type}
               id={id}
+              disabled={disable}
               placeholder={placeholder}
               required={required}
               style={inputStyle}
               onChange={(event) => {
                 const inputValue = event.target.value;
                 onChange(inputValue);
+              }}
+              onBlur={() => {
+                onBlur();
               }}
               value={value}
             />

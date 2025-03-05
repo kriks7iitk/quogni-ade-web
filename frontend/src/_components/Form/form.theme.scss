@@ -4,8 +4,8 @@
     border-radius: 8px;
     transition: border-color 0.3s ease;
     &:focus-within {
-      border-color:var(--ps-green-bright); 
-      box-shadow: 0 0 5px var(--ps-green-bright);
+      border-color:var(--slate-300); 
+      box-shadow: 0 0 5px var(--gray-900);
     }
   
     .input-icon {
@@ -42,8 +42,8 @@
         align-items: center;
 
         &.is-focused {
-            border-color:var(--ps-green-bright); 
-            box-shadow: 0 0 5px var(--ps-green-bright);
+            border-color:var(--gray-900); 
+            box-shadow: 0 0 5px var(--gray-900);
         }
     }
 
@@ -67,12 +67,12 @@
     &__option{
         -webkit-flex-wrap:none;
         &.is-focused {
-            background-color: var(--ps-green-bright);
+            background-color: var(--slate-200);
             opacity: 0.5;
         }
 
         &.is-selected {
-            background-color: var(--ps-dark-blue) !important;
+            background-color: var(--gray-900) !important;
             opacity: .8;
             color: var(--ps-white-1);
         }
@@ -82,7 +82,7 @@
 
 .custom-otp-input {
     border-radius: 6px;
-    border-bottom: 2px solid var(--ps-dark-blue);
+    border-bottom: 2px solid var(--gray-900);
     background: none;
     font-size: 16px;
     text-align: center;
@@ -90,7 +90,7 @@
 
     &:focus {
         // border: none;
-        border-bottom: 2px solid var(--ps-green-bright) !important;
+        border-bottom: 2px solid var(--gray-900) !important;
         // box-shadow: 0 0 5px var(--ps-green) !important;
         outline: none;
       }

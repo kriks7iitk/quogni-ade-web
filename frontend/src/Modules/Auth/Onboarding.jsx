@@ -19,7 +19,6 @@ export default function Onboarding({ children }) {
       <div className="intro-page">
         <div className="onboarding-modal-page">
           <ParticlesAnimation />
-          <img src={logo} alt="Logo" className="logo-img" />
         </div>
 
         <Carousels slides={SLIDES} options={OPTIONS} />

@@ -10,7 +10,6 @@ export default function ParticlesAnimation({ backgroundMask }) {
 
   // this should be run only once per application lifetime
   useEffect(() => {
-    console.log('this is rendered again and again');
 
     initParticlesEngine(async (engine) => {
       // you can initiate the tsParticles instance (engine) here, adding custom shapes or presets
@@ -26,7 +25,6 @@ export default function ParticlesAnimation({ backgroundMask }) {
   }, []);
 
   const particlesLoaded = (container) => {
-    console.log(container);
   };
 
   return (

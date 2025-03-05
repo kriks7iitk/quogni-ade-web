@@ -14,7 +14,13 @@ export default function SingleSelect({
   options,
   defaultValue,
   grouped = false,
+  fontSize = 's',
+  placeholder = '',
+  width = 30,
 }) {
+
+  const [selectedValue, setSelectedValue] = useState(defaultValue);
+
   const formatGroupLabel = (data) => (
     <div
       style={{
@@ -34,14 +40,16 @@ export default function SingleSelect({
           control: (base, state) => ({
             ...base,
             borderRadius: '8px',
+
             border: 'none',
             height: `${height}px`,
-            minHeight: `30px`,
+            minHeight: `20px`,
             flexWrap: 'nowrap',
             padding: 0,
           }),
           valueContainer: (base, state) => ({
             ...base,
+            width: `${width}%`,
             flexWrap: 'nowrap',
             padding: '8px',
           }),
@@ -54,14 +62,15 @@ export default function SingleSelect({
           }),
           input: (base, state) => ({
             ...base,
+
             height: `${height - 16}px`,
-            fontSize: `var(--ps-txt-s)`,
+            fontSize: `var(--ps-txt-${fontSize})`,
             padding: '0',
             margin: '0',
           }),
           placeholder: (base, state) => ({
             ...base,
-            fontSize: `var(--ps-txt-s)`,
+            fontSize: `var(--ps-txt-${fontSize})`,
           }),
           menu: (base, state) => ({
             ...base,
@@ -71,8 +80,8 @@ export default function SingleSelect({
           }),
           option: (base, state) => ({
             ...base,
-            height: `${height - 16}px`,
-            fontSize: `var(--ps-txt-s)`,
+            height: `${height}px`,
+            fontSize: `var(--ps-txt-${fontSize})`,
             flexWrap: 'nowrap',
             padding: '5px',
           }),
@@ -83,8 +92,8 @@ export default function SingleSelect({
           option: (state) =>
             `custom-select__option ${state.isFocused ? 'is-focused' : ''} ${state.isSelected ? 'is-selected' : ''}`,
         }}
-        placeholder="Occupation"
-        defaultValue={defaultValue}
+        placeholder={placeholder}
+        defaultValue={selectedValue}
         isDisabled={isDisabled}
         isLoading={isLoading}
         isClearable={isClearable}

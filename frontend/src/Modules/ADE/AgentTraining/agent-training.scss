@@ -1,0 +1,68 @@
+.agent-training{
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    gap: 5px;
+
+    .response-cont{
+        height: 100%;
+    }
+
+    .main-header{
+        font-size: var(--ps-txt-xl);
+        font-weight: bold;
+        margin-bottom: 10px;
+        color: var(--slate-600);
+    }
+    .setting-header{
+        font-size: var(--ps-txt-m);
+        font-weight: 600;
+        margin-bottom: 15px;
+    }
+
+    
+    
+    .button-section{
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+
+        .btn-class{
+            border-radius: 0px !important;
+            flex-grow: 1;
+            font-weight: bold;
+
+            
+        }
+        .accept{
+            background-color: var(--green-100) !important;
+        }
+
+        .reject{
+            background-color: var(--red-100) !important;
+        }
+    }
+
+    .prompts-container{
+        flex-grow: 1;
+    }
+
+    .container{
+        padding: 15px 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        border: 1px solid var(--slate-300);
+        border-radius: 4px;
+
+        
+
+    }
+
+    .description-txt{
+        font-size: var(--ps-txt-s);
+        color: var(--slate-500);
+        font-style: italic;
+    }
+}

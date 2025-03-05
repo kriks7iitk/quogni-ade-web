@@ -21,7 +21,7 @@ html, body {
         flex-grow: 3;
         justify-content: center;
         align-items: center;
-        background-color: var(--ps-dark-blue);
+        background-color: var(--gray-900);
         border-top-right-radius: 50% 30%;
         border-bottom-right-radius: 50% 30%;
 
@@ -49,6 +49,7 @@ html, body {
 
     .modal-page {
         display: flex;
+        min-width: 40%;
         height: 100%;
         flex-grow: 1;
         align-items: center;
@@ -63,7 +64,8 @@ html, body {
     height: 100%;
     display: flex;
     flex-direction: column;
-    width: 75%;
+    justify-content: center;
+    min-width: 75%;
     padding: 5% 10% 10% 10%;
     gap: 10px;
     margin-bottom: 30px;
@@ -88,6 +90,7 @@ html, body {
 
     .intro-line-2{
         font-size: 16px;
+        margin-bottom: 30px;
 
         // span {
         //     font-size: 30px;
@@ -99,6 +102,7 @@ html, body {
         display: flex;
         flex-direction: column;
         gap: 15px;
+        margin-bottom: 20px;
     }
 }
 
@@ -129,7 +133,7 @@ html, body {
 
 .oauth-buttons-container {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     gap: 10px;
 
     .auth-btn{
@@ -157,7 +161,7 @@ html, body {
 
 .redirection-text {
     font-size: var(--ps-txt-s);
-    color: var(--ps-dark-blue);
+    color: var(--gray-900);
 }
 
 
@@ -231,7 +235,7 @@ html, body {
 
 
   .onboarding-modal-page{
-    background-color: var(--ps-dark-blue);
+    background-color: var(--gray-900);
     display: flex;
   }
 
@@ -271,7 +275,7 @@ html, body {
             }
             
             .dot.active {
-            background-color: var(--ps-dark-blue); /* Active color */
+            background-color: var(--gray-900); /* Active color */
             }
     }
 

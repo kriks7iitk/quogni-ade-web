@@ -1,46 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import { authenticationService } from '../../_services';
-import { camelCaseToNormal } from '../../Utility/utility';
+import { camelCaseToNormal, camelToSnakeCase } from '../../Utility/utility';
 import '../Auth/auth.theme.scss';
 import { toast } from 'react-hot-toast';
-import SolidThemeIcon from '../../_icons/svgs/SolidThemeIcons';
-import Icon from '../../_icons/svgs/SolidIcons';
-import PiggieStackName from '../BrandAndLogo/PiggieStackName';
 import InputField from '../../_components/Form/inputField';
-import SingleSelect from '../../_components/Form/SingleSelect';
 import SolidButton from '../../_components/Buttons/SolidButton';
-import { OCCUPATIONS } from './constants/auth.constant';
-import { convertOccupationData } from './utils/utilityFunction';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import GoogleOAuthButton from './OAuth/GoogleOAuth';
 import LinkedInOAuthButton from './OAuth/LinkedInOAuth';
 import { Link } from 'react-router-dom';
+import LogoFullColoured from '../../_logo/LogoFullColoured';
 
 function SignUp() {
   const [signUp, setSignUp] = useState({});
-  const [isSearchLoading, setIsSearchLoading] = useState(false);
-  const [occupation, setOccupation] = useState(null);
-  const occupationData = convertOccupationData(OCCUPATIONS);
   const [serverError, setError] = useState({});
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
   const handleSignUp = () => {
     const body = {
-      ...signUp,
-      occupation: occupation?.value,
-      sector: occupation?.sector,
+      ...camelToSnakeCase(signUp),
     };
     setError({});
     authenticationService
       .signUp(body)
-      .then((data) => {
-        navigate('/otp-verify', {
-          state: {
-            phoneNumber: data?.phoneNumber,
-            userId: data?.id,
-          },
-        });
+      .then(() => {
+        toast.success('Account created successfully');
+        navigate('/sign-in');
       })
       .catch(({ error }) => {
         if (error?.code === 'um101') {
@@ -71,14 +57,7 @@ function SignUp() {
   return (
     <div className="sign-up-page">
       <div className="logo-title">
-        <Icon name="piggie-white" fill="#000b50" width="35" />
-        <PiggieStackName firstColor="#F08788" secondColor="#000b50" size={25} />
-      </div>
-      <div className="intro-line">
-        <div style={{ fontSize: '30px' }}>
-          <span style={{ color: 'var(--ps-dark-blue)' }}>Sign Up & </span>
-          <span style={{ color: 'var(--ps-pink)' }}>Evolve!</span>
-        </div>
+        <LogoFullColoured/>
       </div>
       <span
         style={{
@@ -87,25 +66,20 @@ function SignUp() {
           fontWeight: '500',
         }}
       >
-        Create a new account to
+        Create a new account
       </span>
-      <div className="intro-line-2">
-        <span style={{ color: 'var(--ps-dark-blue)' }}>
-          Experience financial evolution{' '}
+      {/* <div className="intro-line-2">
+        <span style={{ color: 'var(--gray-900)' }}>
+          Make AI adoption seamless{' '}
         </span>
         <span style={{ color: 'var(--ps-pink)' }}>
           using
-          <span style={{ color: 'var(--ps-dark-blue)', fontWeight: 'bold' }}>
+          <span style={{ color: 'var(--gray-900)', fontWeight: 'bold' }}>
             {' '}
-            AI{' '}
-          </span>
-          and
-          <span style={{ color: 'var(--ps-dark-blue)', fontWeight: 'bold' }}>
-            {' '}
-            Automation{' '}
+            Agentic development Eviromnemnt{' '}
           </span>
         </span>
-      </div>
+      </div> */}
       <div className="sign-up-form">
         <InputField
           leftIcon="user"
@@ -118,44 +92,6 @@ function SignUp() {
           }}
           value={signUp?.fullName}
         />
-
-        <div className="input-container">
-          <InputField
-            leftIcon="user-name"
-            type="text"
-            id="user-name-input"
-            placeholder="User name"
-            required={true}
-            onChange={(value) => {
-              setSignUp({ ...signUp, username: value });
-            }}
-            isError={!!serverError?.userName}
-            value={signUp?.userName}
-          />
-          {serverError?.username && (
-            <span className="error-label">{serverError?.username}</span>
-          )}
-        </div>
-        <div className="input-container">
-          <InputField
-            type="phone"
-            id="phone-input"
-            required={true}
-            height={'40'}
-            inputProps={{
-              name: 'Phone',
-              required: true,
-              autoFocus: false,
-            }}
-            isError={!!serverError?.phoneNumber}
-            onChange={(value) => {
-              setSignUp({ ...signUp, phoneNumber: value });
-            }}
-          />
-          {serverError?.phoneNumber && (
-            <span className="error-label">{serverError?.phoneNumber}</span>
-          )}
-        </div>
         <div className="input-container">
           <InputField
             leftIcon="email"
@@ -173,26 +109,19 @@ function SignUp() {
             <span className="error-label">{serverError?.email}</span>
           )}
         </div>
-        {/* Need to change to date picker library */}
-        <InputField
-          type="date"
-          id="dob"
-          placeholder="DOB"
-          required={true}
-          onChange={(value) => {
-            setSignUp({ ...signUp, dateOfBirth: value });
-          }}
-        />
-        <SingleSelect
-          isClearable={true}
-          isSearchable={true}
-          options={occupationData}
-          grouped={true}
-          defaultValue={occupationData[0][0]}
-          onChange={(value) => {
-            setOccupation(value);
-          }}
-        />
+        <div className="input-container">
+          <InputField
+            leftIcon="lock"
+            type="text"
+            id="password-input"
+            placeholder="Password"
+            required={true}
+            onChange={(value) => {
+              setSignUp({ ...signUp, password: value });
+            }}
+            value={signUp?.password}
+          />
+        </div>
       </div>
       <div class="or-divider">
         <span>Or</span>
@@ -204,7 +133,13 @@ function SignUp() {
       </div>
       <div className="confirm-button">
         <div className="term-container">
-          <input type="checkbox" />
+          <input type="checkbox"  onChange={()=> {
+            setSignUp(prevState => ({
+              ...prevState,
+              agreeTC: !prevState.agreeTC
+            }))
+            }} 
+            value={signUp?.agreeTC}/>
           <span>
             I agree to{' '}
             <u>
@@ -215,16 +150,20 @@ function SignUp() {
         <SolidButton
           customClass="btn-class"
           borderColor="none"
-          bgColor={'var(--ps-pink)'}
+          bgColor={'var(--gray-900)'}
           onClick={() => {
             handleSignUp();
           }}
+          color='var(--ps-white-1)'
         >
           Sign up
         </SolidButton>
       </div>
       <div className="redirection-text">
-        Already have a account? <Link style={{textDecoration: "underline"}} to="/signin">Sign In</Link>
+        Already have a account?{' '}
+        <Link style={{ textDecoration: 'underline' }} to="/sign-in">
+          Sign In
+        </Link>
       </div>
     </div>
   );

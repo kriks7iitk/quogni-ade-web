@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import CustomSkeleton from '../../Loaders/CustomSkeleton/CustomSkeleton';
-import { oAuthService } from '../../../_services';
+// import { oAuthService } from '../../../_services';
 import { addToSessionStorage } from '../../../Utility/utility';
 import toast from 'react-hot-toast';
 import Loader from '../utils/Loader';
@@ -29,12 +29,11 @@ const AuthCallback = () => {
           login: await isLogin(mode),
         };
 
-        const response = await oAuthService.sendCode(body);
-        const jwtToken = response.accessToken;
-        addToSessionStorage('ps-auth-token', jwtToken);
-        window.location.href = '/dashboard';
+        // const response = await oAuthService.sendCode(body);
+        // const jwtToken = response.accessToken;
+        addToSessionStorage('q-auth-token', jwtToken);
+        window.location.href = '/workspace/tools';
       } catch ({ error }) {
-        console.log(error);
         toast.error(error?.message);
         if (error?.code === 'auth109') {
           setTimeout(() => {

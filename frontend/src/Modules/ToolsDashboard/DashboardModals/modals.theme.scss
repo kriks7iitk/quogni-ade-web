@@ -1,0 +1,36 @@
+.create-agent-modal{
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+
+    &__title{
+        margin-top: 20px;
+        font-size: large;
+        font-weight: 500;
+        margin-bottom: 16px;
+        font-weight: 500;
+    }
+
+    &__label{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+        font-size: medium;
+    }
+    &__output-selection{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    &__ingestion-tool-selection{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        margin-bottom: 20px;
+    }
+}
