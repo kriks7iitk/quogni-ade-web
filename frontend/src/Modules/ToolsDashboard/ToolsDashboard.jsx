@@ -8,11 +8,13 @@ import InputField from '../../_components/Form/inputField';
 import OverlayTrigger from '@/_components/Overlayy/OverlayTrigger';
 import { TOOL_TYPE } from './constant/dashboard.constant';
 import { camelToSnakeCase } from '@/Utility/utility';
+import { useNavigate } from "react-router-dom";
 
 
 export default function ToolsDashboard() {
   const [activeTab, setActiveTab] = useState('Recent');
   const targetRef = useRef(null);
+  const navigate = useNavigate();
 
   const handleAppCreation = () => {
     const service = toolsService
@@ -23,8 +25,8 @@ export default function ToolsDashboard() {
 
     service.createTool(camelToSnakeCase(body))
       .then((response) => { 
-        console.log(response);
-        
+        const { id } = response;
+         navigate(`/builder/rag/${id}`);
       })
       .catch((error) => {
         console.log("erro happended");
