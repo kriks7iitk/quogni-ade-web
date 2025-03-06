@@ -1,5 +1,6 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Builder from '../../Builder/Builder';
+import RagBuilder from '../../Builder/RagBuilder';
 import Onboarding from '../../Auth/Onboarding';
 import SignIn from '../../Auth/SignIn';
 import PrivateRoute from '../../Routes/PrivateRoute';
@@ -29,6 +30,11 @@ const AppRouter = () => {
       <Route path="builder" element={
           <PrivateRoute>
             <Builder />
+          </PrivateRoute>
+        } />
+      <Route path="builder/rag" element={
+          <PrivateRoute>
+            <RagBuilder />
           </PrivateRoute>
         } />
       <Route path="/workspace" element={<PlatformLayout />}>
