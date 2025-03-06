@@ -38,7 +38,6 @@ const EnvironmentProvider = ({ children }) => {
         isLoading,
         setIsLoading,
         placeholder, setPlaceHolder,
-        agentLogs, setAgentLogs,
         tool, setTool,
         responseCode, setResponseCode,
         handleAgentResponse

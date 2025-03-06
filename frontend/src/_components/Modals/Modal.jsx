@@ -12,16 +12,15 @@ export default function CustomModal({
   customClass,
   customClassBody,
   modalBody = () => {},
-  modalFooter = () => {},
+  modalFooter = () => { },
+  onSubmit = () => { },
 }) {
   const [activeTab, setActiveTab] = useState(0);
 
 
   const handleNextStep = async () => {
-    setActiveTab((prevIndex) => {
-      const nextIndex = (prevIndex + 1) % tabs.length;
-      return nextIndex;
-    });
+    onSubmit();
+    closeModal();
   };
 
   return (

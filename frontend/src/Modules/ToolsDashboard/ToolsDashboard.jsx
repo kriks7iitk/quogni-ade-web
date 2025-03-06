@@ -1,15 +1,37 @@
 import { useState, useEffect, useRef } from 'react';
 import './tools-dashboard.theme.scss'
 import SolidButton from '../../_components/Buttons/SolidButton';
-import { authenticationService } from '../../_services';
+import { authenticationService, toolsService } from '../../_services';
 import { useAiUi } from '../Ai-Ui/AiUiProvider';
 import CustomModal from '../../_components/Modals/Modal';
 import InputField from '../../_components/Form/inputField';
 import OverlayTrigger from '@/_components/Overlayy/OverlayTrigger';
+import { TOOL_TYPE } from './constant/dashboard.constant';
+import { camelToSnakeCase } from '@/Utility/utility';
+
 
 export default function ToolsDashboard() {
   const [activeTab, setActiveTab] = useState('Recent');
   const targetRef = useRef(null);
+
+  const handleAppCreation = () => {
+    const service = toolsService
+    const body = {
+      name: data?.appName,
+      toolType: data?.subToolName,
+    }
+
+    service.createTool(camelToSnakeCase(body))
+      .then((response) => { 
+        console.log(response);
+        
+      })
+      .catch((error) => {
+        console.log("erro happended");
+        
+        console.log(error)
+      })
+  }
 
   const toolsOptions = [{
     name: 'RAG Memory',
@@ -17,7 +39,7 @@ export default function ToolsDashboard() {
       setData((prevData) => ({
         ...prevData,
         createAppModelOpen: true,
-        subToolName: 'RAG Memory',
+        subToolName: TOOL_TYPE.RAG,
         createToolMenuOpen: false,
       }));
     },
@@ -28,7 +50,7 @@ export default function ToolsDashboard() {
         setData((prevData) => ({
           ...prevData,
           createAppModelOpen: true,
-          subToolName: 'Custom Tool',
+          subToolName: TOOL_TYPE.CUSTOM_TOOL,
           createToolMenuOpen: false,
         }));
     },
@@ -66,7 +88,15 @@ export default function ToolsDashboard() {
               Tool name
             </div>
             <div>
-              <InputField type='text'/>
+              <InputField
+                type='text'
+                onChange={(value) => {
+                  setData((prevData) => ({
+                    ...prevData,
+                    appName: value
+                  }))
+                }}
+              />
             </div>
           </div>
         )     
@@ -102,15 +132,16 @@ export default function ToolsDashboard() {
   return (
     <div className='tool-dashboard'>
       <CustomModal
-      show={data?.createAppModelOpen}
-      closeModal={() => {
-        setData((prevData) => ({
-          ...prevData,
-          createAppModelOpen: false,
-        }));
-      }}
-      modalBody={createAppModalBody}
-      titleText={`Create ${data?.selectedApp}`}
+        show={data?.createAppModelOpen}
+        closeModal={() => {
+          setData((prevData) => ({
+            ...prevData,
+            createAppModelOpen: false,
+          }));
+        }}
+        modalBody={createAppModalBody}
+        titleText={`Create ${data?.selectedApp}`}
+        onSubmit={handleAppCreation}
       />
       <div className='tool-dashboard__main'>
         <h2 className='tool-dashboard__welcome'>{`Welcome, ${user?.userDetails?.fullName}`}</h2>
