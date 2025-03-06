@@ -9,6 +9,8 @@ export default function CustomModal({
   header = () => {},
   titleText,
   bodyText,
+  customClass,
+  customClassBody,
   modalBody = () => {},
   modalFooter = () => {},
 }) {
@@ -26,7 +28,7 @@ export default function CustomModal({
     <div>
       <Modal
         isOpen={show}
-        className="modal-content"
+        className={`modal-content ${customClass ? customClass : ''}`}
         overlayClassName="modal-overlay"
         closeTimeoutMS={200}
       >
@@ -49,7 +51,7 @@ export default function CustomModal({
         {modalBody() ? (
           modalBody()
         ) : (
-          <div className="modal-body">{bodyText}</div>
+          <div className={`modal-body ${customClassBody ? customClassBody : ''}`}>{bodyText}</div>
         )}
 
         {modalFooter() ? (

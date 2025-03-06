@@ -130,6 +130,7 @@
     &__label{
         font-size: medium;
         font-weight: 500;
+        margin-bottom: 10px;
     }
 
     &__input{
@@ -138,5 +139,31 @@
         gap: 10px;
     }
 
+}
+
+.create-tool-modal{
+  width: 80% !important;
+  max-width: none !important;
+}
+
+.tools-menu{
+  display: flex;
+  flex-direction: column;
+  padding: 5px 5px 5px 5px;
+  gap: 2px;
+  min-width: 150px;
+  
+
+
+  .menu-options{
+    display: flex;
+    // margin: .px;
+    flex-direction: row;
+    height: 30px;
+    align-items: center;
+    background-color: var(--slate-100);
+    font-size: small;
+    justify-content: center;
+  }
 }
   

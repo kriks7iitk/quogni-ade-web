@@ -26,14 +26,24 @@
     "react-loading-skeleton": "^3.5.0",
     "react-markdown": "^10.0.1",
     "react-modal": "^3.16.3",
+    "react-overlays": "^5.2.1",
     "react-phone-input-2": "^2.15.1",
     "react-router-dom": "^7.2.0",
     "react-select": "^5.10.0"
   },
   "devDependencies": {
+    "@eslint/js": "^9.21.0",
     "@vitejs/plugin-react": "^4.3.4",
     "autoprefixer": "^10.4.20",
     "dotenv": "^16.4.7",
+    "eslint": "^9.21.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-prettier": "^10.0.2",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-prettier": "^5.2.3",
+    "eslint-plugin-react": "^7.37.4",
+    "eslint-plugin-react-hooks": "^4.6.2",
     "sass-embedded": "^1.85.1",
     "vite": "^5.4.14"
   }

@@ -1,16 +1,40 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import './tools-dashboard.theme.scss'
 import SolidButton from '../../_components/Buttons/SolidButton';
 import { authenticationService } from '../../_services';
 import { useAiUi } from '../Ai-Ui/AiUiProvider';
 import CustomModal from '../../_components/Modals/Modal';
 import InputField from '../../_components/Form/inputField';
-import { kebabCaseToNormal } from '../../Utility/utility';
-import CreateAgentModal from './DashboardModals/CreateAgentModal';
+import OverlayTrigger from '@/_components/Overlayy/OverlayTrigger';
 
 export default function ToolsDashboard() {
   const [activeTab, setActiveTab] = useState('Recent');
+  const targetRef = useRef(null);
 
+  const toolsOptions = [{
+    name: 'RAG Memory',
+    onClick: () => {
+      setData((prevData) => ({
+        ...prevData,
+        createAppModelOpen: true,
+        subToolName: 'RAG Memory',
+        createToolMenuOpen: false,
+      }));
+    },
+  },
+    {
+    name: 'Code',
+      onClick: () => {
+        setData((prevData) => ({
+          ...prevData,
+          createAppModelOpen: true,
+          subToolName: 'Custom Tool',
+          createToolMenuOpen: false,
+        }));
+    },
+
+    }
+  ]
   const { data, setData} = useAiUi()
 
   const [session, setSession] = useState(
@@ -20,10 +44,10 @@ export default function ToolsDashboard() {
   
     useEffect(() => {
       setData({
-        createToolModelOpen:false,
-        toolName:'',
+        createToolMenuOpen:false,
+        createAppModelOpen:false,
         selectedApp:'',
-        appName:''
+        appName: '',
       })
       const subscription = authenticationService.currentSession.subscribe(
         (sessionCurrent) => {
@@ -36,28 +60,17 @@ export default function ToolsDashboard() {
 
     const createAppModalBody = () => {
       const renderInputField = () => {
-          switch (data?.selectedApp) {
-              case 'tool':
-                  return (
-                      <div className='create-app-modal-body__input'>
-                          <label className='create-app-modal-body__label'>{`${kebabCaseToNormal(data?.selectedApp)} name`}</label>
-                          <InputField type='text' onChange={(value) => {
-                              setData((prevData) => ({
-                                  ...prevData,
-                                  toolName: value
-                              }));
-                          }}/>
-                      </div>
-                  );
-                case 'agent':
-                  return (
-                      <CreateAgentModal />
-                  );
-              default:
-                  return <p>No input available for this selection.</p>;
-          }
-      };
-  
+        return (
+          <div>
+            <div className='create-app-modal-body__label'>
+              Tool name
+            </div>
+            <div>
+              <InputField type='text'/>
+            </div>
+          </div>
+        )     
+      }
       return (
           <div className='create-app-modal-body'>
               {renderInputField()}
@@ -70,10 +83,17 @@ export default function ToolsDashboard() {
   const openCreateToolModal = (app) => {
     setData((prevData) => ({
       ...prevData,
-      createToolModelOpen: true,
+      createAppModelOpen: !prevData?.createAppModelOpen,
       selectedApp:app
     }));
-  
+  }
+
+  const toogleCreateToolMenu = () => { 
+    setData((prevData) => ({
+      ...prevData,
+      selectedApp:'tool',
+      createToolMenuOpen: !prevData?.createToolMenuOpen,
+    }));
   }
 
 
@@ -81,12 +101,12 @@ export default function ToolsDashboard() {
 
   return (
     <div className='tool-dashboard'>
-      <CustomModal 
-      show={data?.createToolModelOpen}
+      <CustomModal
+      show={data?.createAppModelOpen}
       closeModal={() => {
         setData((prevData) => ({
           ...prevData,
-          createToolModelOpen: false,
+          createAppModelOpen: false,
         }));
       }}
       modalBody={createAppModalBody}
@@ -125,7 +145,29 @@ export default function ToolsDashboard() {
               flexDirection:'row'
               ,gap:'10px'
             }}>
-              <SolidButton onClick={() => {openCreateToolModal('tool')}} customClass='btn-cls' leftIcon='tools' iconWidth='15' iconFill='var(--teal-500)' rightIcon='add'>Tools</SolidButton>
+              <div ref={targetRef}>
+                <SolidButton onClick={() => { toogleCreateToolMenu() }} customClass='btn-cls' leftIcon='tools' iconWidth='15' iconFill='var(--teal-500)' rightIcon='add'>Tools</SolidButton>
+              </div>
+              <OverlayTrigger targetRef={targetRef} onClose={() => {         
+                setData((prevData) => ({
+                  ...prevData,
+                  createToolMenuOpen: false,
+                  }));
+                }}
+                show={data?.createToolMenuOpen}
+                placement='bottom-start'
+              >
+                <div className='tools-menu'>
+                  {toolsOptions.map((tool, _) => {
+                    return (
+                      <SolidButton onClick={() => {
+                        tool?.onClick();
+                      }} hoverIconFill={'var(--grey-400)'}>{ tool?.name}</SolidButton>
+                    )
+                  })}
+                </div>
+                
+              </OverlayTrigger>
               <SolidButton onClick={() => {openCreateToolModal('agent')}} leftIcon='agents' iconWidth='15' iconFill='var(--green-500)' rightIcon='add'>Agents</SolidButton>
             </div>
             <div style={{
