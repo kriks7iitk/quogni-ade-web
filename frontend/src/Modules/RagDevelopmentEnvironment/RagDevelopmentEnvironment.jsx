@@ -3,7 +3,7 @@ import './rag-development-environment.scss';
 import LeftPanel from '../LeftPanel/LeftPanel';
 import RightPanel from '../RightPanel/RightPanel';
 import {AiUiProvider} from '../Ai-Ui/AiUiProvider';
-import AgentSetting from '../ADE/AgentsSetting/AgentSetting';
+import RagSetting from '../RDE/RagSetting/RagSetting';
 export const EnvironmentContext = createContext();
 
 export const useDevelopmentEnvironment = () => {
@@ -53,7 +53,7 @@ export function RagEnvironmentContainerUI() {
     <div className="dashboard-container">
       <AiUiProvider toolId={tool?.id} onAgentResponse={handleAgentResponse} >
         <LeftPanel>
-        
+        <RagSetting/>
         </LeftPanel>
         <RightPanel>
 

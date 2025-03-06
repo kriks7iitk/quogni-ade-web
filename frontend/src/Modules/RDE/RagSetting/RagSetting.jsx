@@ -1,15 +1,15 @@
 import React, { useEffect } from 'react'
 import SingleSelect from '../../../_components/Form/SingleSelect'
-import './agent-setting.theme.scss'
+import './rag-setting.theme.scss'
 import InputField from '../../../_components/Form/inputField'
 import ThemeButton from '../../../_components/Buttons/ThemeButton'
 import ReactJson from 'react-json-view'
 import { useAiUi } from '../../Ai-Ui/AiUiProvider'
 // import { toolService } from '../../../_services'
 import toast from 'react-hot-toast'
-import { useDevelopmentEnvironment } from '../../DevelopmentEnvironment/DevelopmentEnvironment'
+import { useDevelopmentEnvironment } from '../../RagDevelopmentEnvironment/RagDevelopmentEnvironment'
 
-export default function AgentSetting() {
+export default function RagSetting() {
   
   const { data , setData } = useAiUi();
   const { tool,setTool } = useDevelopmentEnvironment();
@@ -73,9 +73,9 @@ const handleAdd = (add) => {
 
   return (
     <div className='agent-setting'>
-        <span className='main-header'>Agent Setting</span>
+        <span className='main-header'>RAG Setting</span>
         <div className='container agent-name-cont'>
-            <span className='setting-header'>Agent Name</span>
+            <span className='setting-header'>RAG Name</span>
             <div className='agent-name'>
                 <InputField disable={data?.disableNameEdit} type='text' customInputStyle={{ padding:'2px 10px', border:'1px solid var(--slate--600) !important'}} value={data?.name} onChange={(value) => {
                     setData({
