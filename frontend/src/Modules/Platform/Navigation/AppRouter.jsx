@@ -32,7 +32,7 @@ const AppRouter = () => {
             <Builder />
           </PrivateRoute>
         } />
-      <Route path="builder/rag" element={
+      <Route path="builder/rag/:toolId" element={
           <PrivateRoute>
             <RagBuilder />
           </PrivateRoute>

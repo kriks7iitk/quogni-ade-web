@@ -4,24 +4,21 @@ import LeftPanel from '../LeftPanel/LeftPanel';
 import RightPanel from '../RightPanel/RightPanel';
 import {AiUiProvider} from '../Ai-Ui/AiUiProvider';
 import AgentSetting from '../ADE/AgentsSetting/AgentSetting';
-export const EnvironmentContext = createContext();
+export const RagEnvironmentContext = createContext();
 
-export const useDevelopmentEnvironment = () => {
-  return useContext(EnvironmentContext);
+export const useRagDevelopmentEnvironment = () => {
+  return useContext(RagEnvironmentContext);
 };
 
-const EnvironmentProvider = ({ children }) => {
+const RagEnvironmentProvider = ({ children }) => {
  
   const [messagesAi, setMessagesAi] = useState([]);
   const [tool, setTool] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [placeholder, setPlaceHolder] = useState('Ask anything using our quaogni AI')
-  const [agentLogs, setAgentLogs] = useState([])
-  const [responseCode, setResponseCode ] = useState({});
 
   const handleAgentResponse = ({ response, prompt }) => {
-    setResponseCode({ prompt,response:response["state"]});
-    setMessagesAi((messages) => ([...messages, { data: response["explanation"], agent: 'ai' }]))
+   
   };
 
   useEffect(() => {
@@ -29,26 +26,24 @@ const EnvironmentProvider = ({ children }) => {
   
 
   return (
-    <EnvironmentContext.Provider
+    <RagEnvironmentContext.Provider
       value={{
         messagesAi,
         setMessagesAi,
         isLoading,
         setIsLoading,
         placeholder, setPlaceHolder,
-        agentLogs, setAgentLogs,
         tool, setTool,
-        responseCode, setResponseCode,
         handleAgentResponse
       }}
     >
       {children}
-    </EnvironmentContext.Provider>
+    </RagEnvironmentContext.Provider>
   );
 };
 
 export function RagEnvironmentContainerUI() {
-  const {tool, handleAgentResponse } = useDevelopmentEnvironment();
+  const {tool, handleAgentResponse } = useRagDevelopmentEnvironment();
   return (
     <div className="dashboard-container">
       <AiUiProvider toolId={tool?.id} onAgentResponse={handleAgentResponse} >
@@ -65,8 +60,8 @@ export function RagEnvironmentContainerUI() {
 
 export default function RagEnvironmentContainer() {
   return (
-    <EnvironmentProvider>
+    <RagEnvironmentProvider>
       <RagEnvironmentContainerUI />
-    </EnvironmentProvider>
+    </RagEnvironmentProvider>
   );
 }
