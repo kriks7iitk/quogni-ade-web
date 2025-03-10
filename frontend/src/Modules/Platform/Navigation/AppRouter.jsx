@@ -1,5 +1,5 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
-import Builder from '../../Builder/Builder';
+import Builder from '../../Builder/AgentBuilder';
 import RagBuilder from '../../Builder/RagBuilder';
 import Onboarding from '../../Auth/Onboarding';
 import SignIn from '../../Auth/SignIn';
@@ -33,6 +33,11 @@ const AppRouter = () => {
           </PrivateRoute>
         } />
       <Route path="builder/rag/:toolId" element={
+          <PrivateRoute>
+            <RagBuilder />
+          </PrivateRoute>
+        } />
+      <Route path="builder/agent/:agentId" element={
           <PrivateRoute>
             <RagBuilder />
           </PrivateRoute>

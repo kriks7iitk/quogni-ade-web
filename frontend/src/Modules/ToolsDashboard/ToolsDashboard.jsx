@@ -16,11 +16,16 @@ export default function ToolsDashboard() {
   const targetRef = useRef(null);
   const navigate = useNavigate();
 
-  const handleAppCreation = () => {
-    const service = toolsService
-    const toolBody = 
-
-    
+  const handleAppCreation = (app) => {
+    const getService = () => {
+      switch (app) {
+        case 'tool':
+          return toolsService
+        case 'agent':
+          return 
+      }
+    }
+    const service = getService()
 
     const getBody = (app) => {
       switch (app) {
@@ -28,26 +33,28 @@ export default function ToolsDashboard() {
           return {
             name: data?.appName,
             toolType: data?.subToolName,
-          }
+          };
         case "agent":
           return {
             name: data?.appName,
-          }
+          };
+        default:
+          return {};
       }
-    }
-    const body =  getBody(data?.selectedApp)
+    };
+
+    const toolBody = getBody(data?.selectedApp);
 
     service.createTool(camelToSnakeCase(toolBody))
       .then((response) => { 
         const { id } = response;
-         navigate(`/builder/rag/${id}`);
+        navigate(`/builder/rag/${id}`);
       })
       .catch((error) => {
-        console.log("erro happended");
-        
-        console.log(error)
-      })
-  }
+        console.log("error happened");
+        console.log(error);
+      });
+  };
 
   const toolsOptions = [{
     name: 'RAG Memory',

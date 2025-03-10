@@ -1,11 +1,9 @@
 import React from 'react';
-import { useDevelopmentEnvironment } from '../AgentDevelopmentEnvironment/AgentDevelopmentEnvironment';
 import ResultBoard from './ResultBoard';
 import AgentsInput from './AgentsInput';
 import './ai-board.theme.scss';
 
 export default function AIBoard() {
-  const { aiMode,toolId } = useDevelopmentEnvironment();
   const styleObject = { padding: '0 2%' };
 
   const activeTabComponent = () => {

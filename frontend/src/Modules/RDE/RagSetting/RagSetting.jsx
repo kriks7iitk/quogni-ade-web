@@ -1,18 +1,16 @@
 import React, { useEffect } from 'react'
 import SingleSelect from '../../../_components/Form/SingleSelect'
-import './agent-setting.theme.scss'
+import './rag-setting.theme.scss'
 import InputField from '../../../_components/Form/inputField'
 import ThemeButton from '../../../_components/Buttons/ThemeButton'
-import ReactJson from 'react-json-view'
+import TagInput from '@/_components/TagInput/TagInput'
 import { useAiUi } from '../../Ai-Ui/AiUiProvider'
-// import { toolService } from '../../../_services'
-import toast from 'react-hot-toast'
-import { useDevelopmentEnvironment } from '../../AgentDevelopmentEnvironment/AgentDevelopmentEnvironment'
+import { useRagDevelopmentEnvironment } from '../../RagDevelopmentEnvironment/RagDevelopmentEnvironment'
 
-export default function AgentSetting() {
+export default function RagSetting() {
   
   const { data , setData } = useAiUi();
-  const { tool,setTool } = useDevelopmentEnvironment();
+  const { tool } = useRagDevelopmentEnvironment();
 
   useEffect(() => {
     console.log("tool id is ", tool);
@@ -22,10 +20,7 @@ export default function AgentSetting() {
     setData({
         disableNameEdit:true,
         name:tool?.name || '',
-        currentLLMModelState:{},
-        description:tool?.description,
-        parameters:tool?.parameters?.properties,
-        code: tool?.code,
+        chunkingMethod:'fixed-size',
     })
   },[tool])
 
@@ -41,13 +36,6 @@ export default function AgentSetting() {
         },
         code:data?.code || 'print(0)'
     }
-    // toolService.saveAgentDescription(body).then((res) => {
-    //     setTool(res);
-    //     toast.success("Agent details are saved")
-    // })
-    // .catch((err) => {
-    //     console.log(err)
-    // })
   }
 
 
@@ -73,9 +61,9 @@ const handleAdd = (add) => {
 
   return (
     <div className='agent-setting'>
-        <span className='main-header'>Agent Setting</span>
+        <span className='main-header'>RAG Setting</span>
         <div className='container agent-name-cont'>
-            <span className='setting-header'>Agent Name</span>
+            <span className='setting-header'>RAG Name</span>
             <div className='agent-name'>
                 <InputField disable={data?.disableNameEdit} type='text' customInputStyle={{ padding:'2px 10px', border:'1px solid var(--slate--600) !important'}} value={data?.name} onChange={(value) => {
                     setData({
@@ -110,50 +98,40 @@ const handleAdd = (add) => {
                 <ThemeButton leftIcon='copy' />
             </div>
         </div>
-        <div className=' container model-selection-cont'>
+        <div className='container'>
             <div className='model-selection-title'>
-            <span className='setting-header'>Select LLM Model</span>
+            <span className='setting-header'>Chunking Configuration</span>
             <ThemeButton leftIcon='info' className='info-btn' />
             </div>
-            
-            <div className='model-selection'>
-            <SingleSelect />
-            <ThemeButton leftIcon='add' className='add-button-class' iconFill='var(--ps-white-1)'>Add LLM Config</ThemeButton>   
+            <div className='chunking-method'>
+            <SingleSelect placeholder='select a chunking method' defaultValue={data?.chunkingMethod} options={[
+                {value:"fixed-size",label:'fixed-size'},
+                {value:"sentence-based",label:'sentence-based'},
+                {value:"paragraph-based",label:'paragraph-based'},
+                {value:"semantic",label:'semantic'},
+                {value:"title-based",label:'title-based'}]} 
+                onChange={(el)=>{setData({...data,chunkingMethod:el.value})}}/>
             </div>
+            {data?.chunkingMethod === 'fixed-size' && <div className='chunking-method'>
+                <InputField type='number' placeholder='chunk size' value={data?.fixedSize} onChange={(value) => {
+                    setData({
+                        ...data,
+                        fixedSize: value
+                    })
+                }}/>
+            </div>}
         </div>
-        <div className=' container system-description-cont'>
-        <span className='setting-header'>System description</span>
+        <div className='container summarization-config'>
+        <span className='setting-header'>Summarization Configuration</span>
         <div className='agent-description'>
-            <textarea placeholder='Agent Description' onChange={(event) => {
-                const value = event.target.value;
-                setData({
-                    ...data,
-                    description: value
-                })
-            }}></textarea>
+        <TagInput onChange={(tags)=>{console.log(tags)}} maxTags={3}/>
         </div>
         </div>
-        <div className=' container state-description-cont'>
-            <span className='setting-header'>State description</span>
-            <div className='state-description'>
-                  <ReactJson
-                      name="state"
-                      theme='summerfruit:inverted'
-                      style={{ padding: '10px', border: '1px solid var(--slate-300)', minHeight: '240px', maxHeight:'240px', overflowY:'auto' }}
-                      src={data?.parameters}
-                      onEdit={handleEdit}
-                      onAdd={handleAdd}
-                      onDelete={handleEdit}
-                      defaultValue={{
-                          "type": "",
-                          "description": ""}}
-                  />
-            </div>
-        </div>
+        
         <div className='tool-list-cont'>
             <ThemeButton  className='add-tool-btn' iconFill='var(--ps-white-1)' onClick={()=>{
                 saveToolOutputDescription();
-            }}>Save settings</ThemeButton>   
+            }}>Save Settings</ThemeButton>   
         </div>
     </div>
   )

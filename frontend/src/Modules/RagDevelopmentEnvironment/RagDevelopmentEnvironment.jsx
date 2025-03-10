@@ -6,6 +6,7 @@ import { AiUiProvider } from '../Ai-Ui/AiUiProvider';
 import { toolsService } from '@/_services';
 import { convertSnakeCaseToCamelCase } from '@/Utility/utility';
 import { useParams } from "react-router-dom";
+import RagSetting from '../RDE/RagSetting/RagSetting';
 
 export const RagEnvironmentContext = createContext();
 
@@ -64,7 +65,7 @@ export function RagEnvironmentContainerUI() {
     <div className="dashboard-container">
       <AiUiProvider toolId={tool?.id} onAgentResponse={handleAgentResponse} >
         <LeftPanel>
-        
+        <RagSetting/>
         </LeftPanel>
         <RightPanel>
 
