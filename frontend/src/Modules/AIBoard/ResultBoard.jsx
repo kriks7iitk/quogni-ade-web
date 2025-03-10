@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDevelopmentEnvironment } from '../DevelopmentEnvironment/DevelopmentEnvironment';
+import { useDevelopmentEnvironment } from '../AgentDevelopmentEnvironment/AgentDevelopmentEnvironment';
 import UserPrompt from './_component/UserPrompt';
 import AiTyping from '../../_components/AiTyping/AiTyping';
 import './ai-board.theme.scss';

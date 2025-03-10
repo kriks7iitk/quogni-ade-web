@@ -3,28 +3,28 @@ import { SERVER_HOST } from '.';
 import { generateHeader } from '../Utility/authorization';
 
 
-export const toolsService = {
-  createTool,
-  getTool
+export const agentsService = {
+  createAgent,
+  getAgent
 };
 
-function createTool(body) {
+function createAgent(body) {
   const requestPayload = {
     method: 'POST',
     headers: generateHeader(),
     body: JSON.stringify(body),
   };
-  return fetch(`${SERVER_HOST}/tools`, requestPayload).then(
+  return fetch(`${SERVER_HOST}/agents`, requestPayload).then(
     handleResponse,
   );
 }
 
-function getTool(id) {
+function getAgent(id) {
   const requestPayload = {
     method: 'GET',
     headers: generateHeader(),
   };
-  return fetch(`${SERVER_HOST}/tools/${id}`, requestPayload).then(
+  return fetch(`${SERVER_HOST}/agents/${id}`, requestPayload).then(
     handleResponse,
   );
 }

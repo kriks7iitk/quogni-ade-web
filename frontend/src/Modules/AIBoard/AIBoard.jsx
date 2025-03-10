@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDevelopmentEnvironment } from '../DevelopmentEnvironment/DevelopmentEnvironment';
+import { useDevelopmentEnvironment } from '../AgentDevelopmentEnvironment/AgentDevelopmentEnvironment';
 import ResultBoard from './ResultBoard';
 import AgentsInput from './AgentsInput';
 import './ai-board.theme.scss';

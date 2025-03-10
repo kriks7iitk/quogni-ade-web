@@ -7,7 +7,7 @@ import ReactJson from 'react-json-view'
 import { useAiUi } from '../../Ai-Ui/AiUiProvider'
 // import { toolService } from '../../../_services'
 import toast from 'react-hot-toast'
-import { useDevelopmentEnvironment } from '../../DevelopmentEnvironment/DevelopmentEnvironment'
+import { useDevelopmentEnvironment } from '../../AgentDevelopmentEnvironment/AgentDevelopmentEnvironment'
 
 export default function AgentSetting() {
   

@@ -1,7 +1,7 @@
 import React from 'react';
 import DashboardHeader from '../Header/DashboardHeader';
 import './dashboard.theme.scss';
-import DevelopmentEnvironment from '../DevelopmentEnvironment/DevelopmentEnvironment';
+import DevelopmentEnvironment from '../AgentDevelopmentEnvironment/AgentDevelopmentEnvironment';
 export default function Builder() {
     return (
         <div className='dashboard'>

@@ -3,7 +3,7 @@ import './agent-training.scss'
 import ReactJson from 'react-json-view'
 import SolidButton from '../../../_components/Buttons/SolidButton'
 import Papa from 'papaparse';
-import { useDevelopmentEnvironment } from '../../DevelopmentEnvironment/DevelopmentEnvironment';
+import { useDevelopmentEnvironment } from '../../AgentDevelopmentEnvironment/AgentDevelopmentEnvironment';
 // import { toolService } from '../../../_services';
 import { toast } from 'react-hot-toast'
 

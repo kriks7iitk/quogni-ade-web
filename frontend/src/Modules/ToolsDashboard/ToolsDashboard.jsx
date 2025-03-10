@@ -18,12 +18,26 @@ export default function ToolsDashboard() {
 
   const handleAppCreation = () => {
     const service = toolsService
-    const body = {
-      name: data?.appName,
-      toolType: data?.subToolName,
-    }
+    const toolBody = 
 
-    service.createTool(camelToSnakeCase(body))
+    
+
+    const getBody = (app) => {
+      switch (app) {
+        case "tool":
+          return {
+            name: data?.appName,
+            toolType: data?.subToolName,
+          }
+        case "agent":
+          return {
+            name: data?.appName,
+          }
+      }
+    }
+    const body =  getBody(data?.selectedApp)
+
+    service.createTool(camelToSnakeCase(toolBody))
       .then((response) => { 
         const { id } = response;
          navigate(`/builder/rag/${id}`);

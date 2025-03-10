@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDevelopmentEnvironment } from '../DevelopmentEnvironment/DevelopmentEnvironment';
+import { useDevelopmentEnvironment } from '../AgentDevelopmentEnvironment/AgentDevelopmentEnvironment';
 import './ai-board.theme.scss';
 import ThemeButton from '../../_components/Buttons/ThemeButton';
 import { useAiUi } from '../Ai-Ui/AiUiProvider';

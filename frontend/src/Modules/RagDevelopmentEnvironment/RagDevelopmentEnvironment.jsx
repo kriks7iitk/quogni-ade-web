@@ -2,8 +2,11 @@ import React, { useEffect,useContext, createContext, useState } from 'react';
 import './rag-development-environment.scss';
 import LeftPanel from '../LeftPanel/LeftPanel';
 import RightPanel from '../RightPanel/RightPanel';
-import {AiUiProvider} from '../Ai-Ui/AiUiProvider';
-import AgentSetting from '../ADE/AgentsSetting/AgentSetting';
+import { AiUiProvider } from '../Ai-Ui/AiUiProvider';
+import { toolsService } from '@/_services';
+import { convertSnakeCaseToCamelCase } from '@/Utility/utility';
+import { useParams } from "react-router-dom";
+
 export const RagEnvironmentContext = createContext();
 
 export const useRagDevelopmentEnvironment = () => {
@@ -11,7 +14,8 @@ export const useRagDevelopmentEnvironment = () => {
 };
 
 const RagEnvironmentProvider = ({ children }) => {
- 
+  const { toolId } = useParams();
+  
   const [messagesAi, setMessagesAi] = useState([]);
   const [tool, setTool] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -20,9 +24,21 @@ const RagEnvironmentProvider = ({ children }) => {
   const handleAgentResponse = ({ response, prompt }) => {
    
   };
-
+  const fetchToolConfiguration = (toolId) => {
+    toolsService.getTool(toolId)
+      .then((data) => { 
+        console.log("the data is");
+        
+        console.log(data);
+        setTool(convertSnakeCaseToCamelCase(data));
+      })
+    .catch((error) => {
+      console.log("error", error);
+    })
+  }
   useEffect(() => {
-  }, [tool])
+    fetchToolConfiguration(toolId);
+  }, [])
   
 
   return (
