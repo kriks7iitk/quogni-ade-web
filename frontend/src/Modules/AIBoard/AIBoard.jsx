@@ -3,13 +3,13 @@ import ResultBoard from './ResultBoard';
 import AgentsInput from './AgentsInput';
 import './ai-board.theme.scss';
 
-export default function AIBoard() {
+export default function AIBoard({ parentContext }) {
   const styleObject = { padding: '0 2%' };
 
   const activeTabComponent = () => {
     switch (activeTab) {
       case 'dashboard':
-        
+      
         return ;
       case 'saved-screens':
         break;
@@ -27,9 +27,9 @@ export default function AIBoard() {
         className="main-panel"
         
       >
-        <ResultBoard/>
+        <ResultBoard parentContext={parentContext}/>
       </div>
-      <AgentsInput />
+      <AgentsInput parentContext={parentContext} />
     </div>
   );
 }

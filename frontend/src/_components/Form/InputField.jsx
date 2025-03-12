@@ -18,7 +18,7 @@ export default function InputField({
   height,
   disable,
   onChange,
-  onBlur,
+  onBlur = () => {},
   value,
 }) {
   const [onFocus, setOnFocus] = useState(false);
@@ -106,9 +106,7 @@ export default function InputField({
                 const inputValue = event.target.value;
                 onChange(inputValue);
               }}
-              onBlur={() => {
-                onBlur();
-              }}
+              onBlur={onBlur}
               value={value}
             />
           </div>

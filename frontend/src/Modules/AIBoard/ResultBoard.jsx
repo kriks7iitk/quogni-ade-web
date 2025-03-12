@@ -1,12 +1,11 @@
-import React from 'react';
-import { useDevelopmentEnvironment } from '../AgentDevelopmentEnvironment/AgentDevelopmentEnvironment';
+import React, { useContext } from 'react';
 import UserPrompt from './_component/UserPrompt';
 import AiTyping from '../../_components/AiTyping/AiTyping';
 import './ai-board.theme.scss';
 import AnalysitAgentOutput from './_component/AnalysitAgentOutput';
 
-export default function ResultBoard() {
-  const { messagesAi, isLoading } = useDevelopmentEnvironment();
+export default function ResultBoard({ parentContext }) {
+  const { messagesAi, isLoading } = useContext(parentContext);
   
   
   return (

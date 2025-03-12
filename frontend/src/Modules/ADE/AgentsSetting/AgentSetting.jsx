@@ -7,40 +7,39 @@ import ReactJson from 'react-json-view'
 import { useAiUi } from '../../Ai-Ui/AiUiProvider'
 // import { toolService } from '../../../_services'
 import toast from 'react-hot-toast'
-import { useDevelopmentEnvironment } from '../../AgentDevelopmentEnvironment/AgentDevelopmentEnvironment'
+import { useAgentDevelopmentEnvironment } from '../../AgentDevelopmentEnvironment/AgentDevelopmentEnvironment'
 
 export default function AgentSetting() {
   
   const { data , setData } = useAiUi();
-  const { tool,setTool } = useDevelopmentEnvironment();
+  const { agent } = useAgentDevelopmentEnvironment();
 
   useEffect(() => {
-    console.log("tool id is ", tool);
-    console.log(tool?.parameters?.properties);
+    console.log("agent is", agent);
     
     
     setData({
         disableNameEdit:true,
-        name:tool?.name || '',
+        name: agent?.name || '',
         currentLLMModelState:{},
-        description:tool?.description,
-        parameters:tool?.parameters?.properties,
-        code: tool?.code,
+        description:agent?.description,
+        // parameters:tool?.parameters?.properties,
+        // code: tool?.code,
     })
-  },[tool])
+  },[agent])
 
 
   const saveToolOutputDescription = () => {
-    const body = {
-        name:data?.name,
-        description:data?.description,
-        parameters:{
-            type:'object',
-            properties:data?.parameters,
-            required:[],
-        },
-        code:data?.code || 'print(0)'
-    }
+    // const body = {
+    //     name:data?.name,
+    //     description:data?.description,
+    //     parameters:{
+    //         type:'object',
+    //         properties:data?.parameters,
+    //         required:[],
+    //     },
+    //     code:data?.code || 'print(0)'
+    // }
     // toolService.saveAgentDescription(body).then((res) => {
     //     setTool(res);
     //     toast.success("Agent details are saved")
@@ -106,7 +105,7 @@ const handleAdd = (add) => {
                     color: 'var(--slate-400)',
                     width: '100%',
                     padding:'5px'
-                    }}>agent-123123-1312312-12313123-P</span>
+                    }}>{agent?.id}</span>
                 <ThemeButton leftIcon='copy' />
             </div>
         </div>

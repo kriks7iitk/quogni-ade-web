@@ -8,13 +8,13 @@ import { useNavigate } from 'react-router-dom';
 
 export default function () {
 
-    const { activeTab, setActiveTab } = usePlatform();
+    const { s, setActiveTab } = usePlatform();
     const navigate = useNavigate();
 
     const menuList = [
         {
             name: 'Dashboard',
-            link: '/workspace/tools',
+            link: '/workspace',
             iconName: 'dashboard',
         },
         {

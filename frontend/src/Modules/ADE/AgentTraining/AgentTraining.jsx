@@ -3,7 +3,7 @@ import './agent-training.scss'
 import ReactJson from 'react-json-view'
 import SolidButton from '../../../_components/Buttons/SolidButton'
 import Papa from 'papaparse';
-import { useDevelopmentEnvironment } from '../../AgentDevelopmentEnvironment/AgentDevelopmentEnvironment';
+import { useAgentDevelopmentEnvironment } from '../../AgentDevelopmentEnvironment/AgentDevelopmentEnvironment';
 // import { toolService } from '../../../_services';
 import { toast } from 'react-hot-toast'
 
@@ -11,7 +11,7 @@ export default function AgentTraining() {
 
     const [csvData, setCsvData] = useState(null);
     const [fileName, setFileName] = useState('');
-    const { responseCode, tool, setResponseCode, setTool, setMessagesAi } = useDevelopmentEnvironment();
+    const { responseCode, tool, setResponseCode, setTool, setMessagesAi } = useAgentDevelopmentEnvironment();
     const [promptList, setPromptList] = useState([]);
 
     const handleEdit = (edit) => {

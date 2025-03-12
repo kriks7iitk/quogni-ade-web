@@ -1,5 +1,6 @@
 export { authenticationService } from './auth.service';
 export { toolsService } from './tool.service';
+export { agentsService } from './agents.service'
 
 export const SERVER_HOST =
   process.env.NODE_ENV == 'prod'

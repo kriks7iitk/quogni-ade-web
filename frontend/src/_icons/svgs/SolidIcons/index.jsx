@@ -5,6 +5,9 @@ import LinkedIn from './LinkedIn';
 import Agents from './Agents';
 import { Database, LayoutDashboardIcon, Plug, Settings , Workflow} from 'lucide-react'
 import Add from '../SolidThemeIcons/Add';
+import OpenAi from './OpenAi';
+import Anthropic from './Anthropic';
+import Azure from './Azure';
 
 const Icon = ({ name, ...props }) => {
   switch (name) {
@@ -27,7 +30,13 @@ const Icon = ({ name, ...props }) => {
     case 'add':
       return <Add  {...props}/>
     case 'workflow':
-      return <Workflow color={props?.fill} size={props?.width} strokeWidth={props?.strokeWidth}/>
+      return <Workflow color={props?.fill} size={props?.width} strokeWidth={props?.strokeWidth} />
+    case 'openai':
+      return <OpenAi {...props} />
+    case 'anthropic':
+      return <Anthropic {...props} />
+    case 'azure':
+      return <Azure {...props} />
     default:
       return null;
   }

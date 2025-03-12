@@ -1,0 +1,25 @@
+.open-ai{
+  display: flex;
+  flex-direction: column; 
+  gap: 20px;
+  
+  .message{
+    font-size: medium;
+  }
+
+  .form{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+    label{
+        font-weight: 500;
+    }
+
+    &__input-field{
+        display: flex;
+        flex-direction: column;
+        gap:10px
+    }
+  }
+}

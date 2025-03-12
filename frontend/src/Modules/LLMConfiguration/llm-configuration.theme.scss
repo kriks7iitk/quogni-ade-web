@@ -1,0 +1,86 @@
+.llm-dashboard {
+  width: 100%;
+  max-width: 900px;
+//   margin: 0 auto;
+  font-family: Arial, sans-serif;
+  align-items: flex-start;
+  padding: 20px;
+
+
+  &__header {
+    padding: 15px;
+    
+    &-container {
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+    }
+
+    .title {
+      font-size: large;
+      font-weight: bold;
+      color: var(--slate-600);
+    }
+  }
+
+  &__tabs {
+    display: flex;
+    border-bottom: 2px solid #ccc;
+
+    .tab {
+      padding: 10px 20px;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+
+      &.active {
+        border-bottom-color: #007bff;
+        font-weight: bold;
+      }
+    }
+  }
+
+  &__body {
+    padding: 20px;
+  }
+
+  &__apis {
+    .api-container {
+      border: 1px solid #ddd;
+      padding: 15px;
+      border-radius: 8px;
+    }
+
+    .title-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+
+    .api-list-container {
+      .api-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+
+        &:last-child {
+          border-bottom: none;
+        }
+
+        .api-icon {
+          width: 30px;
+          height: 30px;
+        }
+
+        .api-name {
+          flex-grow: 1;
+          margin-left: 10px;
+        }
+      }
+    }
+  }
+}

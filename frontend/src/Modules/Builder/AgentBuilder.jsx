@@ -1,13 +1,13 @@
 import React from 'react';
 import DashboardHeader from '../Header/DashboardHeader';
 import './dashboard.theme.scss';
-import DevelopmentEnvironment from '../AgentDevelopmentEnvironment/AgentDevelopmentEnvironment';
-export default function Builder() {
+import AgentDevelopmentEnvironment from '../AgentDevelopmentEnvironment/AgentDevelopmentEnvironment';
+export default function AgentBuilder() {
     return (
         <div className='dashboard'>
             <div className='dashboard-page'>
             <DashboardHeader/>
-            <DevelopmentEnvironment/>
+            <AgentDevelopmentEnvironment/>
             </div>
         </div>
     )

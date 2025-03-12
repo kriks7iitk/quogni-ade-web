@@ -5,20 +5,24 @@ import LeftPanel from '../LeftPanel/LeftPanel';
 import RightPanel from '../RightPanel/RightPanel';
 import { AiUiProvider } from '../Ai-Ui/AiUiProvider';
 import AgentSetting from '../ADE/AgentsSetting/AgentSetting';
+import AgentTraining from '../ADE/AgentTraining/AgentTraining';
+import { agentsService } from '@/_services';
+import { useParams } from "react-router-dom";
 
-export const EnvironmentContext = createContext();
+export const AgentDevelopmentEnvironmentContext = createContext();
 
-export const useDevelopmentEnvironment = () => {
-  return useContext(EnvironmentContext);
+export const useAgentDevelopmentEnvironment = () => {
+  return useContext(AgentDevelopmentEnvironmentContext);
 };
 
-const EnvironmentProvider = ({ children }) => {
+const ADEProvider = ({ children }) => {
+
+  const { agentId } = useParams();
  
   const [messagesAi, setMessagesAi] = useState([]);
-  const [tool, setTool] = useState(null);
+  const [agent, setAgent] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [placeholder, setPlaceHolder] = useState('Ask anything using our piggiestack AI')
-  const [agentLogs, setAgentLogs] = useState([])
   const [responseCode, setResponseCode ] = useState({});
 
   const handleAgentResponse = ({ response, prompt }) => {
@@ -26,49 +30,57 @@ const EnvironmentProvider = ({ children }) => {
     setMessagesAi((messages) => ([...messages, { data: response["explanation"], agent: 'ai' }]))
   };
 
+  const fetchAgent = () => {
+    agentsService.getAgent(agentId)
+      .then((response) => {
+        setAgent(response)
+    })
+  }
+
   useEffect(() => {
-  }, [tool])
+    fetchAgent()
+  }, [agentId])
   
 
   return (
-    <EnvironmentContext.Provider
+    <AgentDevelopmentEnvironmentContext.Provider
       value={{
         messagesAi,
         setMessagesAi,
         isLoading,
         setIsLoading,
         placeholder, setPlaceHolder,
-        tool, setTool,
+        agent, setAgent,
         responseCode, setResponseCode,
         handleAgentResponse
       }}
     >
       {children}
-    </EnvironmentContext.Provider>
+    </AgentDevelopmentEnvironmentContext.Provider>
   );
 };
 
-export function EnvironmentContainerUI() {
-  const {tool, handleAgentResponse } = useDevelopmentEnvironment();
+export function AgentDevelopmentEnvironmentContainerUI() {
+  const {tool, handleAgentResponse } = useAgentDevelopmentEnvironment();
   return (
     <div className="dashboard-container">
-      <AiUiProvider toolId={tool?.id} onAgentResponse={handleAgentResponse} >
+      <AiUiProvider>
         <LeftPanel>
           <AgentSetting />
         </LeftPanel>
-        <AIBoard />
+        <AIBoard parentContext={AgentDevelopmentEnvironmentContext}/>
         <RightPanel>
-          <AgentSetting/> 
+          <AgentTraining/> 
         </RightPanel>
       </AiUiProvider>
     </div>
   );
 }
 
-export default function EnvironmentContainer() {
+export default function AgentDevelopmentEnvironment() {
   return (
-    <EnvironmentProvider>
-      <EnvironmentContainerUI />
-    </EnvironmentProvider>
+    <ADEProvider>
+      <AgentDevelopmentEnvironmentContainerUI />
+    </ADEProvider>
   );
 }

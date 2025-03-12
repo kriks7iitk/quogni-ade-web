@@ -1,15 +1,14 @@
-import React, { useState } from 'react';
-import { useDevelopmentEnvironment } from '../AgentDevelopmentEnvironment/AgentDevelopmentEnvironment';
+import React, { useContext } from 'react';
 import './ai-board.theme.scss';
 import ThemeButton from '../../_components/Buttons/ThemeButton';
 import { useAiUi } from '../Ai-Ui/AiUiProvider';
 
-export default function AgentsInput() {
+export default function AgentsInput({ parentContext }) {
   const {
     isLoading,
     placeholder,
     setMessagesAi
-  } = useDevelopmentEnvironment();
+  } = useContext(parentContext);
 
 
   const { setPrompt,prompt,sendMessage } = useAiUi();

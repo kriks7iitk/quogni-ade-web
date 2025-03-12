@@ -1,5 +1,5 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
-import Builder from '../../Builder/AgentBuilder';
+import AgentBuilder from '../../Builder/AgentBuilder';
 import RagBuilder from '../../Builder/RagBuilder';
 import Onboarding from '../../Auth/Onboarding';
 import SignIn from '../../Auth/SignIn';
@@ -7,7 +7,8 @@ import PrivateRoute from '../../Routes/PrivateRoute';
 import PlatformLayout from '../PlatformLayout';
 import SignUp from '../../Auth/SignUp';
 import AuthCallback from '../../Auth/OAuth/AuthCallback';
-import ToolsDashbordAI from '../../ToolsDashboard/ToolsDashbordAI';
+import WorkspaceDashboarddAI from '../../WorkspaceDashboard/WorkspaceDashbordAI';
+import LLMDashboard from '@/Modules/LLMConfiguration/LLMDashboard';
 
 
 const AppRouter = () => {
@@ -15,7 +16,6 @@ const AppRouter = () => {
     <Routes>
       <Route path="/" element={<Navigate to="/workspace/workspace/tools" />} />
       
-      {/* Auth & Onboarding Routes */}
       <Route path="/sign-up" element={
         <Onboarding>
           <SignUp />
@@ -27,11 +27,6 @@ const AppRouter = () => {
           <SignIn />
         </Onboarding>
       } />
-      <Route path="builder" element={
-          <PrivateRoute>
-            <Builder />
-          </PrivateRoute>
-        } />
       <Route path="builder/rag/:toolId" element={
           <PrivateRoute>
             <RagBuilder />
@@ -39,12 +34,12 @@ const AppRouter = () => {
         } />
       <Route path="builder/agent/:agentId" element={
           <PrivateRoute>
-            <RagBuilder />
+            <AgentBuilder/>
           </PrivateRoute>
         } />
-      <Route path="/workspace" element={<PlatformLayout />}>
-        <Route index element={<Navigate to="" />} />
-        <Route path="tools" element={<ToolsDashbordAI/>} />
+      <Route path="workspace" element={<PlatformLayout />}>
+        <Route index element={<WorkspaceDashboarddAI />} />
+        <Route path='llm-configure' element={<LLMDashboard/> } />
       </Route>
     </Routes>
   );

@@ -1,31 +1,31 @@
 import { useState, useEffect, useRef } from 'react';
 import './tools-dashboard.theme.scss'
 import SolidButton from '../../_components/Buttons/SolidButton';
-import { authenticationService, toolsService } from '../../_services';
+import { authenticationService, toolsService, agentsService } from '../../_services';
 import { useAiUi } from '../Ai-Ui/AiUiProvider';
 import CustomModal from '../../_components/Modals/Modal';
 import InputField from '../../_components/Form/inputField';
 import OverlayTrigger from '@/_components/Overlayy/OverlayTrigger';
 import { TOOL_TYPE } from './constant/dashboard.constant';
-import { camelToSnakeCase } from '@/Utility/utility';
+import { camelToSnakeCase, toUpperCase } from '@/Utility/utility';
 import { useNavigate } from "react-router-dom";
 
 
-export default function ToolsDashboard() {
+export default function WorkspaceDashboard() {
   const [activeTab, setActiveTab] = useState('Recent');
   const targetRef = useRef(null);
   const navigate = useNavigate();
 
-  const handleAppCreation = (app) => {
-    const getService = () => {
+  const handleAppCreation = () => {
+    const getService = (app) => {
       switch (app) {
         case 'tool':
-          return toolsService
+          return toolsService.createTool
         case 'agent':
-          return 
+          return agentsService.createAgent
       }
     }
-    const service = getService()
+    const serviceFunction = getService(data?.selectedApp)
 
     const getBody = (app) => {
       switch (app) {
@@ -45,10 +45,13 @@ export default function ToolsDashboard() {
 
     const toolBody = getBody(data?.selectedApp);
 
-    service.createTool(camelToSnakeCase(toolBody))
+    serviceFunction(camelToSnakeCase(toolBody))
       .then((response) => { 
+        console.log("respinse is");
+        console.log(response);
+        const name = data?.selectedApp === 'tool' ? data?.subToolName : data?.selectedApp; 
         const { id } = response;
-        navigate(`/builder/rag/${id}`);
+        navigate(`/builder/${name}/${id}`);
       })
       .catch((error) => {
         console.log("error happened");
@@ -57,7 +60,7 @@ export default function ToolsDashboard() {
   };
 
   const toolsOptions = [{
-    name: 'RAG Memory',
+    name: 'rag',
     onClick: () => {
       setData((prevData) => ({
         ...prevData,
@@ -68,7 +71,7 @@ export default function ToolsDashboard() {
     },
   },
     {
-    name: 'Code',
+    name: 'code',
       onClick: () => {
         setData((prevData) => ({
           ...prevData,
@@ -216,7 +219,7 @@ export default function ToolsDashboard() {
                     return (
                       <SolidButton onClick={() => {
                         tool?.onClick();
-                      }} hoverIconFill={'var(--grey-400)'}>{ tool?.name}</SolidButton>
+                      }} hoverIconFill={'var(--grey-400)'}>{ toUpperCase(tool?.name)}</SolidButton>
                     )
                   })}
                 </div>

@@ -17,6 +17,7 @@ const SolidButton = ({
   iconFill,
   rightIcon,
   hoverIconFill,
+  hoverColor = 'var(--slate-300)',
   isActive,
   iconStroke
 }) => {
@@ -37,7 +38,7 @@ const SolidButton = ({
             : 'var(--gray-900)',
         backgroundColor: disabled
           ? 'var(--slate-200)'
-          : bgColor
+          : isHovered ? hoverColor : bgColor
             ? `${bgColor}`
             : 'var(--ps-white-1)',
         borderColor: `${borderColor}`,
